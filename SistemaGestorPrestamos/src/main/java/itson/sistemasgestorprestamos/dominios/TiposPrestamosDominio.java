@@ -9,5 +9,40 @@ package itson.sistemasgestorprestamos.dominios;
  * @author adell
  */
 public class TiposPrestamosDominio {
+    private int id;
+    private String nombreDescriptivo;
+    private int parcialidadesMax;
+
+    public TiposPrestamosDominio(int id, String nombreDescriptivo, int parcialidadesMax) {
+        this.id = id;
+        this.nombreDescriptivo = nombreDescriptivo;
+        this.parcialidadesMax = parcialidadesMax;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombreDescriptivo() {
+        return nombreDescriptivo;
+    }
+
+    public void setNombreDescriptivo(String nombreDescriptivo) {
+        this.nombreDescriptivo = nombreDescriptivo;
+    }
+
+    public int getParcialidadesMax() {
+        return parcialidadesMax;
+    }
+
+    public void setParcialidadesMax(int parcialidadesMax) {
+        this.parcialidadesMax = parcialidadesMax;
+    }
+    
+    
     
 }

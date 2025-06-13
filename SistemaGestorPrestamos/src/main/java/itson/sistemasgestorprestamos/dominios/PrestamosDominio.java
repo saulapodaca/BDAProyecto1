@@ -4,10 +4,14 @@
  */
 package itson.sistemasgestorprestamos.dominios;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author adell
  */
 public class PrestamosDominio {
+    private int id;
+    private LocalDateTime fechaHora;
     
 }
