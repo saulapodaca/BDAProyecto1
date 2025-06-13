@@ -28,36 +28,27 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        Titulolbl = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        btnRegresar = new javax.swing.JButton();
+        tituloLbl = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        btnRegresar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1077, 630));
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
-        panelFondo.setPreferredSize(new java.awt.Dimension(1440, 1024));
+        panelFondo.setPreferredSize(new java.awt.Dimension(1077, 630));
+        panelFondo.setRequestFocusEnabled(false);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setName("Separador"); // NOI18N
-        jSeparator1.setPreferredSize(new java.awt.Dimension(1440, 3));
+        jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 3));
 
-        Titulolbl.setBackground(new java.awt.Color(0, 0, 0));
-        Titulolbl.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
-        Titulolbl.setForeground(new java.awt.Color(0, 0, 0));
-        Titulolbl.setText("MOVIMIENTOS DE LA CUENTA");
-        Titulolbl.setToolTipText("");
-        Titulolbl.setPreferredSize(new java.awt.Dimension(571, 48));
+        tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
+        tituloLbl.setText("ADMINISTRAR CUENTAS BANCARIAS");
 
-        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator2.setName("Separador"); // NOI18N
-        jSeparator2.setPreferredSize(new java.awt.Dimension(1440, 3));
-
-        btnRegresar.setBackground(new java.awt.Color(255, 255, 255));
-        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
-
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(1220, 560));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
         tabla.setBackground(new java.awt.Color(255, 255, 255));
         tabla.setForeground(new java.awt.Color(255, 255, 255));
@@ -77,58 +68,47 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
         tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tabla);
 
+        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tituloLbl)
+                .addGap(195, 195, 195))
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 59, 59)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(73, Short.MAX_VALUE))
             .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelFondoLayout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelFondoLayout.createSequentialGroup()
-                    .addGap(0, 0, 0)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelFondoLayout.createSequentialGroup()
-                    .addGap(488, 488, 488)
-                    .addComponent(Titulolbl, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1077, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(225, 225, 225)
+                .addGap(30, 30, 30)
+                .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145)
-                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addGap(18, 18, 18)
+                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
             .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelFondoLayout.createSequentialGroup()
                     .addGap(112, 112, 112)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelFondoLayout.createSequentialGroup()
-                    .addGap(895, 895, 895)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelFondoLayout.createSequentialGroup()
-                    .addGap(36, 36, 36)
-                    .addComponent(Titulolbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(487, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,12 +171,11 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Titulolbl;
-    private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnRegresar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
+    private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }
