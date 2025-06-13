@@ -123,7 +123,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
             .addGroup(PanelFondoLayout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 147, Short.MAX_VALUE))
+                .addGap(0, 145, Short.MAX_VALUE))
             .addGroup(PanelFondoLayout.createSequentialGroup()
                 .addGap(283, 283, 283)
                 .addComponent(jLabel1)
