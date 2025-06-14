@@ -49,7 +49,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         txtFieldApellidoM = new javax.swing.JTextField();
         txtFieldUsuario = new javax.swing.JTextField();
         txtFieldContraseña = new javax.swing.JTextField();
-        btnAgregarEmpleado = new javax.swing.JButton();
+        btnSiguienteEmpleado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,11 +110,11 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         txtFieldContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtFieldContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnAgregarEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnAgregarEmpleado.setText("AGREGAR");
-        btnAgregarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+        btnSiguienteEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnSiguienteEmpleado.setText("SIGUIENTE");
+        btnSiguienteEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarEmpleadoActionPerformed(evt);
+                btnSiguienteEmpleadoActionPerformed(evt);
             }
         });
 
@@ -147,7 +147,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                             .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(500, 500, 500)
-                        .addComponent(btnAgregarEmpleado))
+                        .addComponent(btnSiguienteEmpleado))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -181,7 +181,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                     .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContraseña))
                 .addGap(45, 45, 45)
-                .addComponent(btnAgregarEmpleado)
+                .addComponent(btnSiguienteEmpleado)
                 .addGap(27, 27, 27)
                 .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(123, 123, 123))
@@ -215,7 +215,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldUsuarioActionPerformed
 
-    private void btnAgregarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleadoActionPerformed
+    private void btnSiguienteEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteEmpleadoActionPerformed
         // TODO add your handling code here:
         String nombre = txtFieldNombre.getText();
         String apellidoP = txtFieldApellidoP.getText();
@@ -232,7 +232,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
             Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_btnAgregarEmpleadoActionPerformed
+    }//GEN-LAST:event_btnSiguienteEmpleadoActionPerformed
 
     private void txtFieldApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPActionPerformed
         // TODO add your handling code here:
@@ -267,16 +267,14 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AgregarEmpleadoFrm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AgregarEmpleadoFrm().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarEmpleado;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnSiguienteEmpleado;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblApellidoM;
     private javax.swing.JLabel lblApellidoP;
