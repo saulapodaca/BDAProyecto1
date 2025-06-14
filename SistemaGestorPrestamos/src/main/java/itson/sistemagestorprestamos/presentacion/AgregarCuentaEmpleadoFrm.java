@@ -8,12 +8,12 @@ package itson.sistemagestorprestamos.presentacion;
  *
  * @author Camila Zubía
  */
-public class AgregarEmpleadoFrm extends javax.swing.JFrame {
+public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
 
     /**
      * Creates new form ConsultaPrestamoFrm
      */
-    public AgregarEmpleadoFrm() {
+    public AgregarCuentaEmpleadoFrm() {
         initComponents();
     }
 
@@ -32,15 +32,9 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
         lblApellidoP = new javax.swing.JLabel();
-        lblApellidoM = new javax.swing.JLabel();
-        lblUsuario = new javax.swing.JLabel();
-        lblContraseña = new javax.swing.JLabel();
         txtFieldNombre = new javax.swing.JTextField();
-        txtFieldApellidoP = new javax.swing.JTextField();
-        txtFieldApellidoM = new javax.swing.JTextField();
-        txtFieldUsuario = new javax.swing.JTextField();
-        txtFieldContraseña = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,72 +55,37 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         lblNombre.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(0, 0, 0));
-        lblNombre.setText("Nombre(s):");
+        lblNombre.setText("CLABE:");
 
         lblApellidoP.setBackground(new java.awt.Color(255, 255, 255));
         lblApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblApellidoP.setForeground(new java.awt.Color(0, 0, 0));
-        lblApellidoP.setText("Apellido paterno:");
-
-        lblApellidoM.setBackground(new java.awt.Color(255, 255, 255));
-        lblApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblApellidoM.setForeground(new java.awt.Color(0, 0, 0));
-        lblApellidoM.setText("Apellido materno:");
-
-        lblUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        lblUsuario.setText("Usuario:");
-
-        lblContraseña.setBackground(new java.awt.Color(255, 255, 255));
-        lblContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
-        lblContraseña.setText("Contraseña:");
+        lblApellidoP.setText("Nombre del banco:");
 
         txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldApellidoP.setBackground(new java.awt.Color(255, 255, 255));
-        txtFieldApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldApellidoP.setForeground(new java.awt.Color(0, 0, 0));
-        txtFieldApellidoP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtFieldApellidoP.addActionListener(new java.awt.event.ActionListener() {
+        txtFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldApellidoPActionPerformed(evt);
+                txtFieldNombreActionPerformed(evt);
             }
         });
-
-        txtFieldApellidoM.setBackground(new java.awt.Color(255, 255, 255));
-        txtFieldApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldApellidoM.setForeground(new java.awt.Color(0, 0, 0));
-        txtFieldApellidoM.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        txtFieldUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        txtFieldUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtFieldUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldUsuarioActionPerformed(evt);
-            }
-        });
-
-        txtFieldContraseña.setBackground(new java.awt.Color(255, 255, 255));
-        txtFieldContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldContraseña.setForeground(new java.awt.Color(0, 0, 0));
-        txtFieldContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnAgregar.setBackground(new java.awt.Color(255, 255, 255));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(0, 0, 0));
-        btnAgregar.setText("SIGUIENTE");
+        btnAgregar.setText("AGREGAR");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
             }
         });
+
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BBVA", "SANTANDER", "BANAMEX", "BANORTE", "HSBC" }));
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -141,26 +100,20 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                         .addGap(353, 353, 353)
                         .addComponent(tituloLbl))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(309, 309, 309)
-                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblContraseña)
-                                    .addComponent(lblApellidoP)
-                                    .addComponent(lblNombre)
-                                    .addComponent(lblApellidoM)
-                                    .addComponent(lblUsuario)))
-                            .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(309, 309, 309)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblApellidoP)
+                            .addComponent(lblNombre))
                         .addGap(39, 39, 39)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAgregar)
-                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFieldApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFieldApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(478, 478, 478)
+                        .addComponent(btnAgregar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -170,34 +123,19 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
                     .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                .addGap(82, 82, 82)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFieldApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblApellidoP))
-                .addGap(36, 36, 36)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFieldApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblApellidoM))
-                .addGap(37, 37, 37)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUsuario))
-                .addGap(34, 34, 34)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblContraseña))
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(btnAgregar)))
-                .addGap(123, 123, 123))
+                    .addComponent(lblApellidoP)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95)
+                .addComponent(btnAgregar)
+                .addGap(41, 41, 41)
+                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -224,17 +162,13 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldUsuarioActionPerformed
-
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void txtFieldApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPActionPerformed
+    private void txtFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoPActionPerformed
+    }//GEN-LAST:event_txtFieldNombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,21 +187,23 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarEmpleadoFrm().setVisible(true);
+                new AgregarCuentaEmpleadoFrm().setVisible(true);
             }
         });
     }
@@ -275,18 +211,12 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblApellidoM;
     private javax.swing.JLabel lblApellidoP;
-    private javax.swing.JLabel lblContraseña;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel tituloLbl;
-    private javax.swing.JTextField txtFieldApellidoM;
-    private javax.swing.JTextField txtFieldApellidoP;
-    private javax.swing.JTextField txtFieldContraseña;
     private javax.swing.JTextField txtFieldNombre;
-    private javax.swing.JTextField txtFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }
