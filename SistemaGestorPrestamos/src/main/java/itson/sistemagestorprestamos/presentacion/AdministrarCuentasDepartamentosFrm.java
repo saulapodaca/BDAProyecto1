@@ -8,12 +8,12 @@ package itson.sistemagestorprestamos.presentacion;
  *
  * @author Camila Zubía
  */
-public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
+public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
 
     /**
      * Creates new form AdministrarCuentasBancariasFrm
      */
-    public AdministrarCuentasBancariasFrm() {
+    public AdministrarCuentasDepartamentosFrm() {
         initComponents();
     }
 
@@ -58,7 +58,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOMBRE BANCO", "CLABE", "ESTATUS", "ACCIONES"
+                "ID", "NÚMERO DE CUENTA", "CLABE", "SALDO", "ACCIONES"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));
@@ -135,14 +135,18 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCuentasBancariasFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarCuentasDepartamentosFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCuentasBancariasFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarCuentasDepartamentosFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCuentasBancariasFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarCuentasDepartamentosFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCuentasBancariasFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarCuentasDepartamentosFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -151,7 +155,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministrarCuentasBancariasFrm().setVisible(true);
+                new AdministrarCuentasDepartamentosFrm().setVisible(true);
             }
         });
     }
