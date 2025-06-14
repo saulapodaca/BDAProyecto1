@@ -40,13 +40,14 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         txtFieldFecha = new javax.swing.JTextField();
         txtFieldMonto = new javax.swing.JTextField();
         txtFieldEstatus = new javax.swing.JTextField();
-        btnCambiarEstatus = new javax.swing.JButton();
         btnConsultarHistorial = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaComprobante = new javax.swing.JTextArea();
+        lblCambiarEstatus = new javax.swing.JLabel();
+        comboBoxEstatus = new javax.swing.JComboBox<>();
+        btnConfirmarCambio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1077, 630));
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
         panelFondo.setPreferredSize(new java.awt.Dimension(1077, 630));
@@ -85,7 +86,7 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         lblEstatus.setBackground(new java.awt.Color(255, 255, 255));
         lblEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblEstatus.setForeground(new java.awt.Color(0, 0, 0));
-        lblEstatus.setText("Estatus:");
+        lblEstatus.setText("Estatus actual:");
 
         txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -112,11 +113,6 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         txtFieldEstatus.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldEstatus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnCambiarEstatus.setBackground(new java.awt.Color(255, 255, 255));
-        btnCambiarEstatus.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnCambiarEstatus.setForeground(new java.awt.Color(0, 0, 0));
-        btnCambiarEstatus.setText("Cambiar Estatus");
-
         btnConsultarHistorial.setBackground(new java.awt.Color(255, 255, 255));
         btnConsultarHistorial.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnConsultarHistorial.setForeground(new java.awt.Color(0, 0, 0));
@@ -128,6 +124,26 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         txtAreaComprobante.setRows(5);
         txtAreaComprobante.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setViewportView(txtAreaComprobante);
+
+        lblCambiarEstatus.setBackground(new java.awt.Color(255, 255, 255));
+        lblCambiarEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblCambiarEstatus.setForeground(new java.awt.Color(0, 0, 0));
+        lblCambiarEstatus.setText("Cambiar estatus:");
+
+        comboBoxEstatus.setBackground(new java.awt.Color(255, 255, 255));
+        comboBoxEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comboBoxEstatus.setForeground(new java.awt.Color(0, 0, 0));
+        comboBoxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RECHAZADO", "AUTORIZADO", "PAGADO", "PAGADO PARCIALMENTE", "COMPLETADO" }));
+
+        btnConfirmarCambio.setBackground(new java.awt.Color(255, 255, 255));
+        btnConfirmarCambio.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnConfirmarCambio.setForeground(new java.awt.Color(0, 0, 0));
+        btnConfirmarCambio.setText("Confirmar cambio");
+        btnConfirmarCambio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarCambioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -142,34 +158,31 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
                         .addGap(286, 286, 286)
                         .addComponent(tituloLbl))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(lblParcialidades)
-                                        .addComponent(lblNombre)
-                                        .addComponent(lblFecha)
-                                        .addComponent(lblMonto))
-                                    .addGroup(panelFondoLayout.createSequentialGroup()
-                                        .addGap(48, 48, 48)
-                                        .addComponent(lblEstatus)))
-                                .addGap(24, 24, 24)
-                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFieldEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFieldParcialidades, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnConsultarHistorial)))
+                                .addGap(89, 89, 89)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblParcialidades)
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblFecha)
+                                    .addComponent(lblMonto)
+                                    .addComponent(lblEstatus)
+                                    .addComponent(lblCambiarEstatus)))
                             .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(154, 154, 154)
-                                .addComponent(btnCambiarEstatus))))
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(19, 19, 19)
+                                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(77, 77, 77)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFieldEstatus, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(txtFieldParcialidades, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(txtFieldFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(txtFieldMonto, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(btnConsultarHistorial)
+                            .addComponent(comboBoxEstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnConfirmarCambio))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -181,7 +194,7 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                    .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombre)
                             .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,14 +214,19 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblEstatus)
                             .addComponent(txtFieldEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addComponent(btnCambiarEstatus)
                         .addGap(18, 18, 18)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCambiarEstatus)
+                            .addComponent(comboBoxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnConfirmarCambio)
+                        .addGap(43, 43, 43)
                         .addComponent(btnConsultarHistorial))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(137, 137, 137))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -234,6 +252,10 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnConfirmarCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCambioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConfirmarCambioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,11 +293,13 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCambiarEstatus;
+    private javax.swing.JButton btnConfirmarCambio;
     private javax.swing.JButton btnConsultarHistorial;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JComboBox<String> comboBoxEstatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblCambiarEstatus;
     private javax.swing.JLabel lblEstatus;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblMonto;
