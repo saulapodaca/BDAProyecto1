@@ -29,7 +29,7 @@ public class EmpleadoDAO implements IEmpleadoDAO {
     }
 
     @Override
-    public void guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException {
+    public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException {
         try {
             Connection connection = this.conexion.crearConexion();
             //inicio de la transaccion
@@ -62,13 +62,22 @@ public class EmpleadoDAO implements IEmpleadoDAO {
             if (filasAfectadas == 0) {
                 throw new PersistenciaException("No se insertion el empleado");
             }
-
+            int id = 0;
             //preparedStatement = parametros de forma segura evitando inyecciones
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
             // final de la transaccion
             connection.commit();
-            System.out.println("Empleado creado");
+            System.out.println("Empleado creado:");
+            
+
+            EmpleadosDominio empleadobuscado = null;
+            while (resultSet.next()) {
+                id = resultSet.getInt(1);
+                empleadobuscado = this.buscarEmpleadoPorId(id);
+            }
+            
+            return empleadobuscado;
         } catch (SQLException e) {
             throw new PersistenciaException("Ocurrio un error al guardar" + e.getMessage());
 
@@ -82,7 +91,7 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         String apellidoMaterno = resulset.getString("apellidoMaterno");
         int idDepartamento = resulset.getInt("id_departamento");
         String nombreDepartamento = resulset.getString("nombre");
-        
+
         return new TablaEmpleadoDTO(id, nombre, apellidoPaterno, apellidoMaterno, idDepartamento, nombreDepartamento);
     }
 
@@ -112,7 +121,7 @@ public class EmpleadoDAO implements IEmpleadoDAO {
                          """;
             String filtroConLike = "%" + filtro.getFiltro() + "%";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-    
+
             preparedStatement.setString(1, filtroConLike);
             preparedStatement.setString(2, filtroConLike);
             preparedStatement.setString(3, filtroConLike);
@@ -139,10 +148,40 @@ public class EmpleadoDAO implements IEmpleadoDAO {
             if (empleados == null) {
                 throw new PersistenciaException("No se encontrar empleados");
             }
-
             return empleados;
         } catch (SQLException e) {
             throw new PersistenciaException("Ocurrio un problema al leer un empleado" + e.getMessage());
+        }
+    }
+
+    @Override
+    public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException {
+        try {
+            Connection connection = this.conexion.crearConexion();
+            String select = """
+                                SELECT nombres, apellidoPaterno, apellidoMaterno FROM `finanzasglobales`.`empleados`
+                                WHERE `ID` =  ?;
+                                """;
+            PreparedStatement preparedStatement = connection.prepareStatement(select);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                EmpleadosDominio empleado = new EmpleadosDominio();
+                empleado.setNombres(resultSet.getString("nombres"));
+                empleado.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
+                empleado.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
+
+                System.out.println( empleado.getNombres() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
+                return empleado;
+            } else {
+
+                System.out.println("No se encontró ningún empleado con ID: " + id);
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrio un error al buscar el empleado" + e.getMessage());
+
         }
 
     }

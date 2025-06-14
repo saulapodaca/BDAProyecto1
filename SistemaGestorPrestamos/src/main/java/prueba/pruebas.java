@@ -28,9 +28,8 @@ public class pruebas {
         
         GuardarEmpleadoDTO empleado1 = new GuardarEmpleadoDTO("adel","mendez","lizo",true,"252770","modelito1",1);
         FiltroDTO filtro = new FiltroDTO (2,0,"");
-        //empleado.guardar(empleado1);
-     
-        System.out.println(empleado.buscarTabla(filtro));
+        empleado.guardar(empleado1);
+        //System.out.println(empleado.buscarTabla(filtro));
     }
     
 }

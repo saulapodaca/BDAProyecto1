@@ -30,6 +30,12 @@ public class EmpleadosDominio {
         this.idDepartamento = idDepartamento;
     }
 
+    public EmpleadosDominio() {
+    }
+    
+    
+    
+    
     public int getId() {
         return id;
     }
