@@ -209,6 +209,10 @@ public class EmpleadoDAO implements IEmpleadoDAO{
             set.close();
             statement.close();
             
+            if (em == null) {
+                throw new PersistenciaException("No se encontró el empleado");
+            }
+            
             return em;
             
         }catch(SQLException ex){
