@@ -222,6 +222,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         String apellidoM = txtFieldApellidoM.getText();
         String usuario = txtFieldUsuario.getText();
         String contraseña = txtFieldContraseña.getText();
+        // esto se va a mover luego al frm agregarCuentaEmpleado
         try {
             
             GuardarEmpleadoDTO empleadoGuardar = new GuardarEmpleadoDTO(nombre, apellidoP, apellidoM, usuario, contraseña, 1);
