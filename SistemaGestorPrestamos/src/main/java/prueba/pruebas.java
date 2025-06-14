@@ -4,6 +4,7 @@
  */
 package prueba;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.persistencia.ConexionBD;
 import itson.sistemasgestorprestamos.persistencia.EmpleadoDAO;
@@ -26,8 +27,10 @@ public class pruebas {
         EmpleadoDAO empleado = new EmpleadoDAO(conexion);
         
         GuardarEmpleadoDTO empleado1 = new GuardarEmpleadoDTO("adel","mendez","lizo",true,"252770","modelito1",1);
-        
-        empleado.guardar(empleado1);
+        FiltroDTO filtro = new FiltroDTO (2,0,"");
+        //empleado.guardar(empleado1);
+     
+        System.out.println(empleado.buscarTabla(filtro));
     }
     
 }

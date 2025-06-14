@@ -4,8 +4,12 @@
  */
 package itson.sistemasgestorprestamos.persistencia;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import java.util.List;
+
 
 /**
  *
@@ -13,6 +17,6 @@ import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
  */
 public interface IEmpleadoDAO {
     
-        void guardar(GuardarEmpleadoDTO alumno) throws PersistenciaException;
-
+       public void guardar(GuardarEmpleadoDTO alumno) throws PersistenciaException;
+       public List<TablaEmpleadoDTO> buscarTabla (FiltroDTO filtro) throws PersistenciaException;
 }
