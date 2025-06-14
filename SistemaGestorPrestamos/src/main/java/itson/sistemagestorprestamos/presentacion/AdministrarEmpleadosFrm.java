@@ -4,6 +4,8 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.empleadoFachada;
+
 /**
  *
  * @author Camila Zubía
@@ -16,7 +18,7 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
     public AdministrarEmpleadosFrm() {
         initComponents();
     }
-
+    empleadoFachada empleado = new empleadoFachada();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,7 +34,7 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        agregarEmpleadoBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,16 +46,12 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("ADMINISTRAR EMPLEADOS");
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
-        tabla.setBackground(new java.awt.Color(255, 255, 255));
-        tabla.setForeground(new java.awt.Color(0, 0, 0));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -69,11 +67,14 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         tabla.setPreferredSize(new java.awt.Dimension(1272, 560));
         jScrollPane1.setViewportView(tabla);
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("AGREGAR");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        agregarEmpleadoBTN.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        agregarEmpleadoBTN.setText("AGREGAR");
+        agregarEmpleadoBTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        agregarEmpleadoBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarEmpleadoBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -88,12 +89,12 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
                         .addGap(297, 297, 297)
                         .addComponent(tituloLbl))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addContainerGap()
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(401, 401, 401)
-                        .addComponent(jButton1))
+                        .addGap(349, 349, 349)
+                        .addComponent(agregarEmpleadoBTN))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(135, 135, 135)
+                        .addGap(82, 82, 82)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -104,17 +105,17 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(agregarEmpleadoBTN)
+                        .addContainerGap(102, Short.MAX_VALUE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,6 +141,12 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void agregarEmpleadoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEmpleadoBTNActionPerformed
+        // TODO add your handling code here:
+        AgregarEmpleadoFrm pantalla = new AgregarEmpleadoFrm();
+        pantalla.setVisible(true);
+    }//GEN-LAST:event_agregarEmpleadoBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,8 +185,8 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton agregarEmpleadoBTN;
     private javax.swing.JButton btnRegresar1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelFondo;

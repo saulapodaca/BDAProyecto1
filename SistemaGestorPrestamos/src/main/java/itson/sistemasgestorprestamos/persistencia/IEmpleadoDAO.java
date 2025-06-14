@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface IEmpleadoDAO {
     
-       public EmpleadosDominio guardar(GuardarEmpleadoDTO alumno) throws PersistenciaException;
+       public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException;
        public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException;
        public List<TablaEmpleadoDTO> buscarTabla (FiltroDTO filtro) throws PersistenciaException;
 }

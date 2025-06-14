@@ -39,23 +39,21 @@ public class EmpleadoDAO implements IEmpleadoDAO {
                            (
                            `nombres`,
                            `apellidoPaterno`,
-                           `apellidoMaterno`,
-                           `estatus`,
+                           `apellidoMaterno`,    
                            `usuario`,
                            `contraseña`,
                            `id_departamento`)
                            VALUES
-                           (?,?,?,?,?,?,?)            
+                           (?,?,?,?,?,?)            
                            """;
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, empleado.getNombres());
             preparedStatement.setString(2, empleado.getApellidoPaterno());
             preparedStatement.setString(3, empleado.getApellidoMaterno());
-            preparedStatement.setBoolean(4, empleado.isEstatus());
-            preparedStatement.setString(5, empleado.getUsuario());
-            preparedStatement.setString(6, empleado.getContraseña());
-            preparedStatement.setInt(7, empleado.getIdDepartamento());
+            preparedStatement.setString(4, empleado.getUsuario());
+            preparedStatement.setString(5, empleado.getContraseña());
+            preparedStatement.setInt(6, empleado.getIdDepartamento());
 
             int filasAfectadas = preparedStatement.executeUpdate();
 

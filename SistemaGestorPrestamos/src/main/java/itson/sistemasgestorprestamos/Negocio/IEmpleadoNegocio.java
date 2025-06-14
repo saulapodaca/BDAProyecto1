@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface IEmpleadoNegocio {
 
-    public EmpleadosDominio guardar(GuardarEmpleadoDTO alumno) throws NegocioException;
+    public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws NegocioException;
 
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws NegocioException;
 

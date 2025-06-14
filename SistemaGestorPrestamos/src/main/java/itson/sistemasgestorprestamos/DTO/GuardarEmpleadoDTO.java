@@ -13,31 +13,20 @@ public class GuardarEmpleadoDTO {
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private boolean estatus;
     private String usuario;
     private String contraseña;
     private int idDepartamento;
 
-    public GuardarEmpleadoDTO(String nombres, String apellidoPaterno, String apellidoMaterno, boolean estatus, String usuario, String contraseña, int idDepartamento) {
+    public GuardarEmpleadoDTO(String nombres, String apellidoPaterno, String apellidoMaterno, String usuario, String contraseña, int idDepartamento) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.estatus = estatus;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.idDepartamento = idDepartamento;
     }
 
-    
-    
-    public GuardarEmpleadoDTO(String nombres, String apellidoPaterno, String apellidoMaterno, boolean estatus, String usuario, String contraseña) {
-        this.nombres = nombres;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.estatus = estatus;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-    }
+   
 
     public String getNombres() {
         return nombres;
@@ -63,14 +52,6 @@ public class GuardarEmpleadoDTO {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public boolean isEstatus() {
-        return estatus;
-    }
-
-    public void setEstatus(boolean estatus) {
-        this.estatus = estatus;
-    }
-
     public String getUsuario() {
         return usuario;
     }
@@ -94,9 +75,5 @@ public class GuardarEmpleadoDTO {
     public void setIdDepartamento(int idDepartamento) {
         this.idDepartamento = idDepartamento;
     }
-    
-    
-
-    
 
 }

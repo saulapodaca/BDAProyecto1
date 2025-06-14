@@ -4,6 +4,13 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.empleadoFachada;
+import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Camila Zubía
@@ -16,6 +23,8 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
     public AgregarEmpleadoFrm() {
         initComponents();
     }
+
+    empleadoFachada empleado = new empleadoFachada();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,7 +49,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         txtFieldApellidoM = new javax.swing.JTextField();
         txtFieldUsuario = new javax.swing.JTextField();
         txtFieldContraseña = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
+        btnAgregarEmpleado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,45 +61,34 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("AGREGAR EMPLEADO");
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         lblNombre.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre(s):");
 
         lblApellidoP.setBackground(new java.awt.Color(255, 255, 255));
         lblApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblApellidoP.setForeground(new java.awt.Color(0, 0, 0));
         lblApellidoP.setText("Apellido paterno:");
 
         lblApellidoM.setBackground(new java.awt.Color(255, 255, 255));
         lblApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblApellidoM.setForeground(new java.awt.Color(0, 0, 0));
         lblApellidoM.setText("Apellido materno:");
 
         lblUsuario.setBackground(new java.awt.Color(255, 255, 255));
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
         lblUsuario.setText("Usuario:");
 
         lblContraseña.setBackground(new java.awt.Color(255, 255, 255));
         lblContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña.setText("Contraseña:");
 
-        txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtFieldApellidoP.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldApellidoP.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldApellidoP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtFieldApellidoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,14 +96,10 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
             }
         });
 
-        txtFieldApellidoM.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldApellidoM.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldApellidoM.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtFieldUsuario.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldUsuario.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtFieldUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,18 +107,14 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
             }
         });
 
-        txtFieldContraseña.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldContraseña.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnAgregar.setBackground(new java.awt.Color(255, 255, 255));
-        btnAgregar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(0, 0, 0));
-        btnAgregar.setText("AGREGAR");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnAgregarEmpleado.setText("AGREGAR");
+        btnAgregarEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnAgregarEmpleadoActionPerformed(evt);
             }
         });
 
@@ -157,7 +147,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                             .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(500, 500, 500)
-                        .addComponent(btnAgregar))
+                        .addComponent(btnAgregarEmpleado))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -191,7 +181,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
                     .addComponent(txtFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContraseña))
                 .addGap(45, 45, 45)
-                .addComponent(btnAgregar)
+                .addComponent(btnAgregarEmpleado)
                 .addGap(27, 27, 27)
                 .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(123, 123, 123))
@@ -225,9 +215,23 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldUsuarioActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void btnAgregarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarActionPerformed
+        String nombre = txtFieldNombre.getText();
+        String apellidoP = txtFieldApellidoP.getText();
+        String apellidoM = txtFieldApellidoM.getText();
+        String usuario = txtFieldUsuario.getText();
+        String contraseña = txtFieldContraseña.getText();
+        try {
+            
+            GuardarEmpleadoDTO empleadoGuardar = new GuardarEmpleadoDTO(nombre, apellidoP, apellidoM, usuario, contraseña, 1);
+            empleado.guardar(empleadoGuardar);
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnAgregarEmpleadoActionPerformed
 
     private void txtFieldApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPActionPerformed
         // TODO add your handling code here:
@@ -270,7 +274,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAgregarEmpleado;
     private javax.swing.JButton btnRegresar1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblApellidoM;

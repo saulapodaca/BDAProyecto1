@@ -25,10 +25,10 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     }
     
     @Override
-    public EmpleadosDominio guardar(GuardarEmpleadoDTO alumno) throws NegocioException {
+    public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws NegocioException {
         try {
-            this.parametroNulo(alumno);
-            return EmpleadoDAO.guardar(alumno);
+            this.parametroNulo(empleado);
+            return EmpleadoDAO.guardar(empleado);
         } catch (PersistenciaException e) {
             throw new NegocioException("error" + e.getMessage());
         }
