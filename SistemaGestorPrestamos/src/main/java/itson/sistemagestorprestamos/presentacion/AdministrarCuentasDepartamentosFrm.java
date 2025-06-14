@@ -28,7 +28,7 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        tituloLbl = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnRegresar1 = new javax.swing.JButton();
@@ -42,9 +42,9 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
         jSeparator1.setName("Separador"); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("ADMINISTRAR CUENTAS BANCARIAS");
+        tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
+        tituloLbl.setText("ADMINISTRAR CUENTAS BANCARIAS");
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
@@ -79,7 +79,7 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(178, 178, 178)
-                        .addComponent(jLabel1))
+                        .addComponent(tituloLbl))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -90,7 +90,7 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -162,10 +162,10 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
+    private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }

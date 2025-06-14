@@ -28,16 +28,15 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         btnRegresar1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        tituloLbl = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton6 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        areaTextoInfo = new javax.swing.JTextArea();
+        btnAbonar = new javax.swing.JButton();
+        lblCantidad = new javax.swing.JLabel();
+        txtFieldCantidad = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1077, 630));
 
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
         panelFondo.setPreferredSize(new java.awt.Dimension(1077, 630));
@@ -45,34 +44,34 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
         btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("INFORMACIÓN DEL PRÉSTAMO");
+        tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
+        tituloLbl.setText("INFORMACIÓN DEL PRÉSTAMO");
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setName("Separador"); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setViewportView(jTextArea1);
+        areaTextoInfo.setBackground(new java.awt.Color(255, 255, 255));
+        areaTextoInfo.setColumns(20);
+        areaTextoInfo.setRows(5);
+        areaTextoInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane1.setViewportView(areaTextoInfo);
 
-        jButton6.setBackground(new java.awt.Color(0, 102, 0));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(0, 0, 0));
-        jButton6.setText("Abonar");
+        btnAbonar.setBackground(new java.awt.Color(0, 102, 0));
+        btnAbonar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnAbonar.setForeground(new java.awt.Color(0, 0, 0));
+        btnAbonar.setText("Abonar");
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Cantidad a abonar:");
+        lblCantidad.setBackground(new java.awt.Color(255, 255, 255));
+        lblCantidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblCantidad.setForeground(new java.awt.Color(0, 0, 0));
+        lblCantidad.setText("Cantidad a abonar:");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtFieldCantidad.setBackground(new java.awt.Color(255, 255, 255));
+        txtFieldCantidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldCantidad.setForeground(new java.awt.Color(0, 0, 0));
+        txtFieldCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -88,36 +87,36 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(259, 259, 259)
-                        .addComponent(jLabel1))
+                        .addComponent(tituloLbl))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(385, 385, 385)
-                        .addComponent(jButton6))
+                        .addComponent(btnAbonar))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(371, 371, 371)
-                        .addComponent(jLabel2)
+                        .addComponent(lblCantidad)
                         .addGap(34, 34, 34)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCantidad)
+                    .addComponent(txtFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(jButton6)
+                        .addComponent(btnAbonar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
@@ -185,14 +184,14 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaTextoInfo;
+    private javax.swing.JButton btnAbonar;
     private javax.swing.JButton btnRegresar1;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblCantidad;
     private javax.swing.JPanel panelFondo;
+    private javax.swing.JLabel tituloLbl;
+    private javax.swing.JTextField txtFieldCantidad;
     // End of variables declaration//GEN-END:variables
 }
