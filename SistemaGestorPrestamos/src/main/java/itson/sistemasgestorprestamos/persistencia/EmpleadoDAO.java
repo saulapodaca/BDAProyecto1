@@ -7,6 +7,7 @@ package itson.sistemasgestorprestamos.persistencia;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @author adell
  */
-public class EmpleadoDAO implements IEmpleadoDAO {
+public class EmpleadoDAO implements IEmpleadoDAO{
 
     private IConexionBD conexion;
 
@@ -32,7 +33,6 @@ public class EmpleadoDAO implements IEmpleadoDAO {
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException {
         try {
             Connection connection = this.conexion.crearConexion();
-            //inicio de la transaccion
             connection.setAutoCommit(false);
             String query = """
                            INSERT INTO `finanzasglobales`.`empleados`
@@ -74,6 +74,8 @@ public class EmpleadoDAO implements IEmpleadoDAO {
                 id = resultSet.getInt(1);
                 empleadobuscado = this.buscarEmpleadoPorId(id);
             }
+            
+            
             
             return empleadobuscado;
         } catch (SQLException e) {
@@ -183,5 +185,46 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
 
     }
-
+    
+    @Override
+    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException {
+        try{
+            Connection conn = conexion.crearConexion();
+            String query = """
+                           SELECT * 
+                           FROM empleados 
+                           WHERE usuario = ? 
+                           AND contrasena = ?
+                           """;
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, empleado.getUsuario());
+            statement.setString(2, empleado.getContraseña());
+            
+            ResultSet set = statement.executeQuery();
+            EmpleadosDominio em = null;
+            while(set.next()){
+                em = this.convertirEmpleadosDominio(set);
+            }
+            
+            set.close();
+            statement.close();
+            
+            return em;
+            
+        }catch(SQLException ex){
+            throw new PersistenciaException("Ocurrio un error al hacer login " + ex.getMessage());
+        }
+    }
+    
+    private EmpleadosDominio convertirEmpleadosDominio(ResultSet set) throws SQLException{
+           int id = set.getInt("id");
+           String nombres = set.getString("nombres");
+           String apellidoPaterno = set.getString("apellidoPaterno");
+           String apellidoMaterno = set.getString("String apellidoMaterno");
+           boolean estatus = set.getBoolean("estatus");
+           String usuario = set.getString("usuario");
+           String contraseña = set.getString("contraseña");
+           int idDepartamento = set.getInt("id_departamento");
+           return new EmpleadosDominio(id, nombres, apellidoPaterno, apellidoMaterno, estatus, usuario, contraseña, idDepartamento);
+    }
 }
