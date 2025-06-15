@@ -26,14 +26,13 @@ import java.util.List;
 public class empleadoFachada implements IEmpleadoFachada {
 
     private IEmpleadoNegocio empleadoNegocio;
-    
+
     public empleadoFachada() {
         IConexionBD conexion = new ConexionBD();
         IEmpleadoDAO empleadoDAO = new EmpleadoDAO(conexion);
         this.empleadoNegocio = new EmpleadoNegocio(empleadoDAO);
     }
-    
-    
+
     @Override
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws NegocioException {
         return this.empleadoNegocio.guardar(empleado);
@@ -57,6 +56,11 @@ public class empleadoFachada implements IEmpleadoFachada {
     @Override
     public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException {
         return this.empleadoNegocio.contarTotalEmpleados(filtro);
+    }
+
+    @Override
+    public boolean esJefe(int idEmpleado) throws NegocioException {
+        return this.empleadoNegocio.esJefe(idEmpleado);
     }
 
 }

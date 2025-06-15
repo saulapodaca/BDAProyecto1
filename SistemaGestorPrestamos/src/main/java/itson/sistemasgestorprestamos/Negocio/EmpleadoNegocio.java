@@ -27,7 +27,20 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     public EmpleadoNegocio(IEmpleadoDAO EmpleadoDAO) {
         this.EmpleadoDAO = EmpleadoDAO;
     }
+    
+    
+    @Override
+    public boolean esJefe(int idEmpleado) throws NegocioException {
+        try {
+            return EmpleadoDAO.esJefe(idEmpleado);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(EmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
+    
+    
     @Override
     public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
         try {
@@ -106,6 +119,7 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
         }
     }
 
+    
     
 
 }

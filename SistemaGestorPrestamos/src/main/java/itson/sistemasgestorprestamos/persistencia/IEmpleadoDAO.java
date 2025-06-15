@@ -24,4 +24,5 @@ public interface IEmpleadoDAO {
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException;
     public List<TablaEmpleadoDTO> buscarTabla (FiltroDTO filtro) throws PersistenciaException;
     public int contarTotalEmpleados(FiltroDTO filtro) throws PersistenciaException ;
+    public boolean esJefe (int idEmpleado) throws PersistenciaException;
 }

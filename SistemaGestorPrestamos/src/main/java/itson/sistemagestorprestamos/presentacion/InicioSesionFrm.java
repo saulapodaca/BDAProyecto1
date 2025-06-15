@@ -192,9 +192,17 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         try {
             SesionEmpleadoDTO e = empleado.buscarPorUsuarioYContraseña(sesion1);
             SesionIniciada.getInstancia().iniciarSesion(e);
-            
-            MenuJefeForm ventana = new MenuJefeForm();
-            ventana.setVisible(true);         
+
+            if (empleado.esJefe(e.getId())) {
+                MenuJefeForm ventana = new MenuJefeForm();
+                ventana.setVisible(true);
+                System.out.println("jefe ");
+            } else {
+                MenuEmpleadoFrm ventana = new MenuEmpleadoFrm();
+                ventana.setVisible(true);
+                System.out.println("empleado");
+            }
+
         } catch (NegocioException ex) {
             Logger.getLogger(InicioSesionFrm.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("error vv");

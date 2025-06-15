@@ -26,7 +26,9 @@ public interface IEmpleadoFachada {
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws NegocioException;
 
     public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
-    
-        public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException;
+
+    public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException;
+
+    public boolean esJefe(int idEmpleado) throws NegocioException;
 
 }
