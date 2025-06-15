@@ -4,10 +4,13 @@
  */
 package itson.sistemasgestorprestamos.persistencia;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import java.util.List;
 
 /**
  *
@@ -39,6 +42,11 @@ public class PrestamoDAO implements IPrestamoDAO{
 
     @Override
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

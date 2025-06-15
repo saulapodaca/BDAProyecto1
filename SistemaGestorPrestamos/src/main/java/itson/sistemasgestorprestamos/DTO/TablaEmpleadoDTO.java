@@ -77,11 +77,4 @@ public class TablaEmpleadoDTO {
     public String toString() {
         return "TablaEmpleadoDTO{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", nombreDepartamento=" + nombreDepartamento + '}';
     }
-
-    
-
-    
-
-    
-       
 }
