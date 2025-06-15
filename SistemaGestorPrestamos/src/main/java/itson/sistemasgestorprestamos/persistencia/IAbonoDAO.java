@@ -18,5 +18,6 @@ public interface IAbonoDAO {
     
     public AbonoDominio registrarAbono(RegistrarAbonoDTO abono) throws PersistenciaException;
     public List<TablaAbonosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;
+    public AbonoDominio buscarPorID(int id) throws PersistenciaException;
     
 }
