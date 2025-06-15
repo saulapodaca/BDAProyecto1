@@ -10,6 +10,11 @@ import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -25,9 +30,37 @@ public class PrestamoDAO implements IPrestamoDAO{
 
     @Override
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException {
-        
+        Connection connection = null;
+        try{
+            connection = this.conexion.crearConexion();
+            String query = """
+                           INSERT INTO prestamos
+                           (monto,
+                           id_tipo,
+                           id_cuenta_departamento,
+                           id_cuenta_empleado)
+                           VALUES(?,?,?,?,?)
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setFloat(1, prestamo.getMonto());
+            statement.setInt(2, prestamo.getTipoPrestamo());
+            statement.setInt(3, prestamo.getCuentaDepartamento());
+            statement.setInt(4, prestamo.getCuentaEmpleado());
+            
+            int filasAfectadas = statement.executeUpdate();
+            if (filasAfectadas == 0) {
+                throw new PersistenciaException("No se registro el prestamo");
+            }
+            ResultSet set = statement.getGeneratedKeys();
+            
+            if (set.next()) {
+                
+            }
+            
+        }catch (SQLException ex) {
+            throw new PersistenciaException("Ocurrió un error al buscar el abono: " + ex.getMessage());
+        }
         return null;
-        
     }
 
     @Override
