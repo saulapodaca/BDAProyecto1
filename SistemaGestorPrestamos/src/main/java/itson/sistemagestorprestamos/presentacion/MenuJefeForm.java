@@ -181,7 +181,13 @@ public class MenuJefeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAutorizarPrestamosActionPerformed
 
     private void btnAdminEstatusAbonosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEstatusAbonosActionPerformed
-        // TODO add your handling code here:
+        AdministrarAbonosFrm abonosFrm = null;
+        try {
+            abonosFrm = new AdministrarAbonosFrm();
+        } catch (NegocioException ex) {
+            Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        abonosFrm.setVisible(true);
     }//GEN-LAST:event_btnAdminEstatusAbonosActionPerformed
 
     private void btnMenuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEmpleadosActionPerformed

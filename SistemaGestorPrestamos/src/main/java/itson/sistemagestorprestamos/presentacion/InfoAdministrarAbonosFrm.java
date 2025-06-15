@@ -21,6 +21,8 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
 
     AbonoFachada abono = new AbonoFachada();
     
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,7 +153,7 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
-        //abono.registrarAbono(abono);
+        // abono.registrarAbono(abono);
     }//GEN-LAST:event_btnAbonarActionPerformed
 
     /**
