@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class PrestamosDominio {
     private int id;
     private LocalDateTime fechaHora;
-    private int monto;
+    private float monto;
     private int tipoPrestamo;
     private int cuentaDepartamento;
     private int cuentaEmpleado;
@@ -21,7 +21,7 @@ public class PrestamosDominio {
     public PrestamosDominio() {
     }
 
-    public PrestamosDominio(int id, LocalDateTime fechaHora, int monto, int tipoPrestamo, int cuentaDepartamento, int cuentaEmpleado) {
+    public PrestamosDominio(int id, LocalDateTime fechaHora, float monto, int tipoPrestamo, int cuentaDepartamento, int cuentaEmpleado) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.monto = monto;
@@ -46,7 +46,7 @@ public class PrestamosDominio {
         this.fechaHora = fechaHora;
     }
 
-    public int getMonto() {
+    public float getMonto() {
         return monto;
     }
 
