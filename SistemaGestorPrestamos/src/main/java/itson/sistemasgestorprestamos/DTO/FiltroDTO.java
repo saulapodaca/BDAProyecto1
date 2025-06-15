@@ -13,11 +13,19 @@ public class FiltroDTO {
     private int limit;
     private int offset;
     private String filtro;
+    private Integer idDepartamento;
 
     public FiltroDTO(int limit, int offset, String filtro) {
         this.limit = limit;
         this.offset = offset;
         this.filtro = filtro;
+    }
+
+    public FiltroDTO(int limit, int offset, String filtro, Integer idDepartamento) {
+        this.limit = limit;
+        this.offset = offset;
+        this.filtro = filtro;
+        this.idDepartamento = idDepartamento;
     }
 
     public int getLimit() {
@@ -43,5 +51,18 @@ public class FiltroDTO {
     public void setFiltro(String filtro) {
         this.filtro = filtro;
     }
+
+    public Integer getIdDepartamento() {
+        return idDepartamento;
+    }
+
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
+    }
+
+    
+  
+
+   
     
 }
