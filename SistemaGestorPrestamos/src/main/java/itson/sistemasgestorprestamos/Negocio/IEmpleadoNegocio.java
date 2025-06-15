@@ -28,4 +28,6 @@ public interface IEmpleadoNegocio {
 
     public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException;
 
+    public boolean esJefe(int idEmpleado) throws NegocioException;
+
 }

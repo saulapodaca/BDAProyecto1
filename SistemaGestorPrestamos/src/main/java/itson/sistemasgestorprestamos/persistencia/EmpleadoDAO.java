@@ -31,6 +31,48 @@ public class EmpleadoDAO implements IEmpleadoDAO {
     }
 
     @Override
+    public boolean esJefe(int idEmpleado) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = this.conexion.crearConexion();
+
+            String query = """
+                       SELECT COUNT(*)
+                       FROM jefes
+                       WHERE id_jefe = ?; 
+                       """;
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idEmpleado);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new PersistenciaException("Error al verificar si el empleado es jefe: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en esJefe: " + closeEx.getMessage());
+            }
+        }
+    }
+
+    @Override
     public int contarTotalEmpleados(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -357,4 +399,5 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         int idDepartamento = set.getInt("id_departamento");
         return new SesionEmpleadoDTO(id, nombres, apellidoPaterno, apellidoMaterno, idDepartamento);
     }
+
 }
