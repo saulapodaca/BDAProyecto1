@@ -4,6 +4,8 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.AbonoFachada;
+
 /**
  *
  * @author Camila Zubía
@@ -17,6 +19,8 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
         initComponents();
     }
 
+    AbonoFachada abono = new AbonoFachada();
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,18 +45,15 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
         panelFondo.setPreferredSize(new java.awt.Dimension(1077, 630));
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("INFORMACIÓN DEL PRÉSTAMO");
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setName("Separador"); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
-        areaTextoInfo.setBackground(new java.awt.Color(255, 255, 255));
         areaTextoInfo.setColumns(20);
         areaTextoInfo.setRows(5);
         areaTextoInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -60,17 +61,18 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
 
         btnAbonar.setBackground(new java.awt.Color(0, 102, 0));
         btnAbonar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnAbonar.setForeground(new java.awt.Color(0, 0, 0));
         btnAbonar.setText("Abonar");
+        btnAbonar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbonarActionPerformed(evt);
+            }
+        });
 
         lblCantidad.setBackground(new java.awt.Color(255, 255, 255));
         lblCantidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblCantidad.setForeground(new java.awt.Color(0, 0, 0));
         lblCantidad.setText("Cantidad a abonar:");
 
-        txtFieldCantidad.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldCantidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldCantidad.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
@@ -147,6 +149,10 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
+        //abono.registrarAbono(abono);
+    }//GEN-LAST:event_btnAbonarActionPerformed
 
     /**
      * @param args the command line arguments
