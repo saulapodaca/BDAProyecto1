@@ -5,6 +5,9 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.empleadoFachada;
+import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +22,7 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         initComponents();
     }
     empleadoFachada empleado = new empleadoFachada();
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,7 +152,6 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         pantalla.setVisible(true);
     }//GEN-LAST:event_agregarEmpleadoBTNActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarEmpleadoBTN;
