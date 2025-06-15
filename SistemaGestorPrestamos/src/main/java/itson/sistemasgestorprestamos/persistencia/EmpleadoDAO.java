@@ -31,6 +31,86 @@ public class EmpleadoDAO implements IEmpleadoDAO {
     }
 
     @Override
+    public int contarTotalEmpleados(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+        try {
+
+            connection = this.conexion.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT COUNT(em.id)
+            FROM empleados AS em
+            INNER JOIN departamentos AS de
+            ON em.id_departamento = de.id
+            WHERE 1=1
+            """);
+
+            List<Object> parametros = new ArrayList<>();
+
+            // Añadir el filtro de texto (si existe)
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (em.nombres LIKE ?
+                     OR em.apellidoPaterno LIKE ?
+                     OR em.apellidoMaterno LIKE ?
+                     OR de.nombre LIKE ?)
+                 """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            // Añadir el filtro por id_departamento (si existe)
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND em.id_departamento = ?");
+                parametros.add(filtro.getIdDepartamento());
+            }
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            // Asignar los parámetros
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                int parameterIndex = i + 1;
+                if (param instanceof String) {
+                    preparedStatement.setString(parameterIndex, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(parameterIndex, (Integer) param);
+                }
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return resultset.getInt(1); // Devuelve el conteo
+            }
+            return 0; // Si no hay resultados, devuelve 0
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un problema al contar empleados: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en contarTotalEmpleados: " + closeEx.getMessage());
+            }
+        }
+    }
+
+    @Override
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException {
         try {
             Connection connection = this.conexion.crearConexion();
@@ -88,67 +168,103 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         String apellidoPaterno = resulset.getString("apellidoPaterno");
         String apellidoMaterno = resulset.getString("apellidoMaterno");
         int idDepartamento = resulset.getInt("id_departamento");
-        String nombreDepartamento = resulset.getString("nombre");
+        String nombreDepartamento = resulset.getString("nombreDepartamento");
 
         return new TablaEmpleadoDTO(id, nombre, apellidoPaterno, apellidoMaterno, idDepartamento, nombreDepartamento);
     }
 
     @Override
     public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null; // Inicializamos a null para asegurar el cierre en el finally
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+
         try {
-            Connection connection = this.conexion.crearConexion();
+            connection = this.conexion.crearConexion(); // Obtiene la conexión
 
-            String query = """
-                         SELECT
-                            em.id,
-                            nombres,
-                            apellidoPaterno,
-                            apellidoMaterno,
-                            id_departamento,  
-                            de.nombre
-                         FROM empleados as em
-                         INNER JOIN departamentos as de
-                         on em.id_departamento = de.id    
-                           WHERE
-                             em.nombres LIKE ?
-                             or em.apellidoPaterno LIKE ?
-                             or em.apellidoMaterno LIKE ?
-                             or de.nombre LIKE ?
-                         LIMIT ?
-                         OFFSET ?;
-                         """;
-            String filtroConLike = "%" + filtro.getFiltro() + "%";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            // 1. Construir la consulta SQL dinámicamente
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT
+                em.id,
+                em.nombres,
+                em.apellidoPaterno,
+                em.apellidoMaterno,
+                em.id_departamento,
+                de.nombre AS nombreDepartamento  -- ¡Es buena práctica usar un alias para claridad!
+            FROM empleados AS em
+            INNER JOIN departamentos AS de
+            ON em.id_departamento = de.id
+            WHERE 1=1 -- Clausula base para facilitar la adicion de AND (siempre es verdadera)
+        """);
 
-            preparedStatement.setString(1, filtroConLike);
-            preparedStatement.setString(2, filtroConLike);
-            preparedStatement.setString(3, filtroConLike);
-            preparedStatement.setString(4, filtroConLike);
-            preparedStatement.setInt(5, filtro.getLimit());
-            preparedStatement.setInt(6, filtro.getOffset());
+            // Lista para almacenar los parámetros en el orden correcto
+            List<Object> parametros = new ArrayList<>();
 
-            ResultSet resultset = preparedStatement.executeQuery();
+            // 2. Añadir el filtro de texto (si el filtro no está vacío)
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (em.nombres LIKE ?
+                     OR em.apellidoPaterno LIKE ?
+                     OR em.apellidoMaterno LIKE ?
+                     OR de.nombre LIKE ?)
+            """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
 
-            List<TablaEmpleadoDTO> empleados = null;
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND em.id_departamento = ?");
+                parametros.add(filtro.getIdDepartamento());
+            }
 
-            while (resultset.next()) {
-                if (empleados == null) {
-                    empleados = new ArrayList<>();
+            queryBuilder.append(" LIMIT ? OFFSET ?;");
+            parametros.add(filtro.getLimit());
+            parametros.add(filtro.getOffset());
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                if (param instanceof String) {
+                    preparedStatement.setString(i + 1, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(i + 1, (Integer) param);
                 }
 
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            List<TablaEmpleadoDTO> empleados = new ArrayList<>();
+            while (resultset.next()) {
                 empleados.add(this.converTablaEmpleado(resultset));
             }
 
-            resultset.close();
-            preparedStatement.close();
-            connection.close();
-
-            if (empleados == null) {
-                throw new PersistenciaException("No se encontrar empleados");
-            }
             return empleados;
+
         } catch (SQLException e) {
-            throw new PersistenciaException("Ocurrio un problema al leer un empleado" + e.getMessage());
+
+            throw new PersistenciaException("Ocurrió un problema al leer empleados: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en buscarTabla: " + closeEx.getMessage());
+
+            }
         }
     }
 

@@ -54,4 +54,9 @@ public class empleadoFachada implements IEmpleadoFachada {
         return this.empleadoNegocio.buscarPorUsuarioYContraseña(empleado);
     }
 
+    @Override
+    public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException {
+        return this.empleadoNegocio.contarTotalEmpleados(filtro);
+    }
+
 }

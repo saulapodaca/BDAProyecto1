@@ -37,6 +37,16 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
         }
         return null;
     }
+    
+    @Override
+    public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException {
+        try {
+            return EmpleadoDAO.contarTotalEmpleados(filtro);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(EmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
     @Override
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws NegocioException {
@@ -95,5 +105,7 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
             throw new NegocioException("Lista vacia [Offset]");
         }
     }
+
+    
 
 }

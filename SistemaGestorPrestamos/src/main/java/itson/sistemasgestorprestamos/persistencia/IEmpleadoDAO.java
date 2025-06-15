@@ -23,4 +23,5 @@ public interface IEmpleadoDAO {
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException;
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException;
     public List<TablaEmpleadoDTO> buscarTabla (FiltroDTO filtro) throws PersistenciaException;
+    public int contarTotalEmpleados(FiltroDTO filtro) throws PersistenciaException ;
 }

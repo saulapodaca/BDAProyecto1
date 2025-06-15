@@ -5,11 +5,14 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.empleadoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
-import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +29,13 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         this.cargarMetodosIniciales();
 
     }
+
+    private int paginaActual = 0;
+    private final int LIMITE_POR_PAGINA = 1;
+    private int totalElementos = 0;
+    private int totalPaginas = 0;
+
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     empleadoFachada empleado = new empleadoFachada();
 
     public void cargarMetodosIniciales() throws NegocioException {
@@ -58,8 +68,31 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
 
     public void cargarEnTabla() throws NegocioException {
 
-        FiltroDTO filtro = new FiltroDTO(4, 2, "");
-        List<TablaEmpleadoDTO> listaEmpleado = this.empleado.buscarTabla(filtro);
+        if (jefe == null) {
+            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver los empleados.", "Sesión no iniciada", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        int idDepartamentoJefe = jefe.getIdDepartamento();
+
+        String textoFiltro = txtFiltroBusqueda.getText();
+        FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
+
+        this.totalElementos = this.empleado.contarTotalEmpleados(filtroConteo);
+
+        this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
+
+        if (paginaActual >= totalPaginas && totalPaginas > 0) {
+            paginaActual = totalPaginas - 1;
+        } else if (totalPaginas == 0) {
+            paginaActual = 0;
+        }
+
+        int offset = paginaActual * LIMITE_POR_PAGINA;
+
+        FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
+
+        List<TablaEmpleadoDTO> listaEmpleado = this.empleado.buscarTabla(filtroActual);
         this.llenarTabla(listaEmpleado);
 
     }
@@ -80,6 +113,10 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         agregarEmpleadoBTN = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        lblPaginaActual = new javax.swing.JLabel();
+        txtFiltroBusqueda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,11 +158,37 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
             }
         });
 
+        btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setText("Sigueinte");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
+        txtFiltroBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroBusquedaActionPerformed(evt);
+            }
+        });
+        txtFiltroBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroBusquedaKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
+                .addGap(216, 216, 216)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelFondoLayout.createSequentialGroup()
@@ -136,11 +199,20 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(349, 349, 349)
+                        .addGap(352, 352, 352)
                         .addComponent(agregarEmpleadoBTN))
                     .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(btnAnterior)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSiguiente)
+                        .addGap(212, 212, 212)
+                        .addComponent(lblPaginaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(82, 82, 82)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -149,18 +221,25 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSiguiente)
+                            .addComponent(btnAnterior)
+                            .addComponent(lblPaginaActual))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(agregarEmpleadoBTN)
-                        .addContainerGap(102, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(0, 54, Short.MAX_VALUE)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,14 +273,74 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
         pantalla.setVisible(true);
     }//GEN-LAST:event_agregarEmpleadoBTNActionPerformed
 
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        if (paginaActual > 0) { 
+            paginaActual--; 
+            try {
+                cargarEnTabla(); 
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página anterior: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+               
+            }
+        }    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+// 
+        if (paginaActual < totalPaginas - 1) { 
+            paginaActual++; 
+            try {
+                cargarEnTabla(); 
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página siguiente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                
+            }
+        }    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void txtFiltroBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroBusquedaActionPerformed
+
+    private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+
+            this.paginaActual = 0;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+
+    }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
+
+    private void actualizarEstadoPaginacion() {
+        // Actualiza el texto del label de la página
+        if (totalElementos == 0) {
+            lblPaginaActual.setText("No hay empleados para mostrar");
+        } else {
+            lblPaginaActual.setText("Página " + (paginaActual + 1) + " de " + totalPaginas);
+        }
+
+        // Habilita/deshabilita el botón "Anterior"
+        btnAnterior.setEnabled(paginaActual > 0);
+
+        // Habilita/deshabilita el botón "Siguiente"
+        btnSiguiente.setEnabled(paginaActual < totalPaginas - 1);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarEmpleadoBTN;
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblPaginaActual;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel tituloLbl;
+    private javax.swing.JTextField txtFiltroBusqueda;
     // End of variables declaration//GEN-END:variables
 }

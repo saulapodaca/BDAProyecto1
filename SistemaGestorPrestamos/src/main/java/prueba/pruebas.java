@@ -27,7 +27,7 @@ public class pruebas {
         EmpleadoDAO empleado = new EmpleadoDAO(conexion);
         
         GuardarEmpleadoDTO empleado1 = new GuardarEmpleadoDTO("popusa","rusa","lizo","522451","modelito1",1);
-        FiltroDTO filtro = new FiltroDTO (2,0,"");
+        FiltroDTO filtro = new FiltroDTO (2,0,"",1);
         empleado.guardar(empleado1);
         //System.out.println(empleado.buscarTabla(filtro));
     }
