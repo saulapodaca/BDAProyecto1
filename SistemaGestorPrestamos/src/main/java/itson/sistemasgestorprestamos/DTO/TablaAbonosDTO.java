@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 public class TablaAbonosDTO {
     private int id;
     private LocalDateTime fecha;
-    private double monto;
+    private Float monto;
     private int idJefe;
     private int idPrestamo;
 
-    public TablaAbonosDTO(int id, LocalDateTime fecha, double monto, int idJefe, int idPrestamo) {
+    public TablaAbonosDTO(int id, LocalDateTime fecha, Float monto, int idJefe, int idPrestamo) {
         this.id = id;
         this.fecha = fecha;
         this.monto = monto;
@@ -33,11 +33,19 @@ public class TablaAbonosDTO {
         this.id = id;
     }
 
-    public double getMonto() {
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
     }
 
@@ -61,6 +69,6 @@ public class TablaAbonosDTO {
     public String toString() {
         return "TablaAbonosDTO{" + "id=" + id + ", fecha=" + fecha + ", monto=" + monto + ", idJefe=" + idJefe + ", idPrestamo=" + idPrestamo + '}';
     }
-    
+
     
 }

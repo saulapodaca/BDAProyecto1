@@ -16,8 +16,8 @@ public class RegistrarAbonoDTO {
     private int idJefe;
     private int idPrestamo;
 
-    public RegistrarAbonoDTO(LocalDateTime fechaHora, float monto, int idJefe, int idPrestamo) {
-        this.fechaHora = fechaHora;
+    public RegistrarAbonoDTO(float monto, int idJefe, int idPrestamo) {
+        this.fechaHora = LocalDateTime.now();
         this.monto = monto;
         this.idJefe = idJefe;
         this.idPrestamo = idPrestamo;
