@@ -4,6 +4,18 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.utilidades.Editor;
+import itson.sistemagestorprestamos.utilidades.Renderer;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaAbonosDTO;
+import itson.sistemasgestorprestamos.Negocio.AbonoNegocio;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Camila Zubía
@@ -12,11 +24,42 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
 
     /**
      * Creates new form AdministrarAbonosFrm
+     * @throws itson.sistemasgestorprestamos.Negocio.NegocioException
      */
-    public AdministrarAbonosFrm() {
+    public AdministrarAbonosFrm() throws NegocioException {
         initComponents();
     }
+    
+    
+    private void agregarBotonInfo(JTable tabla) {
+        tabla.getColumn("INFO").setCellRenderer(new Renderer("Info"));
+        tabla.getColumn("INFO").setCellEditor(new Editor(tabla, "Info"));
+    }
+    
+    private void cargarAbonosEnTabla(List<TablaAbonosDTO> abonos) {
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID", "Fecha", "Monto", "ID Jefe", "ID Préstamo", "INFO"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 5;
+            }
+        };
 
+        for (TablaAbonosDTO abono : abonos) {
+            modelo.addRow(new Object[]{
+                abono.getId(),
+                abono.getFecha(),
+                abono.getMonto(),
+                abono.getIdJefe(),
+                abono.getIdPrestamo(),
+                "Info"
+            });
+        }
+
+        tabla.setModel(modelo);
+        agregarBotonInfo(tabla);
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +75,7 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        txtFiltroBusqueda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,17 +86,15 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         jSeparator1.setName("Separador"); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
+        tituloLbl.setBackground(new java.awt.Color(255, 255, 255));
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
         tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("ADMINISTRAR ABONOS");
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
-        tabla.setBackground(new java.awt.Color(255, 255, 255));
-        tabla.setForeground(new java.awt.Color(0, 0, 0));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -68,11 +110,22 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         tabla.setPreferredSize(new java.awt.Dimension(1272, 560));
         jScrollPane1.setViewportView(tabla);
 
+        txtFiltroBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroBusquedaActionPerformed(evt);
+            }
+        });
+        txtFiltroBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroBusquedaKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFondoLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelFondoLayout.createSequentialGroup()
@@ -82,10 +135,12 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                         .addComponent(tituloLbl))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(70, 70, 70)
+                        .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -93,13 +148,19 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(133, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,6 +187,14 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtFiltroBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroBusquedaActionPerformed
+
+    private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
+        
+    }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -135,5 +204,6 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel tituloLbl;
+    private javax.swing.JTextField txtFiltroBusqueda;
     // End of variables declaration//GEN-END:variables
 }
