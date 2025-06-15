@@ -43,4 +43,5 @@ public class FiltroDTO {
     public void setFiltro(String filtro) {
         this.filtro = filtro;
     }
+    
 }
