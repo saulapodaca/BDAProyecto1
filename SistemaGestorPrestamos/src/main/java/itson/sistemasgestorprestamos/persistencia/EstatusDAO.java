@@ -96,10 +96,9 @@ public class EstatusDAO implements IEstatusDAO{
             statement.setInt(6, filtro.getOffset());
             
             ResultSet set = statement.executeQuery();
-            List<TablaEstatusDTO> estatus = null;
+            List<TablaEstatusDTO> estatus = new ArrayList<>();
             while(set.next()){
                 if(estatus == null){
-                    estatus = new ArrayList<>();
                     estatus.add(this.convertirTablaEstatusDTO(set));
                 }
             }
@@ -107,7 +106,7 @@ public class EstatusDAO implements IEstatusDAO{
             statement.close();
             connection.close();
             
-            if (estatus == null) {
+            if (estatus.isEmpty()) {
                 throw new PersistenciaException("no se encontraron estatus");
             }
             return estatus;
