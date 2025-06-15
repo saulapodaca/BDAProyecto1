@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author adell
  */
-public class EmpleadoDAO implements IEmpleadoDAO{
+public class EmpleadoDAO implements IEmpleadoDAO {
 
     private IConexionBD conexion;
 
@@ -68,16 +68,13 @@ public class EmpleadoDAO implements IEmpleadoDAO{
             // final de la transaccion
             connection.commit();
             System.out.println("Empleado creado:");
-            
 
             EmpleadosDominio empleadobuscado = null;
             while (resultSet.next()) {
                 id = resultSet.getInt(1);
                 empleadobuscado = this.buscarEmpleadoPorId(id);
             }
-            
-            
-            
+
             return empleadobuscado;
         } catch (SQLException e) {
             throw new PersistenciaException("Ocurrio un error al guardar" + e.getMessage());
@@ -111,7 +108,7 @@ public class EmpleadoDAO implements IEmpleadoDAO{
                             de.nombre
                          FROM empleados as em
                          INNER JOIN departamentos as de
-                         on em.id = de.id    
+                         on em.id_departamento = de.id    
                            WHERE
                              em.nombres LIKE ?
                              or em.apellidoPaterno LIKE ?
@@ -160,32 +157,39 @@ public class EmpleadoDAO implements IEmpleadoDAO{
         try {
             Connection connection = this.conexion.crearConexion();
             String select = """
-                                SELECT nombres, apellidoPaterno, apellidoMaterno FROM `finanzasglobales`.`empleados`
-                                WHERE `ID` =  ?;
-                                """;
+                         SELECT
+                            id,               
+                            nombres,
+                            apellidoPaterno,
+                            apellidoMaterno,
+                            estatus,          
+                            usuario,          
+                            contraseña,       
+                            id_departamento   
+                         FROM `finanzasglobales`.`empleados`
+                         WHERE `id` = ?;      
+                         """;
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 EmpleadosDominio empleado = this.convertirEmpleadosDominio(resultSet);
-                System.out.println( empleado.getNombres() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
+                System.out.println(empleado.getNombres() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
                 return empleado;
             } else {
-
                 System.out.println("No se encontró ningún empleado con ID: " + id);
                 return null;
             }
         } catch (SQLException e) {
-            throw new PersistenciaException("Ocurrio un error al buscar el empleado" + e.getMessage());
-
+            throw new PersistenciaException("Ocurrio un error al buscar el empleado: " + e.getMessage());
+        } finally {
         }
-
     }
-    
+
     @Override
     public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException {
-        try{
+        try {
             Connection conn = conexion.crearConexion();
             String query = """
                            SELECT * 
@@ -196,40 +200,40 @@ public class EmpleadoDAO implements IEmpleadoDAO{
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, empleado.getUsuario());
             statement.setString(2, empleado.getContraseña());
-            
+
             ResultSet set = statement.executeQuery();
             SesionEmpleadoDTO em = null;
-            while(set.next()){
+            while (set.next()) {
                 em = this.convertirSesionEmpleado(set);
             }
-            
+
             set.close();
             statement.close();
-            
+
             if (em == null) {
                 throw new PersistenciaException("No se encontró el empleado");
             }
-            
+
             return em;
-            
-        }catch(SQLException ex){
+
+        } catch (SQLException ex) {
             throw new PersistenciaException("Ocurrio un error al hacer login " + ex.getMessage());
         }
     }
-    
-    private EmpleadosDominio convertirEmpleadosDominio(ResultSet set) throws SQLException{
-           int id = set.getInt("id");
-           String nombres = set.getString("nombres");
-           String apellidoPaterno = set.getString("apellidoPaterno");
-           String apellidoMaterno = set.getString("apellidoMaterno");
-           boolean estatus = set.getBoolean("estatus");
-           String usuario = set.getString("usuario");
-           String contraseña = set.getString("contraseña");
-           int idDepartamento = set.getInt("id_departamento");
-           return new EmpleadosDominio(id, nombres, apellidoPaterno, apellidoMaterno, estatus, usuario, contraseña, idDepartamento);
+
+    private EmpleadosDominio convertirEmpleadosDominio(ResultSet set) throws SQLException {
+        int id = set.getInt("id");
+        String nombres = set.getString("nombres");
+        String apellidoPaterno = set.getString("apellidoPaterno");
+        String apellidoMaterno = set.getString("apellidoMaterno");
+        boolean estatus = set.getBoolean("estatus");
+        String usuario = set.getString("usuario");
+        String contraseña = set.getString("contraseña");
+        int idDepartamento = set.getInt("id_departamento");
+        return new EmpleadosDominio(id, nombres, apellidoPaterno, apellidoMaterno, estatus, usuario, contraseña, idDepartamento);
     }
-    
-    private SesionEmpleadoDTO convertirSesionEmpleado(ResultSet set) throws SQLException{
+
+    private SesionEmpleadoDTO convertirSesionEmpleado(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         String nombres = set.getString("nombres");
         String apellidoPaterno = set.getString("apellidoPaterno");

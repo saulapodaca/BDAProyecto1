@@ -5,7 +5,10 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.empleadoFachada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,10 +21,48 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
     /**
      * Creates new form AdministrarAbonosFrm
      */
-    public AdministrarEmpleadosFrm() {
+    public AdministrarEmpleadosFrm() throws NegocioException {
         initComponents();
+        this.cargarMetodosIniciales();
+
     }
     empleadoFachada empleado = new empleadoFachada();
+
+    public void cargarMetodosIniciales() throws NegocioException {
+        this.cargarEnTabla();
+    }
+
+    private void llenarTabla(List<TablaEmpleadoDTO> listaEmpleados) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (listaEmpleados != null) {
+            listaEmpleados.forEach(row
+                    -> {
+                Object[] fila = new Object[8];
+                fila[0] = row.getId();
+                fila[1] = row.getNombre();
+                fila[2] = row.getApellidoPaterno(); //
+                fila[3] = row.getApellidoMaterno();
+                modeloTabla.addRow(fila);
+
+            });
+        }
+
+    }
+
+    public void cargarEnTabla() throws NegocioException {
+
+        FiltroDTO filtro = new FiltroDTO(4, 2, "");
+        List<TablaEmpleadoDTO> listaEmpleado = this.empleado.buscarTabla(filtro);
+        this.llenarTabla(listaEmpleado);
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -145,6 +186,7 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void agregarEmpleadoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEmpleadoBTNActionPerformed
         // TODO add your handling code here:
