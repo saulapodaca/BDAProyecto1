@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
  * @author adell
  */
 public class EstatusDominio {
+    
     private int id;
-    private String nombre;
+    private Estatus nombreEstatus;
     private LocalDateTime fechaHora;
     private int idJefe;
     private int idPrestamo;
@@ -20,9 +21,9 @@ public class EstatusDominio {
     public EstatusDominio() {
     }
 
-    public EstatusDominio(int id, String nombre, LocalDateTime fechaHora, int idJefe, int idPrestamo) {
+    public EstatusDominio(int id, Estatus nombreEstatus, LocalDateTime fechaHora, int idJefe, int idPrestamo) {
         this.id = id;
-        this.nombre = nombre;
+        this.nombreEstatus = nombreEstatus;
         this.fechaHora = fechaHora;
         this.idJefe = idJefe;
         this.idPrestamo = idPrestamo;
@@ -34,14 +35,6 @@ public class EstatusDominio {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public LocalDateTime getFechaHora() {
@@ -67,5 +60,12 @@ public class EstatusDominio {
     public void setIdPrestamo(int idPrestamo) {
         this.idPrestamo = idPrestamo;
     }
-    
+
+    public Estatus getNombreEstatus() {
+        return nombreEstatus;
+    }
+
+    public void setNombreEstatus(Estatus nombreEstatus) {
+        this.nombreEstatus = nombreEstatus;
+    }
 }

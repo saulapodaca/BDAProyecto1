@@ -14,6 +14,7 @@ public class PrestamosDominio {
     private int id;
     private LocalDateTime fechaHora;
     private float monto;
+    private Estatus estatus;
     private int tipoPrestamo;
     private int cuentaDepartamento;
     private int cuentaEmpleado;
@@ -21,10 +22,11 @@ public class PrestamosDominio {
     public PrestamosDominio() {
     }
 
-    public PrestamosDominio(int id, LocalDateTime fechaHora, float monto, int tipoPrestamo, int cuentaDepartamento, int cuentaEmpleado) {
+    public PrestamosDominio(int id, LocalDateTime fechaHora, float monto, Estatus estatus, int tipoPrestamo, int cuentaDepartamento, int cuentaEmpleado) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.monto = monto;
+        this.estatus = estatus;
         this.tipoPrestamo = tipoPrestamo;
         this.cuentaDepartamento = cuentaDepartamento;
         this.cuentaEmpleado = cuentaEmpleado;
@@ -76,6 +78,14 @@ public class PrestamosDominio {
 
     public void setCuentaEmpleado(int cuentaEmpleado) {
         this.cuentaEmpleado = cuentaEmpleado;
+    }
+
+    public Estatus getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Estatus estatus) {
+        this.estatus = estatus;
     }
     
     
