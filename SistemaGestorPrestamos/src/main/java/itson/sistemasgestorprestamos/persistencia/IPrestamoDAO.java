@@ -19,7 +19,6 @@ import java.util.List;
 public interface IPrestamoDAO {
     
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException;
-    public PrestamosDominio abonarPrestamo(RegistrarAbonoDTO abono) throws PersistenciaException;
     public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException;
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException;
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;

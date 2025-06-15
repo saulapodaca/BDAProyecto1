@@ -67,13 +67,6 @@ public class PrestamoDAO implements IPrestamoDAO{
     }
 
     @Override
-    public PrestamosDominio abonarPrestamo(RegistrarAbonoDTO abono) throws PersistenciaException {
-        
-        return null;
-        
-    }
-
-    @Override
     public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException {
         
         return null;
@@ -123,7 +116,9 @@ public class PrestamoDAO implements IPrestamoDAO{
 
     @Override
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return null;
+        
     }
     
     private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
