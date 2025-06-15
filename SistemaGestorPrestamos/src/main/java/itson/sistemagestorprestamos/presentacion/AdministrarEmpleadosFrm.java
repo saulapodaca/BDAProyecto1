@@ -10,7 +10,6 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
-import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -274,25 +273,25 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarEmpleadoBTNActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        if (paginaActual > 0) { 
-            paginaActual--; 
+        if (paginaActual > 0) {
+            paginaActual--;
             try {
-                cargarEnTabla(); 
+                cargarEnTabla();
             } catch (NegocioException ex) {
                 JOptionPane.showMessageDialog(this, "Error al cargar la página anterior: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-               
+
             }
         }    }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
 // 
-        if (paginaActual < totalPaginas - 1) { 
-            paginaActual++; 
+        if (paginaActual < totalPaginas - 1) {
+            paginaActual++;
             try {
-                cargarEnTabla(); 
+                cargarEnTabla();
             } catch (NegocioException ex) {
                 JOptionPane.showMessageDialog(this, "Error al cargar la página siguiente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                
+
             }
         }    }//GEN-LAST:event_btnSiguienteActionPerformed
 
