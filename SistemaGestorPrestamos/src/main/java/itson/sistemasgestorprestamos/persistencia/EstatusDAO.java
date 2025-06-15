@@ -4,10 +4,136 @@
  */
 package itson.sistemasgestorprestamos.persistencia;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.TablaEstatusDTO;
+import itson.sistemasgestorprestamos.dominios.Estatus;
+import itson.sistemasgestorprestamos.dominios.EstatusDominio;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Camila Zubía
  */
-public class EstatusDAO {
+public class EstatusDAO implements IEstatusDAO{
     
+    private IConexionBD conexion;
+
+    public EstatusDAO(IConexionBD conexion) {
+        this.conexion = conexion;
+    }
+
+    @Override
+    public EstatusDominio buscarPorId(int id) throws PersistenciaException {
+        Connection connection = null;
+        try{
+            connection = this.conexion.crearConexion();
+            String query = """
+                           SELECT 
+                           id,
+                           nombre,
+                           fecha_hora,
+                           id_jefe,
+                           id_prestamo
+                           FROM estatus
+                           WHERE id = ?
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet set = statement.executeQuery();
+            EstatusDominio estatus = null;
+            if(set.next()) {
+                estatus = this.convertirEstatusDominio(set);
+            }
+            set.close();
+            statement.close();
+            connection.close();
+
+            if (estatus == null) {
+                throw new PersistenciaException("No se encontró el estatus con id " + id);
+            }
+
+            return estatus;
+            
+        }catch (SQLException ex) {
+            throw new PersistenciaException("Ocurrió un error al buscar el estatus: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        try{
+            connection = this.conexion.crearConexion();
+            String query = """
+                           SELECT 
+                           id,
+                           nombre,
+                           fecha_hora,
+                           id_jefe,
+                           id_prestamo
+                           FROM estatus
+                           WHERE (CAST(nombre AS CHAR) LIKE ?
+                           OR CAST(fecha_hora AS CHAR) LIKE ?
+                           OR CAST(id_jefe AS CHAR) LIKE ?
+                           OR CAST (id_prestamo AS CHAR) LIKE ?)
+                           LIMIT ?
+                           OFFSET ?
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query);
+            String filtroConLike = "%" + filtro.getFiltro() + "%";
+            statement.setString(1, filtroConLike);
+            statement.setString(2, filtroConLike);
+            statement.setString(3, filtroConLike);
+            statement.setString(4, filtroConLike);
+            statement.setInt(5, filtro.getLimit());
+            statement.setInt(6, filtro.getOffset());
+            
+            ResultSet set = statement.executeQuery();
+            List<TablaEstatusDTO> estatus = null;
+            while(set.next()){
+                if(estatus == null){
+                    estatus = new ArrayList<>();
+                    estatus.add(this.convertirTablaEstatusDTO(set));
+                }
+            }
+            set.close();
+            statement.close();
+            connection.close();
+            
+            if (estatus == null) {
+                throw new PersistenciaException("no se encontraron estatus");
+            }
+            return estatus;
+            
+        }catch (SQLException ex) {
+            throw new PersistenciaException("Ocurrió un error al buscar la tabla: " + ex.getMessage());
+        }
+    }
+    
+    private EstatusDominio convertirEstatusDominio(ResultSet set) throws SQLException{
+        int id = set.getInt("id");
+        String txtEstatus = set.getString("nombre");
+        Estatus estatus = Estatus.fromString(txtEstatus);
+        LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
+        int idJefe = set.getInt("id_jefe");
+        int idPrestamo = set.getInt("id_prestamo");
+        return new EstatusDominio(id, estatus, fechaHora, idJefe, idPrestamo);
+    }
+    
+    private TablaEstatusDTO convertirTablaEstatusDTO(ResultSet set) throws SQLException {
+        int id = set.getInt("id");
+        String txtEstatus = set.getString("nombre");
+        Estatus estatus = Estatus.fromString(txtEstatus);
+        LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
+        int idJefe = set.getInt("id_jefe");
+        int idPrestamo = set.getInt("id_prestamo");
+        return new TablaEstatusDTO(id, estatus, fechaHora, idJefe, idPrestamo);
+    }
 }

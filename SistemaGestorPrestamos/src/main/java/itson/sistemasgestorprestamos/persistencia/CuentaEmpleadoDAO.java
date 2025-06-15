@@ -152,12 +152,12 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
     }
 
     private CuentasEmpleadosDominio convertirCuentaDominio(ResultSet resultado) throws SQLException {
-        int id = resultado.getInt("idCuentaEmpleado");
+        int id = resultado.getInt("id");
         String clabe = resultado.getString("clabe");
-        String estatus = resultado.getString("estatus");
-        String banco = resultado.getString("banco");
+        String estatus = resultado.getString("activo");
+        String banco = resultado.getString("nombre_banco");
         float saldo = resultado.getFloat("saldo");
-        int idEmpleado = resultado.getInt("idEmpelado");
+        int idEmpleado = resultado.getInt("id_empelado");
         return new CuentasEmpleadosDominio(id, clabe, estatus, banco, saldo, idEmpleado);
     }
 }

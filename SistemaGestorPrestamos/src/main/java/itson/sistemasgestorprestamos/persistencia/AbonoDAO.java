@@ -32,60 +32,88 @@ public class AbonoDAO implements IAbonoDAO{
     @Override
     public AbonoDominio registrarAbono(RegistrarAbonoDTO abono) throws PersistenciaException {
         Connection connection = null;
-        try{
+        try {
             connection = this.conexion.crearConexion();
             connection.setAutoCommit(false);
-            String query = """
-                           INSERT INTO abonos
-                           (monto,
-                           id_jefe,
-                           id_prestamo)
-                           VALUES(?,?,?)
-                           """;
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setFloat(1, abono.getMonto());
-            statement.setInt(2, abono.getIdJefe());
-            statement.setInt(3, abono.getIdPrestamo());
             
-            int filasAfectadas = statement.executeUpdate();
-            if (filasAfectadas == 0) {
-                throw new PersistenciaException("No se registro el abono");
-            }
-            ResultSet set = statement.getGeneratedKeys();
-            if (!set.next()) {
-                connection.rollback();
-                throw new PersistenciaException("No se obtuvo el ID del abono insertado");
+            String validarMontoQuery = "SELECT monto FROM prestamos WHERE id = ?";
+            try (PreparedStatement validarStmt = connection.prepareStatement(validarMontoQuery)) {
+                validarStmt.setInt(1, abono.getIdPrestamo());
+                try (ResultSet rs = validarStmt.executeQuery()) {
+                    if (rs.next()) {
+                        float montoActual = rs.getFloat("monto");
+                        if (abono.getMonto() > montoActual) {
+                            connection.rollback();
+                            throw new PersistenciaException("El monto del abono excede el monto restante del préstamo.");
+                        }
+                    } else {
+                        connection.rollback();
+                        throw new PersistenciaException("No se encontró el préstamo con ID " + abono.getIdPrestamo());
+                    }
+                }
             }
 
-            int id = set.getInt(1);
-            String query2 = """
-                            UPDATE prestamos
-                            SET
-                            monto = monto - ?
-                            WHERE id = ?
-                            """;
-            PreparedStatement statement2 = connection.prepareStatement(query2);
-            statement2.setFloat(1, abono.getMonto());
-            statement2.setInt(2, abono.getIdPrestamo());
-            
-            statement2.executeUpdate();
-            
-            connection.commit();
-            AbonoDominio abonoBuscado = this.buscarPorID(id);
-            return abonoBuscado;
-            
-        }catch (SQLException ex) {
-            try {
-                if (connection != null) {
+            String insertAbonoQuery = """
+            INSERT INTO abonos (monto, id_jefe, id_prestamo)
+            VALUES (?, ?, ?)
+        """;
+            int idAbonoGenerado;
+            try (PreparedStatement insertStmt = connection.prepareStatement(insertAbonoQuery, Statement.RETURN_GENERATED_KEYS)) {
+                insertStmt.setFloat(1, abono.getMonto());
+                insertStmt.setInt(2, abono.getIdJefe());
+                insertStmt.setInt(3, abono.getIdPrestamo());
+
+                int filasAfectadas = insertStmt.executeUpdate();
+                if (filasAfectadas == 0) {
                     connection.rollback();
+                    throw new PersistenciaException("No se registró el abono.");
                 }
-            } catch (SQLException rollbackEx) {
-                throw new PersistenciaException("Error al hacer rollback: " + rollbackEx.getMessage());
+
+                try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
+                    if (!generatedKeys.next()) {
+                        connection.rollback();
+                        throw new PersistenciaException("No se obtuvo el ID del abono insertado.");
+                    }
+                    idAbonoGenerado = generatedKeys.getInt(1);
+                }
+            }
+
+            String updatePrestamoQuery = "UPDATE prestamos SET monto = monto - ? WHERE id = ?";
+            try (PreparedStatement updateStmt = connection.prepareStatement(updatePrestamoQuery)) {
+                updateStmt.setFloat(1, abono.getMonto());
+                updateStmt.setInt(2, abono.getIdPrestamo());
+
+                int filasActualizadas = updateStmt.executeUpdate();
+                if (filasActualizadas == 0) {
+                    connection.rollback();
+                    throw new PersistenciaException("No se actualizó el monto del préstamo.");
+                }
+            }
+
+            connection.commit();
+
+            return this.buscarPorID(idAbonoGenerado);
+
+        } catch (SQLException ex) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackEx) {
+                    throw new PersistenciaException("Error al hacer rollback: " + rollbackEx.getMessage());
+                }
             }
             throw new PersistenciaException("Ocurrió un error al registrar el abono: " + ex.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                throw new PersistenciaException("Error al cerrar la conexión: " + ex.getMessage());
+            }
         }
     }
-    
     
     @Override
     public AbonoDominio buscarPorID(int id) throws PersistenciaException {
@@ -107,7 +135,7 @@ public class AbonoDAO implements IAbonoDAO{
             
             ResultSet set = statement.executeQuery();
             AbonoDominio abono = null;
-            while (set.next()) {
+            if(set.next()) {
                 abono = this.convertirAbonoDominio(set);
             }
             
@@ -128,54 +156,48 @@ public class AbonoDAO implements IAbonoDAO{
 
     @Override
     public List<TablaAbonosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
-        try{
-            Connection connection = this.conexion.crearConexion();
-            String query = """
-                           SELECT 
-                           id,
-                           fecha_hora,
-                           monto,
-                           id_jefe,
-                           id_prestamo
-                           FROM abonos
-                           WHERE ( CAST(fecha_hora AS CHAR) LIKE ?
-                           OR CAST(monto AS CHAR) LIKE ?
-                           OR CAST(id_jefe AS CHAR) LIKE ?
-                           OR CAST(id_prestamo AS CHAR) LIKE ?)
-                           LIMIT ?
-                           OFFSET ?
-                           """;
-            String filtroConLike = "%" + filtro.getFiltro() + "%";
-            PreparedStatement statement = connection.prepareStatement(query);
+        String query = """
+                   SELECT 
+                   id,
+                   fecha_hora,
+                   monto,
+                   id_jefe,
+                   id_prestamo
+                   FROM abonos
+                   WHERE ( CAST(fecha_hora AS CHAR) LIKE ?
+                       OR CAST(monto AS CHAR) LIKE ?
+                       OR CAST(id_jefe AS CHAR) LIKE ?
+                       OR CAST(id_prestamo AS CHAR) LIKE ?)
+                   LIMIT ?
+                   OFFSET ?
+                   """;
+
+        List<TablaAbonosDTO> abonos = new ArrayList<>();
+        String filtroConLike = "%" + filtro.getFiltro() + "%";
+
+        try (Connection connection = this.conexion.crearConexion(); PreparedStatement statement = connection.prepareStatement(query)) {
+
             statement.setString(1, filtroConLike);
             statement.setString(2, filtroConLike);
             statement.setString(3, filtroConLike);
             statement.setString(4, filtroConLike);
             statement.setInt(5, filtro.getLimit());
             statement.setInt(6, filtro.getOffset());
-            
-            ResultSet set = statement.executeQuery();
-            List<TablaAbonosDTO> abonos = null;
-            while (set.next()) {
 
-                if (abonos == null) {
-                    abonos = new ArrayList<>();
+            try (ResultSet set = statement.executeQuery()) {
+                while (set.next()) {
+                    abonos.add(this.convertirTablaAbonosDTO(set));
                 }
-
-                abonos.add(this.convertirTablaAbonosDTO(set));
             }
 
-            set.close();
-            statement.close();
-            connection.close();
-            if (abonos == null) {
+            if (abonos.isEmpty()) {
                 throw new PersistenciaException("No se encontraron abonos");
             }
 
             return abonos;
 
         } catch (SQLException ex) {
-            throw new PersistenciaException("Ocurrio un error al buscar una tabla " + ex.getMessage());
+            throw new PersistenciaException("Ocurrió un error al buscar la tabla de abonos: " + ex.getMessage());
         }
     }
     
