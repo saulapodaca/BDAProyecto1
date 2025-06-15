@@ -5,6 +5,8 @@
 package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
+import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
 
 /**
@@ -14,4 +16,7 @@ import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
 public interface IPrestamoDAO {
     
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException;
+    public PrestamosDominio abonarPrestamo(RegistrarAbonoDTO abono) throws PersistenciaException;
+    public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException;
+    public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException;
 }
