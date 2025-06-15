@@ -7,6 +7,7 @@ package itson.sistemagestorprestamos.fachada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.EmpleadoNegocio;
 import itson.sistemasgestorprestamos.Negocio.IEmpleadoNegocio;
@@ -49,7 +50,7 @@ public class empleadoFachada implements IEmpleadoFachada {
     }
 
     @Override
-    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
+    public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
         return this.empleadoNegocio.buscarPorUsuarioYContraseña(empleado);
     }
 

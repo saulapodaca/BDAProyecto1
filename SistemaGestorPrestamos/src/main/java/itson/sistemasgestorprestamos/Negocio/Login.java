@@ -5,7 +5,7 @@
 package itson.sistemasgestorprestamos.Negocio;
 
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
-import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.persistencia.ConexionBD;
 import itson.sistemasgestorprestamos.persistencia.EmpleadoDAO;
 import itson.sistemasgestorprestamos.persistencia.IConexionBD;
@@ -23,7 +23,7 @@ public class Login {
         this.empleadoDAO = new EmpleadoDAO(conexionBD);
     }
     
-    public EmpleadosDominio login(LoginEmpleadoDTO empleado) throws PersistenciaException{
+    public SesionEmpleadoDTO login(LoginEmpleadoDTO empleado) throws PersistenciaException{
         return empleadoDAO.buscarPorUsuarioYContraseña(empleado);
     }
 }

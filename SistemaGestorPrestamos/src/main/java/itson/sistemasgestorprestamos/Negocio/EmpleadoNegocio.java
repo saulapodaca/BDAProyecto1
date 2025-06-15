@@ -7,6 +7,7 @@ package itson.sistemasgestorprestamos.Negocio;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import itson.sistemasgestorprestamos.persistencia.IEmpleadoDAO;
@@ -28,7 +29,7 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     }
 
     @Override
-    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
+    public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
         try {
             return EmpleadoDAO.buscarPorUsuarioYContraseña(empleado);
         } catch (PersistenciaException ex) {

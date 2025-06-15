@@ -8,6 +8,7 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -167,11 +168,7 @@ public class EmpleadoDAO implements IEmpleadoDAO{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                EmpleadosDominio empleado = new EmpleadosDominio();
-                empleado.setNombres(resultSet.getString("nombres"));
-                empleado.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
-                empleado.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
-
+                EmpleadosDominio empleado = this.convertirEmpleadosDominio(resultSet);
                 System.out.println( empleado.getNombres() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
                 return empleado;
             } else {
@@ -187,7 +184,7 @@ public class EmpleadoDAO implements IEmpleadoDAO{
     }
     
     @Override
-    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException {
+    public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException {
         try{
             Connection conn = conexion.crearConexion();
             String query = """
@@ -201,9 +198,9 @@ public class EmpleadoDAO implements IEmpleadoDAO{
             statement.setString(2, empleado.getContraseña());
             
             ResultSet set = statement.executeQuery();
-            EmpleadosDominio em = null;
+            SesionEmpleadoDTO em = null;
             while(set.next()){
-                em = this.convertirEmpleadosDominio(set);
+                em = this.convertirSesionEmpleado(set);
             }
             
             set.close();
@@ -230,5 +227,14 @@ public class EmpleadoDAO implements IEmpleadoDAO{
            String contraseña = set.getString("contraseña");
            int idDepartamento = set.getInt("id_departamento");
            return new EmpleadosDominio(id, nombres, apellidoPaterno, apellidoMaterno, estatus, usuario, contraseña, idDepartamento);
+    }
+    
+    private SesionEmpleadoDTO convertirSesionEmpleado(ResultSet set) throws SQLException{
+        int id = set.getInt("id");
+        String nombres = set.getString("nombres");
+        String apellidoPaterno = set.getString("apellidoPaterno");
+        String apellidoMaterno = set.getString("apellidoMaterno");
+        int idDepartamento = set.getInt("id_departamento");
+        return new SesionEmpleadoDTO(id, nombres, apellidoPaterno, apellidoMaterno, idDepartamento);
     }
 }

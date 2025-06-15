@@ -3,8 +3,8 @@ package itson.sistemagestorprestamos.presentacion;
 import itson.sistemagestorprestamos.fachada.empleadoFachada;
 import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
-import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -190,7 +190,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         String contraseña = FieldContraseña.getText();
         LoginEmpleadoDTO sesion1 = new LoginEmpleadoDTO(usuario, contraseña);
         try {
-            EmpleadosDominio e = empleado.buscarPorUsuarioYContraseña(sesion1);
+            SesionEmpleadoDTO e = empleado.buscarPorUsuarioYContraseña(sesion1);
             SesionIniciada.getInstancia().iniciarSesion(e);
             
             MenuJefeForm ventana = new MenuJefeForm();

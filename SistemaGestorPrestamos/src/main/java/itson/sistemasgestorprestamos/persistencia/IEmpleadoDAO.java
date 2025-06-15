@@ -8,6 +8,7 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface IEmpleadoDAO {
     
-    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException;
+    public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException;
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException;
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException;
     public List<TablaEmpleadoDTO> buscarTabla (FiltroDTO filtro) throws PersistenciaException;

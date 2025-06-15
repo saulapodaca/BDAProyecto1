@@ -4,7 +4,7 @@
  */
 package itson.sistemagestorprestamos.utilidades;
 
-import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 
 /**
  *
@@ -13,7 +13,7 @@ import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 public class SesionIniciada {
     
     private static SesionIniciada instancia;
-    private EmpleadosDominio empleado;
+    private SesionEmpleadoDTO empleado;
 
     public SesionIniciada() {
     }
@@ -25,11 +25,11 @@ public class SesionIniciada {
         return instancia;
     }
     
-    public void iniciarSesion(EmpleadosDominio empleado){
+    public void iniciarSesion(SesionEmpleadoDTO empleado){
         this.empleado = empleado;
     }
 
-    public EmpleadosDominio getEmpleado() {
+    public SesionEmpleadoDTO getEmpleado() {
         return empleado;
     }
     
