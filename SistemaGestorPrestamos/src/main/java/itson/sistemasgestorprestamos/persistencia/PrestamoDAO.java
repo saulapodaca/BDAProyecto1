@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -54,8 +55,10 @@ public class PrestamoDAO implements IPrestamoDAO{
             ResultSet set = statement.getGeneratedKeys();
             
             if (set.next()) {
-                
+                int idGenerado = set.getInt(1);
+                return this.buscarPorId(idGenerado);
             }
+
             
         }catch (SQLException ex) {
             throw new PersistenciaException("Ocurrió un error al buscar el abono: " + ex.getMessage());
@@ -65,17 +68,57 @@ public class PrestamoDAO implements IPrestamoDAO{
 
     @Override
     public PrestamosDominio abonarPrestamo(RegistrarAbonoDTO abono) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return null;
+        
     }
 
     @Override
     public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return null;
+        
     }
 
     @Override
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection connection = null;
+        try{
+            connection = this.conexion.crearConexion();
+            String query = """
+                           SELECT 
+                           id,
+                           fecha_hora,
+                           monto,
+                           estatusActual,
+                           id_tipo,
+                           id_cuenta_departamento,
+                           id_cuenta_empleado
+                           FROM prestamos
+                           WHERE id = ?
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, idPrestamo);
+
+            ResultSet set = statement.executeQuery();
+            PrestamosDominio prestamo = null;
+            while (set.next()) {
+                prestamo = this.convertirPrestamoDominio(set);
+            }
+            
+            set.close();
+            statement.close();
+            connection.close();
+
+            if (prestamo == null) {
+                throw new PersistenciaException("No se encontró el prestamo con id " + idPrestamo);
+            }
+
+            return prestamo;
+            
+        }catch (SQLException ex) {
+            throw new PersistenciaException("Ocurrió un error al buscar el abono: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -83,4 +126,15 @@ public class PrestamoDAO implements IPrestamoDAO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
+        int id = set.getInt("id");
+        LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
+        float monto = set.getFloat("monto");
+        String txtEstatus = set.getString("estatusActual");
+        Estatus estatus = Estatus.fromString(txtEstatus);
+        int idTipo = set.getInt("id_tipo");
+        int idCuentaDepa = set.getInt("id_cuenta_departamento");
+        int idCuentaEmpleado = set.getInt("id_cuenta_empleado");
+        return new PrestamosDominio(id, fechaHora, monto, estatus, idTipo, idCuentaDepa, idCuentaEmpleado);
+    }
 }

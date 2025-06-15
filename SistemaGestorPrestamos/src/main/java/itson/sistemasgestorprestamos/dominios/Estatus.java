@@ -13,5 +13,14 @@ public enum Estatus {
     Rechazado,
     Autorizado,
     Pagado,
-    Completado
+    Completado;
+    
+    public static Estatus fromString(String estatusStr) {
+        for (Estatus estatus : values()) {
+            if (estatus.name().equalsIgnoreCase(estatusStr)) {
+                return estatus;
+            }
+        }
+        throw new IllegalArgumentException("Estatus inválido: " + estatusStr);
+    }
 }
