@@ -1,16 +1,37 @@
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.empleadoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author saula
  */
 public class InicioSesionFrm extends javax.swing.JFrame {
 
+    empleadoFachada empleado = new empleadoFachada();
+
     /**
      * Creates new form InicioSesionFrm
      */
     public InicioSesionFrm() {
         initComponents();
+    }
+
+    public static void main(String[] args) {
+        // Usa SwingUtilities.invokeLater para asegurar que la interfaz gráfica se crea en el Event Dispatch Thread (EDT)
+        // Esto es una buena práctica para evitar problemas de concurrencia en Swing
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                InicioSesionFrm ventana = new InicioSesionFrm(); // Crea una instancia de tu ventana
+                ventana.setVisible(true); // Hace visible la ventana
+            }
+        });
     }
 
     /**
@@ -39,25 +60,20 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         PanelFondo.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("INICIO DE SESION");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("CONTRASEÑA");
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("USUARIO");
 
         FieldUsuario.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        FieldUsuario.setText("INGRESE SU NOMBRE DE USUARIO");
         FieldUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FieldUsuarioActionPerformed(evt);
@@ -65,7 +81,6 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         });
 
         FieldContraseña.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        FieldContraseña.setText("INGRESE CONTRASEÑA");
         FieldContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FieldContraseñaActionPerformed(evt);
@@ -74,8 +89,12 @@ public class InicioSesionFrm extends javax.swing.JFrame {
 
         btnIniciarSesion.setBackground(new java.awt.Color(51, 204, 0));
         btnIniciarSesion.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        btnIniciarSesion.setForeground(new java.awt.Color(0, 0, 0));
         btnIniciarSesion.setText("INICIAR SESION");
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarSesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -164,6 +183,24 @@ public class InicioSesionFrm extends javax.swing.JFrame {
     private void FieldContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FieldContraseñaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FieldContraseñaActionPerformed
+
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+        // TODO add your handling code here:
+        String usuario = FieldUsuario.getText();
+        String contraseña = FieldContraseña.getText();
+        LoginEmpleadoDTO sesion1 = new LoginEmpleadoDTO(usuario, contraseña);
+        try {
+            EmpleadosDominio e = empleado.buscarPorUsuarioYContraseña(sesion1);
+            SesionIniciada.getInstancia().iniciarSesion(e);
+            
+            MenuJefeForm ventana = new MenuJefeForm();
+            ventana.setVisible(true);         
+        } catch (NegocioException ex) {
+            Logger.getLogger(InicioSesionFrm.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("error vv");
+        }
+
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField FieldContraseña;

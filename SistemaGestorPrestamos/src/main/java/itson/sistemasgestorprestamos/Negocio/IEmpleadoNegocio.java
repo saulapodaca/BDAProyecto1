@@ -6,6 +6,7 @@ package itson.sistemasgestorprestamos.Negocio;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.LoginEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.List;
@@ -16,9 +17,11 @@ import java.util.List;
  */
 public interface IEmpleadoNegocio {
 
+    public EmpleadosDominio buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException;
+
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws NegocioException;
 
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws NegocioException;
 
-    public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro)throws NegocioException;
+    public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
 }

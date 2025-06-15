@@ -194,7 +194,7 @@ public class EmpleadoDAO implements IEmpleadoDAO{
                            SELECT * 
                            FROM empleados 
                            WHERE usuario = ? 
-                           AND contrasena = ?
+                           AND contraseña = ?
                            """;
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, empleado.getUsuario());
@@ -224,7 +224,7 @@ public class EmpleadoDAO implements IEmpleadoDAO{
            int id = set.getInt("id");
            String nombres = set.getString("nombres");
            String apellidoPaterno = set.getString("apellidoPaterno");
-           String apellidoMaterno = set.getString("String apellidoMaterno");
+           String apellidoMaterno = set.getString("apellidoMaterno");
            boolean estatus = set.getBoolean("estatus");
            String usuario = set.getString("usuario");
            String contraseña = set.getString("contraseña");
