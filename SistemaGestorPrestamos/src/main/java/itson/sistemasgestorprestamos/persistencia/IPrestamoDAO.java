@@ -22,7 +22,7 @@ public interface IPrestamoDAO {
     
     public PrestamosDominio guardarSolicitud(SolicitudPrestamoDTO solicitud) throws PersistenciaException;
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException;
-    public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException;
+    public PrestamosDominio cambiarEstatus(int id, Estatus estatus) throws PersistenciaException;
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException;
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;
     

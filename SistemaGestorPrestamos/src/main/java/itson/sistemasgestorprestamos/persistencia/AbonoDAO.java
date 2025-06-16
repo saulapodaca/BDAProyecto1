@@ -54,8 +54,11 @@ public class AbonoDAO implements IAbonoDAO{
             }
 
             String insertAbonoQuery = """
-            INSERT INTO abonos (monto, id_jefe, id_prestamo)
-            VALUES (?, ?, ?)
+                                       INSERT INTO abonos 
+                                      (monto, 
+                                      id_jefe, 
+                                      id_prestamo)
+                                      VALUES (?, ?, ?)
         """;
             int idAbonoGenerado;
             try (PreparedStatement insertStmt = connection.prepareStatement(insertAbonoQuery, Statement.RETURN_GENERATED_KEYS)) {
@@ -78,7 +81,11 @@ public class AbonoDAO implements IAbonoDAO{
                 }
             }
 
-            String updatePrestamoQuery = "UPDATE prestamos SET monto = monto - ? WHERE id = ?";
+            String updatePrestamoQuery = """
+                                         UPDATE prestamos 
+                                        SET monto = monto - ? 
+                                        WHERE id = ?
+                                        """;
             try (PreparedStatement updateStmt = connection.prepareStatement(updatePrestamoQuery)) {
                 updateStmt.setFloat(1, abono.getMonto());
                 updateStmt.setInt(2, abono.getIdPrestamo());
@@ -175,7 +182,8 @@ public class AbonoDAO implements IAbonoDAO{
         List<TablaAbonosDTO> abonos = new ArrayList<>();
         String filtroConLike = "%" + filtro.getFiltro() + "%";
 
-        try (Connection connection = this.conexion.crearConexion(); PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = this.conexion.crearConexion(); 
+                PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, filtroConLike);
             statement.setString(2, filtroConLike);

@@ -4,13 +4,13 @@
  */
 package itson.sistemasgestorprestamos.persistencia;
 
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
-import itson.sistemasgestorprestamos.persistencia.IPrestamoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -112,10 +112,63 @@ public class PrestamoDAO implements IPrestamoDAO {
     }
 
     @Override
-    public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException {
-
-        return null;
-
+    public PrestamosDominio cambiarEstatus(int id, Estatus estatus) throws PersistenciaException {
+        Connection connection = null;
+        try {
+            connection = this.conexion.crearConexion();
+            connection.setAutoCommit(false);
+            String query = """
+                           UPDATE prestamos
+                           SET estatusActual = ?
+                           WHERE id = ?
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, estatus.toString());
+            statement.setInt(2, id);
+            int filasActualizadas = statement.executeUpdate();
+            if (filasActualizadas == 0) {
+                connection.rollback();
+                throw new PersistenciaException("No se actualizó el monto del préstamo.");
+            }
+            
+            String query2 ="""
+                           INSERT INTO estatus
+                           (nombre,
+                           fecha_hora,
+                           id_jefe,
+                           id_prestamo)
+                           VALUES(?,?,?,?)
+                           """;
+            PreparedStatement statement2 = connection.prepareStatement(query2, Statement.RETURN_GENERATED_KEYS);
+            statement2.setString(1, estatus.toString());
+            statement2.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            statement2.setInt(3, SesionIniciada.getInstancia().getEmpleado().getId());
+            statement2.setInt(4, id);
+            statement2.executeUpdate(query2);
+            
+            connection.commit();
+            
+            return this.buscarPorId(id);
+            
+        }catch (SQLException ex) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackEx) {
+                    throw new PersistenciaException("Error al hacer rollback: " + rollbackEx.getMessage());
+                }
+            }
+            throw new PersistenciaException("Ocurrió un error al registrar el abono: " + ex.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                throw new PersistenciaException("Error al cerrar la conexión: " + ex.getMessage());
+            }
+        }
     }
 
     @Override
