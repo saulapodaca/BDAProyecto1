@@ -4,6 +4,17 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.EstatusFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaEstatusDTO;
+import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Camila Zubía
@@ -19,6 +30,73 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
         initComponents();
         this.consultaPrestamoFrm = consultaPrestamoFrm;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+    
+    private int paginaActual = 0;
+    private final int LIMITE_POR_PAGINA = 1;
+    private int totalElementos = 0;
+    private int totalPaginas = 0;
+
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
+    EstatusFachada estatus = new EstatusFachada();
+    
+    public void cargarMetodosIniciales() throws NegocioException {
+        this.cargarEnTabla();
+    }
+
+    private void llenarTabla(List<TablaEstatusDTO> historialEstatus) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (historialEstatus != null) {
+            historialEstatus.forEach(row
+                    -> {
+                Object[] fila = new Object[8];
+                fila[0] = row.getId();
+                modeloTabla.addRow(fila);
+
+            });
+        }
+
+    }
+
+    public void cargarEnTabla() throws NegocioException {
+
+        if (jefe == null) {
+            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver los empleados.", "Sesión no iniciada", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        int idDepartamentoJefe = jefe.getIdDepartamento();
+
+        String textoFiltro = txtFiltroBusqueda.getText();
+        FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
+
+        //this.totalElementos = this.estatus.contarTotalPrestamos(filtroConteo);
+
+        this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
+
+        if (paginaActual >= totalPaginas && totalPaginas > 0) {
+            paginaActual = totalPaginas - 1;
+        } else if (totalPaginas == 0) {
+            paginaActual = 0;
+        }
+
+        int offset = paginaActual * LIMITE_POR_PAGINA;
+
+        FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
+
+        if (estatus.buscarTabla(filtroActual) == null) {
+            JOptionPane.showMessageDialog(this, "la tabla es nula");
+        }
+        List<TablaEstatusDTO> listaEstatus = this.estatus.buscarTabla(filtroActual);
+        this.llenarTabla(listaEstatus);
+
     }
 
     /**
@@ -36,6 +114,9 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        txtFiltroBusqueda = new javax.swing.JTextField();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +154,31 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
         tabla.setPreferredSize(new java.awt.Dimension(1272, 560));
         jScrollPane1.setViewportView(tabla);
 
+        txtFiltroBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroBusquedaActionPerformed(evt);
+            }
+        });
+        txtFiltroBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroBusquedaKeyReleased(evt);
+            }
+        });
+
+        btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setText("Sigueinte");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -84,13 +190,20 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(358, 358, 358)
+                        .addComponent(btnAnterior)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSiguiente))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(338, 338, 338)
-                        .addComponent(tituloLbl)))
+                        .addComponent(tituloLbl))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -101,10 +214,19 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnterior)
+                            .addComponent(btnSiguiente))
+                        .addGap(99, 99, 99))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,14 +259,59 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
+    private void txtFiltroBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroBusquedaActionPerformed
+
+    private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+
+            this.paginaActual = 0;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        if (paginaActual > 0) {
+            paginaActual--;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página anterior: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        //
+        if (paginaActual < totalPaginas - 1) {
+            paginaActual++;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página siguiente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel tituloLbl;
+    private javax.swing.JTextField txtFiltroBusqueda;
     // End of variables declaration//GEN-END:variables
 }
