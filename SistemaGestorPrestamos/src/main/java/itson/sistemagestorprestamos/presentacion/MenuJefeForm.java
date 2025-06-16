@@ -46,12 +46,14 @@ public class MenuJefeForm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("MENU ADMINISTRADOR");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
         btnAdministrarCuentasDpto.setBackground(new java.awt.Color(200, 200, 200));
         btnAdministrarCuentasDpto.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnAdministrarCuentasDpto.setForeground(new java.awt.Color(0, 0, 0));
         btnAdministrarCuentasDpto.setText("ADMINISTRAR CUENTAS DPTO");
         btnAdministrarCuentasDpto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAdministrarCuentasDpto.addActionListener(new java.awt.event.ActionListener() {
@@ -62,6 +64,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
         btnAdministrarEmpleados.setBackground(new java.awt.Color(200, 200, 200));
         btnAdministrarEmpleados.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnAdministrarEmpleados.setForeground(new java.awt.Color(0, 0, 0));
         btnAdministrarEmpleados.setText("ADMINISTRAR EMPLEADOS");
         btnAdministrarEmpleados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAdministrarEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -72,11 +75,13 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
         btnAdministrarSubordinados.setBackground(new java.awt.Color(200, 200, 200));
         btnAdministrarSubordinados.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnAdministrarSubordinados.setForeground(new java.awt.Color(0, 0, 0));
         btnAdministrarSubordinados.setText("ADMINISTRAR SUBORDINADOS");
         btnAdministrarSubordinados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnAutorizarPrestamos.setBackground(new java.awt.Color(200, 200, 200));
         btnAutorizarPrestamos.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnAutorizarPrestamos.setForeground(new java.awt.Color(0, 0, 0));
         btnAutorizarPrestamos.setText("AUTORIZAR PRESTAMOS");
         btnAutorizarPrestamos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAutorizarPrestamos.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +92,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
         btnAdminEstatusAbonos.setBackground(new java.awt.Color(200, 200, 200));
         btnAdminEstatusAbonos.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnAdminEstatusAbonos.setForeground(new java.awt.Color(0, 0, 0));
         btnAdminEstatusAbonos.setText("ADMINISTRAR ESTATUS Y ABONOS");
         btnAdminEstatusAbonos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAdminEstatusAbonos.addActionListener(new java.awt.event.ActionListener() {
@@ -97,6 +103,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
         btnMenuEmpleados.setBackground(new java.awt.Color(200, 200, 200));
         btnMenuEmpleados.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnMenuEmpleados.setForeground(new java.awt.Color(0, 0, 0));
         btnMenuEmpleados.setText("MENU DE EMPLEADOS");
         btnMenuEmpleados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnMenuEmpleados.addActionListener(new java.awt.event.ActionListener() {
