@@ -11,6 +11,8 @@ import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Camila Zubía
  */
 public class AdministrarPrestamosFrm extends javax.swing.JFrame {
-    
+
     private MenuJefeForm menuJefeFrm;
 
     /**
@@ -31,7 +33,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.cargarMetodosIniciales();
     }
-    
+
     private int paginaActual = 0;
     private final int LIMITE_POR_PAGINA = 10;
     private int totalElementos = 0;
@@ -39,11 +41,11 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
 
     SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     prestamoFachada prestamo = new prestamoFachada();
-    
+
     public void cargarMetodosIniciales() throws NegocioException {
         this.cargarEnTabla();
     }
-    
+
     private void llenarTabla(List<TablaPrestamosDTO> listaEmpleados) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
 
@@ -67,7 +69,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         }
 
     }
-    
+
     public void cargarEnTabla() throws NegocioException {
 
         if (jefe == null) {
@@ -93,7 +95,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         int offset = paginaActual * LIMITE_POR_PAGINA;
 
         FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
-        
+
         if (prestamo.buscarTabla(filtroActual) == null) {
             JOptionPane.showMessageDialog(this, "la tabla es nula");
         }
@@ -117,6 +119,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnRegresar1 = new javax.swing.JButton();
+        btnConsultar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +157,13 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
             }
         });
 
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -166,7 +176,9 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(290, 290, 290)
+                        .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
                         .addComponent(tituloLbl)))
@@ -182,7 +194,9 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42))
         );
 
@@ -210,9 +224,25 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
-   
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tabla.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            int idPrestamo = (int) tabla.getValueAt(filaSeleccionada, 0);
+            try {
+                prestamo.buscarPorId(idPrestamo);
+                System.out.println(prestamo.buscarPorId(idPrestamo));
+                new ConsultaPrestamoFrm(this, idPrestamo).setVisible(true);
+            } catch (NegocioException ex) {
+                Logger.getLogger(AdministrarPrestamosFrm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnRegresar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

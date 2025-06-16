@@ -4,21 +4,83 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.CuentaDepartamentoFachada;
+import itson.sistemagestorprestamos.fachada.prestamoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.CuentasDepartamentosDominio;
+import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Camila Zubía
  */
 public class ConsultaPrestamoFrm extends javax.swing.JFrame {
-    
+
     private AdministrarPrestamosFrm adminPrestamosFrm;
+    int id;
+    prestamoFachada prestamo = new prestamoFachada();
 
     /**
      * Creates new form ConsultaPrestamoFrm
+     *
+     * @param adminPrestamosFrm
+     * @param id
      */
-    public ConsultaPrestamoFrm(AdministrarPrestamosFrm adminPrestamosFrm) {
+    public ConsultaPrestamoFrm(AdministrarPrestamosFrm adminPrestamosFrm, int id) throws NegocioException {
         initComponents();
         this.adminPrestamosFrm = adminPrestamosFrm;
+        cargarCuentasComboBox();
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.id = id;
+        mostrarInfo();
+    }
+
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
+    CuentaDepartamentoFachada cuenta = new CuentaDepartamentoFachada();
+
+    private void cargarCuentasComboBox() {
+        SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
+        int id = empleado.getId();
+
+        FiltroDTO filtro = new FiltroDTO(10, 0, String.valueOf(id));
+
+        try {
+            List<CuentasDepartamentosDominio> cuentas = cuenta.buscarCuentasDepartamentosPorId(filtro);
+            comboBoxCuentas.removeAllItems();
+
+            for (CuentasDepartamentosDominio cuenta : cuentas) {
+                System.out.println("Cuenta: " + cuenta.getClabe());
+                comboBoxCuentas.addItem(cuenta.getClabe());
+            }
+
+        } catch (NegocioException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar cuentas: " + e.getMessage());
+        }
+    }
+
+    private void mostrarInfo() throws NegocioException {
+        try {
+            PrestamosDominio prestamoInfo = prestamo.buscarPorId(id);
+
+            if (prestamoInfo != null) {
+                String info = "ID del prestamo: " + prestamoInfo.getId() + "\n"
+                        + "Fecha: " + prestamoInfo.getFechaHora() + "\n"
+                        + "Monto: " + prestamoInfo.getMonto() + "\n"
+                        + "Estatus: " + prestamoInfo.getEstatus() + "\n"
+                        + "ID del tipo: " + prestamoInfo.getTipoPrestamo() + "\n"
+                        + "ID de la cuenta del departamento: " + prestamoInfo.getCuentaDepartamento() + "\n"
+                        + "ID de la cuenta del empleado: " + prestamoInfo.getCuentaEmpleado();
+                txtAreaComprobante.setText(info);
+            }
+        } catch (NegocioException ex) {
+            throw new NegocioException("error al imprimir la informacion");
+        }
     }
 
     /**
@@ -34,22 +96,14 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         tituloLbl = new javax.swing.JLabel();
         btnRegresar1 = new javax.swing.JButton();
-        lblNombre = new javax.swing.JLabel();
-        lblParcialidades = new javax.swing.JLabel();
-        lblFecha = new javax.swing.JLabel();
-        lblMonto = new javax.swing.JLabel();
-        lblEstatus = new javax.swing.JLabel();
-        txtFieldNombre = new javax.swing.JTextField();
-        txtFieldParcialidades = new javax.swing.JTextField();
-        txtFieldFecha = new javax.swing.JTextField();
-        txtFieldMonto = new javax.swing.JTextField();
-        txtFieldEstatus = new javax.swing.JTextField();
         btnConsultarHistorial = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaComprobante = new javax.swing.JTextArea();
         lblCambiarEstatus = new javax.swing.JLabel();
-        comboBoxEstatus = new javax.swing.JComboBox<>();
         btnConfirmarCambio = new javax.swing.JButton();
+        lblCambiarEstatus1 = new javax.swing.JLabel();
+        comboBoxEstatus1 = new javax.swing.JComboBox<>();
+        comboBoxCuentas = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,41 +124,6 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             }
         });
 
-        lblNombre.setBackground(new java.awt.Color(255, 255, 255));
-        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblNombre.setText("Nombre:");
-
-        lblParcialidades.setBackground(new java.awt.Color(255, 255, 255));
-        lblParcialidades.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblParcialidades.setText("Parcialidades:");
-
-        lblFecha.setBackground(new java.awt.Color(255, 255, 255));
-        lblFecha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblFecha.setText("Fecha:");
-
-        lblMonto.setBackground(new java.awt.Color(255, 255, 255));
-        lblMonto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblMonto.setText("Monto:");
-
-        lblEstatus.setBackground(new java.awt.Color(255, 255, 255));
-        lblEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblEstatus.setText("Estatus actual:");
-
-        txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldParcialidades.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldParcialidades.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldFecha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldMonto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldMonto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtFieldEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldEstatus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         btnConsultarHistorial.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnConsultarHistorial.setText("Consultar Historial");
         btnConsultarHistorial.addActionListener(new java.awt.event.ActionListener() {
@@ -122,14 +141,27 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         lblCambiarEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblCambiarEstatus.setText("Cambiar estatus:");
 
-        comboBoxEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        comboBoxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RECHAZADO", "AUTORIZADO", "PAGADO", "PAGADO PARCIALMENTE", "COMPLETADO" }));
-
         btnConfirmarCambio.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnConfirmarCambio.setText("Confirmar cambio");
         btnConfirmarCambio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarCambioActionPerformed(evt);
+            }
+        });
+
+        lblCambiarEstatus1.setBackground(new java.awt.Color(255, 255, 255));
+        lblCambiarEstatus1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblCambiarEstatus1.setText("Cuentas Departamento:");
+
+        comboBoxEstatus1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comboBoxEstatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RECHAZADO", "AUTORIZADO", "PAGADO", "PAGADO PARCIALMENTE", "COMPLETADO" }));
+
+        comboBoxCuentas.setBackground(new java.awt.Color(153, 153, 153));
+        comboBoxCuentas.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        comboBoxCuentas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCuentasActionPerformed(evt);
             }
         });
 
@@ -143,34 +175,31 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(286, 286, 286)
-                        .addComponent(tituloLbl))
-                    .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelFondoLayout.createSequentialGroup()
                                 .addGap(89, 89, 89)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblParcialidades)
-                                    .addComponent(lblNombre)
-                                    .addComponent(lblFecha)
-                                    .addComponent(lblMonto)
-                                    .addComponent(lblEstatus)
-                                    .addComponent(lblCambiarEstatus)))
+                                    .addComponent(lblCambiarEstatus)
+                                    .addComponent(lblCambiarEstatus1)))
                             .addGroup(panelFondoLayout.createSequentialGroup()
                                 .addGap(19, 19, 19)
                                 .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(77, 77, 77)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFieldEstatus, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(txtFieldParcialidades, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(txtFieldFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(txtFieldMonto, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(btnConsultarHistorial)
-                            .addComponent(comboBoxEstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnConfirmarCambio))))
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(77, 77, 77)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnConsultarHistorial)
+                                    .addComponent(btnConfirmarCambio)))
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboBoxEstatus1, 0, 382, Short.MAX_VALUE)
+                                    .addComponent(comboBoxCuentas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(286, 286, 286)
+                        .addComponent(tituloLbl)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -178,35 +207,20 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(135, 135, 135)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombre)
-                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(lblCambiarEstatus1)
+                            .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblParcialidades)
-                            .addComponent(txtFieldParcialidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFecha)
-                            .addComponent(txtFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblMonto)
-                            .addComponent(txtFieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblEstatus)
-                            .addComponent(txtFieldEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCambiarEstatus)
-                            .addComponent(comboBoxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(comboBoxEstatus1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
                         .addComponent(btnConfirmarCambio)
                         .addGap(43, 43, 43)
                         .addComponent(btnConsultarHistorial))
@@ -257,28 +271,23 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnConsultarHistorialActionPerformed
 
-    
+    private void comboBoxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCuentasActionPerformed
+
+    }//GEN-LAST:event_comboBoxCuentasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmarCambio;
     private javax.swing.JButton btnConsultarHistorial;
     private javax.swing.JButton btnRegresar1;
-    private javax.swing.JComboBox<String> comboBoxEstatus;
+    private javax.swing.JComboBox comboBoxCuentas;
+    private javax.swing.JComboBox<String> comboBoxEstatus1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblCambiarEstatus;
-    private javax.swing.JLabel lblEstatus;
-    private javax.swing.JLabel lblFecha;
-    private javax.swing.JLabel lblMonto;
-    private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblParcialidades;
+    private javax.swing.JLabel lblCambiarEstatus1;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel tituloLbl;
     private javax.swing.JTextArea txtAreaComprobante;
-    private javax.swing.JTextField txtFieldEstatus;
-    private javax.swing.JTextField txtFieldFecha;
-    private javax.swing.JTextField txtFieldMonto;
-    private javax.swing.JTextField txtFieldNombre;
-    private javax.swing.JTextField txtFieldParcialidades;
     // End of variables declaration//GEN-END:variables
 }
