@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class InicioSesionFrm extends javax.swing.JFrame {
 
-    empleadoFachada empleado = new empleadoFachada();
+     empleadoFachada empleado = new empleadoFachada();
 
     /**
      * Creates new form InicioSesionFrm
@@ -194,14 +194,13 @@ public class InicioSesionFrm extends javax.swing.JFrame {
             SesionIniciada.getInstancia().iniciarSesion(e);
 
             if (empleado.esJefe(e.getId())) {
-                MenuJefeForm ventana = new MenuJefeForm();
+                MenuJefeForm ventana = new MenuJefeForm(this);
                 ventana.setVisible(true);
-                System.out.println("jefe ");
             } else {
-                MenuEmpleadoFrm ventana = new MenuEmpleadoFrm();
+                MenuEmpleadoFrm ventana = new MenuEmpleadoFrm(this);
                 ventana.setVisible(true);
-                System.out.println("empleado");
             }
+            this.setVisible(false);
 
         } catch (NegocioException ex) {
             Logger.getLogger(InicioSesionFrm.class.getName()).log(Level.SEVERE, null, ex);

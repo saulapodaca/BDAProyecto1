@@ -10,11 +10,15 @@ package itson.sistemagestorprestamos.presentacion;
  */
 public class MenuEmpleadoFrm extends javax.swing.JFrame {
 
+    private InicioSesionFrm inicioFrm;
+    
     /**
      * Creates new form MenuEmpleadoFrm
      */
-    public MenuEmpleadoFrm() {
+    public MenuEmpleadoFrm(InicioSesionFrm inicioFrm) {
         initComponents();
+        this.inicioFrm = inicioFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -49,6 +53,11 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
         btnAdminCuentas.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         btnAdminCuentas.setText("ADMINSTRAR CUENTAS BANCARIAS");
         btnAdminCuentas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnAdminCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminCuentasActionPerformed(evt);
+            }
+        });
 
         btnSolicitarPrestamo.setBackground(new java.awt.Color(200, 200, 200));
         btnSolicitarPrestamo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -61,6 +70,11 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
         });
 
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,10 +129,25 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        inicioFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
+
+    private void btnAdminCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCuentasActionPerformed
+        // TODO add your handling code here:
+        new AdministrarCuentasBancariasFrm(this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAdminCuentasActionPerformed
+
     private void btnSolicitarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPrestamoActionPerformed
         // TODO add your handling code here:
-        SolicitudPrestamo2Frm ventana = new SolicitudPrestamo2Frm();
-        ventana.setVisible(true);
+        new SolicitarPrestamoFrm(this).setVisible(true);
+        this.setVisible(false);
+
     }//GEN-LAST:event_btnSolicitarPrestamoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
