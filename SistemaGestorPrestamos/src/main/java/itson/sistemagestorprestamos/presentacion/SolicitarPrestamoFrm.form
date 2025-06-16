@@ -109,6 +109,9 @@
               <Image iconType="3" name="/flechaanterior2.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegresar1ActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
@@ -226,6 +229,9 @@
                   <Image iconType="3" name="/prestamoAutomotriz.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAutomotrizActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnPersonal">
               <Properties>
@@ -236,6 +242,9 @@
                   <Image iconType="3" name="/prestamoPersonal.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPersonalActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnHipotecario">
               <Properties>
@@ -246,6 +255,9 @@
                   <Image iconType="3" name="/prestamoHipotecario.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHipotecarioActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEstudiantil">
               <Properties>
@@ -256,6 +268,9 @@
                   <Image iconType="3" name="/prestamoEstudiantil.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEstudiantilActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnNomina">
               <Properties>
@@ -384,6 +399,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="SIGUIENTE"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -7,18 +7,23 @@ package itson.sistemagestorprestamos.presentacion;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author saula
  */
 public class MenuJefeForm extends javax.swing.JFrame {
+    
+    private InicioSesionFrm inicioFrm;
 
     /**
      * Creates new form MenuJefeForm
      */
-    public MenuJefeForm() {
+    public MenuJefeForm(InicioSesionFrm inicioFrm) {
         initComponents();
+        this.inicioFrm = inicioFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -35,7 +40,6 @@ public class MenuJefeForm extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         btnAdministrarCuentasDpto = new javax.swing.JButton();
         btnAdministrarEmpleados = new javax.swing.JButton();
-        btnAdministrarSubordinados = new javax.swing.JButton();
         btnAutorizarPrestamos = new javax.swing.JButton();
         btnAdminEstatusAbonos = new javax.swing.JButton();
         btnMenuEmpleados = new javax.swing.JButton();
@@ -73,12 +77,6 @@ public class MenuJefeForm extends javax.swing.JFrame {
             }
         });
 
-        btnAdministrarSubordinados.setBackground(new java.awt.Color(200, 200, 200));
-        btnAdministrarSubordinados.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        btnAdministrarSubordinados.setForeground(new java.awt.Color(0, 0, 0));
-        btnAdministrarSubordinados.setText("ADMINISTRAR SUBORDINADOS");
-        btnAdministrarSubordinados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         btnAutorizarPrestamos.setBackground(new java.awt.Color(200, 200, 200));
         btnAutorizarPrestamos.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         btnAutorizarPrestamos.setForeground(new java.awt.Color(0, 0, 0));
@@ -93,7 +91,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
         btnAdminEstatusAbonos.setBackground(new java.awt.Color(200, 200, 200));
         btnAdminEstatusAbonos.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         btnAdminEstatusAbonos.setForeground(new java.awt.Color(0, 0, 0));
-        btnAdminEstatusAbonos.setText("ADMINISTRAR ESTATUS Y ABONOS");
+        btnAdminEstatusAbonos.setText("ADMINISTRAR ABONOS");
         btnAdminEstatusAbonos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAdminEstatusAbonos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +111,11 @@ public class MenuJefeForm extends javax.swing.JFrame {
         });
 
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,7 +134,6 @@ public class MenuJefeForm extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnAdministrarCuentasDpto, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAdministrarSubordinados, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAdministrarEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAutorizarPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAdminEstatusAbonos, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,19 +150,17 @@ public class MenuJefeForm extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(btnAdministrarEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAdministrarSubordinados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(btnAdministrarCuentasDpto, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(btnAutorizarPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(btnAdminEstatusAbonos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(btnMenuEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addGap(33, 33, 33)
                 .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -181,10 +181,14 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
     private void btnAdministrarCuentasDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarCuentasDptoActionPerformed
         // TODO add your handling code here:
+        new AdministrarCuentasDepartamentosFrm().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAdministrarCuentasDptoActionPerformed
 
     private void btnAutorizarPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizarPrestamosActionPerformed
-        // TODO add your handling code here:
+        new AdministrarPrestamosFrm().setVisible(true);
+        this.setVisible(false);
+        
     }//GEN-LAST:event_btnAutorizarPrestamosActionPerformed
 
     private void btnAdminEstatusAbonosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEstatusAbonosActionPerformed
@@ -193,12 +197,14 @@ public class MenuJefeForm extends javax.swing.JFrame {
             abonosFrm = new AdministrarAbonosFrm();
         } catch (NegocioException ex) {
             Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "error al abrir la ventana de abonos");
         }
         abonosFrm.setVisible(true);
     }//GEN-LAST:event_btnAdminEstatusAbonosActionPerformed
 
     private void btnMenuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEmpleadosActionPerformed
-        // TODO add your handling code here:
+        new MenuEmpleadoFrm(inicioFrm).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnMenuEmpleadosActionPerformed
 
     private void btnAdministrarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarEmpleadosActionPerformed
@@ -210,15 +216,21 @@ public class MenuJefeForm extends javax.swing.JFrame {
             ventana.setVisible(true);
         } catch (NegocioException ex) {
             Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "error al abrir la ventana de empleados");
         }
 
     }//GEN-LAST:event_btnAdministrarEmpleadosActionPerformed
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        inicioFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdminEstatusAbonos;
     private javax.swing.JButton btnAdministrarCuentasDpto;
     private javax.swing.JButton btnAdministrarEmpleados;
-    private javax.swing.JButton btnAdministrarSubordinados;
     private javax.swing.JButton btnAutorizarPrestamos;
     private javax.swing.JButton btnMenuEmpleados;
     private javax.swing.JButton btnRegresar1;

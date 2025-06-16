@@ -194,7 +194,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
             SesionIniciada.getInstancia().iniciarSesion(e);
 
             if (empleado.esJefe(e.getId())) {
-                MenuJefeForm ventana = new MenuJefeForm();
+                MenuJefeForm ventana = new MenuJefeForm(this);
                 ventana.setVisible(true);
             } else {
                 MenuEmpleadoFrm ventana = new MenuEmpleadoFrm(this);

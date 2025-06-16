@@ -142,12 +142,14 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
 
     private void btnAdminCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCuentasActionPerformed
         // TODO add your handling code here:
-        new AdministrarCuentasBancariasFrm().setVisible(true);
+        new AdministrarCuentasBancariasFrm(this).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAdminCuentasActionPerformed
 
     private void btnSolicitarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPrestamoActionPerformed
         // TODO add your handling code here:
-        new SolicitarPrestamoFrm().setVisible(true);
+        new SolicitarPrestamoFrm(this).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnSolicitarPrestamoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

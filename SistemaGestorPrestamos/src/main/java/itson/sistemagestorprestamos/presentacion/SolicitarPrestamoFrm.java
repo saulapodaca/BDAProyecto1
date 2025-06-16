@@ -6,11 +6,15 @@ package itson.sistemagestorprestamos.presentacion;
  */
 public class SolicitarPrestamoFrm extends javax.swing.JFrame {
 
+    private MenuEmpleadoFrm empleadoMenuFrm;
+    
     /**
      * Creates new form SolicitarPrestamoFrm
      */
-    public SolicitarPrestamoFrm() {
+    public SolicitarPrestamoFrm(MenuEmpleadoFrm empleadoMenuFrm) {
         initComponents();
+        this.empleadoMenuFrm = empleadoMenuFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -54,6 +58,11 @@ public class SolicitarPrestamoFrm extends javax.swing.JFrame {
 
         btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -65,15 +74,35 @@ public class SolicitarPrestamoFrm extends javax.swing.JFrame {
 
         btnAutomotriz.setBackground(new java.awt.Color(204, 204, 204));
         btnAutomotriz.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prestamoAutomotriz.png"))); // NOI18N
+        btnAutomotriz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAutomotrizActionPerformed(evt);
+            }
+        });
 
         btnPersonal.setBackground(new java.awt.Color(204, 204, 204));
         btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prestamoPersonal.png"))); // NOI18N
+        btnPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPersonalActionPerformed(evt);
+            }
+        });
 
         btnHipotecario.setBackground(new java.awt.Color(204, 204, 204));
         btnHipotecario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prestamoHipotecario.png"))); // NOI18N
+        btnHipotecario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHipotecarioActionPerformed(evt);
+            }
+        });
 
         btnEstudiantil.setBackground(new java.awt.Color(204, 204, 204));
         btnEstudiantil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prestamoEstudiantil.png"))); // NOI18N
+        btnEstudiantil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstudiantilActionPerformed(evt);
+            }
+        });
 
         btnNomina.setBackground(new java.awt.Color(204, 204, 204));
         btnNomina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prestamoNomina.png"))); // NOI18N
@@ -131,6 +160,11 @@ public class SolicitarPrestamoFrm extends javax.swing.JFrame {
         btnSiguiente.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         btnSiguiente.setForeground(new java.awt.Color(0, 0, 0));
         btnSiguiente.setText("SIGUIENTE");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -249,7 +283,36 @@ public class SolicitarPrestamoFrm extends javax.swing.JFrame {
 
     private void btnNominaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNominaActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnNominaActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        new SolicitudPrestamo2Frm().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        empleadoMenuFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
+
+    private void btnEstudiantilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudiantilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEstudiantilActionPerformed
+
+    private void btnAutomotrizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutomotrizActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAutomotrizActionPerformed
+
+    private void btnHipotecarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHipotecarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHipotecarioActionPerformed
+
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPersonalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
