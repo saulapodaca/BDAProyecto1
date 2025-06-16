@@ -1,61 +1,90 @@
 <!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
-<jasperReport name="reporteTiposPrestamos" language="javascript" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41a41a0e-e543-4a69-a713-6ec3481d3e6b">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<query language="sql"><![CDATA[]]></query>
+<jasperReport name="reportePrestamo" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="70b87ffb-94ec-4855-a3fc-a3fdf5065d46">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[$P{fechaInicio}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[$P{fechaFin}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="listaDepartamentos" class="java.util.Collection" nestedType="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{listaDepartamento}.toString()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="listaTiposPrestamos" class="java.util.Collection" nestedType="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{listaTiposPrestamos}.toString()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{nombreDelUsuarioQueLoMandoImprimir}]]></defaultValueExpression>
+	</parameter>
+	<query language="sql"><![CDATA[Select 
+tp.nombre_descriptivo, 
+d.nombre, p.fecha_hora, 
+concat_ws(" ", e.nombres,e.apellidoPaterno) as nombreSolicitante, 
+p.monto
+from tipos_prestamos tp 
+inner join  prestamos p on tp.id = p.id_tipo
+inner join cuentas_empleados ce on p.id_cuenta_empleado = ce.id
+inner join empleados e on ce.id_empleado = e.id
+inner join departamentos d on e.id_departamento = d.id]]></query>
+	<field name="tipoPrestamo" class="java.lang.String"/>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="fechaHora" class="java.time.LocalDateTime"/>
+	<field name="nombreSolicitante" class="java.lang.String"/>
+	<field name="montoSolicitado" class="java.lang.float"/>
 	<background splitType="Stretch"/>
-	<title height="49" splitType="Stretch">
-		<element kind="staticText" uuid="1a445703-31f8-4e78-833c-5218faa25a56" x="0" y="-20" width="559" height="39" fontName="Arial Black" fontSize="26.0" hTextAlign="Center">
+	<title height="94" splitType="Stretch">
+		<element kind="staticText" uuid="4722caa3-a3f9-4dfd-bbca-93caf10d5888" x="0" y="30" width="559" height="39" fontName="Arial Black" fontSize="26.0" hTextAlign="Center">
 			<text><![CDATA[Reporte de tipos de prestamos]]></text>
 		</element>
-		<element kind="textField" uuid="670fc985-fbd1-472c-aef5-0b4817f2caae" x="110" y="19" width="355" height="30" hTextAlign="Center">
-			<expression><![CDATA["Del " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin}) + "\n"]]></expression>
-		</element>
-		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 	</title>
-	<pageHeader height="66" splitType="Stretch">
-		<element kind="textField" uuid="0c5c5fea-2aaa-4af7-86a0-27d80a263fe1" x="110" y="7" width="368" height="52">
+	<pageHeader height="89" splitType="Stretch">
+		<element kind="textField" uuid="b27ec16d-da35-4277-b7e8-7952ed50cfb9" x="102" y="30" width="368" height="52" hTextAlign="Center">
 			<expression><![CDATA["Filtros aplicados:\n" +
 "Tipos: " + $P{listaTipoDepartamentos} + "\n" +
 "Departamentos: " + $P{listaDepartamentos} + "\n" +
 "Usuario: " + $P{nombreDelUsuarioQueLoMandoImprimir}]]></expression>
 		</element>
+		<element kind="textField" uuid="6a5b2b28-0954-417b-99c8-0826a020875d" x="102" y="0" width="355" height="30" hTextAlign="Center">
+			<expression><![CDATA["Del " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin}) + "\n"]]></expression>
+		</element>
 	</pageHeader>
-	<columnHeader height="35" splitType="Stretch">
-		<element kind="staticText" uuid="fd45c542-cfcd-4cb7-9784-1c910fe761b5" x="0" y="10" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
+	<columnHeader height="70" splitType="Stretch">
+		<element kind="staticText" uuid="ae00aee9-f3c6-42f1-b395-992c14c1c79d" x="0" y="40" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
 			<text><![CDATA[Tipo de prestamo]]></text>
 		</element>
-		<element kind="staticText" uuid="673daea4-55ec-462b-a9e2-9d0ca4230a85" x="110" y="10" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
-			<text><![CDATA[Departamento]]></text>
-		</element>
-		<element kind="staticText" uuid="6562d459-4639-48e2-ad9e-ff3432657e27" x="220" y="10" width="80" height="20" fontName="Arial Black" hTextAlign="Center">
-			<text><![CDATA[Fecha]]></text>
-		</element>
-		<element kind="staticText" uuid="b20b5620-b981-40bd-88f2-cb90afa70c49" x="300" y="10" width="130" height="20" fontName="Arial Black" hTextAlign="Center">
+		<element kind="staticText" uuid="d546ab76-b5fa-434e-a755-4214b8a88f3a" x="300" y="40" width="130" height="20" fontName="Arial Black" hTextAlign="Center">
 			<text><![CDATA[Nombre del solicitante]]></text>
 		</element>
-		<element kind="staticText" uuid="ff9e9247-4cec-4ac0-9749-2e4f8ecc22f0" x="430" y="10" width="120" height="20" fontName="Arial Black" hTextAlign="Center">
+		<element kind="staticText" uuid="ce89d4f6-3536-4500-bfba-b5b46989e3aa" x="430" y="40" width="120" height="20" fontName="Arial Black" hTextAlign="Center">
 			<text><![CDATA[Monto solicitado]]></text>
+		</element>
+		<element kind="staticText" uuid="28375877-4e95-4f32-be3e-004108279c4a" x="110" y="40" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Departamento]]></text>
+		</element>
+		<element kind="staticText" uuid="a7f2a723-2f56-4099-9b50-b3225bee1fd5" x="220" y="40" width="80" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Fecha]]></text>
 		</element>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<element kind="textField" uuid="28aa2fa5-f545-47f6-81b3-f6c6b0e8ae4a" x="0" y="0" width="110" height="20" fontName="Arial" hTextAlign="Center">
-				<expression><![CDATA[$F{tipoPrestamo}
-]]></expression>
-			</element>
-			<element kind="textField" uuid="d6895a52-0ea8-4d97-80bd-d5e7e2ff112b" x="110" y="0" width="110" height="20" fontName="Arial" hTextAlign="Center">
+		<band height="109" splitType="Stretch">
+			<element kind="textField" uuid="28285400-28bd-41b0-82d6-569b729c7991" x="110" y="10" width="110" height="20" fontName="Arial" hTextAlign="Center">
 				<expression><![CDATA[$F{departamento}
 ]]></expression>
 			</element>
-			<element kind="textField" uuid="d1bddf6a-f1ed-4294-9993-522cbecdc86d" x="220" y="0" width="80" height="20" fontName="Arial" hTextAlign="Center">
-				<expression><![CDATA[$F{fecha}
+			<element kind="textField" uuid="f549889a-bbfc-4fd5-9334-111484f5622f" x="0" y="10" width="110" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{tipoPrestamo}
 ]]></expression>
 			</element>
-			<element kind="textField" uuid="ac29c31a-05ab-469e-a9ce-240f446f1d6f" x="300" y="0" width="130" height="20" fontName="Arial" hTextAlign="Center">
+			<element kind="textField" uuid="45c9dd0c-46f1-4d73-9d5c-433efd302ea1" x="220" y="10" width="80" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{fechaHora}
+]]></expression>
+			</element>
+			<element kind="textField" uuid="240dc3c8-a202-4d6d-a9e1-1c5aa9200b4c" x="300" y="10" width="130" height="20" fontName="Arial" hTextAlign="Center">
 				<expression><![CDATA[$F{nombreSolicitante}
 ]]></expression>
 			</element>
-			<element kind="textField" uuid="9cc26782-138c-4f68-9505-2b36be75cf81" x="430" y="0" width="120" height="20" fontName="Arial" hTextAlign="Center">
+			<element kind="textField" uuid="14304b07-e1ad-458b-98dc-17f331d144f1" x="430" y="10" width="120" height="20" fontName="Arial" hTextAlign="Center">
 				<expression><![CDATA[$F{montoSolicitado}
 ]]></expression>
 			</element>

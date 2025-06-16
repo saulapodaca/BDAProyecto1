@@ -316,7 +316,7 @@ public class PrestamoDAO implements IPrestamoDAO {
             int index = 3;
             Connection connection = this.conexion.crearConexion();
             PreparedStatement comando = connection.prepareStatement(codigoSQL);
-            
+           
             Date fechaInicio = Date.valueOf(filtro.getFechaInicio());
             Date fechaFin = Date.valueOf(filtro.getFechaFin());
             comando.setDate(1, fechaInicio);
@@ -376,7 +376,7 @@ public class PrestamoDAO implements IPrestamoDAO {
                 INNER JOIN cuentas_empleados ce on p.id_cuenta_empleado = ce.id
                 INNER JOIN empleados e on ce.id_empleado = e.id
                 INNER JOIN departamentos d on e.id_departamento = d.id
-                WHERE p.fecha_hora between ? and ?                      
+                WHERE p.fecha_hora between ? and DATE_ADD(?, INTERVAL 1 DAY)                     
                                                         """);
 
         if (filtro.getTiposPrestamo() != null
