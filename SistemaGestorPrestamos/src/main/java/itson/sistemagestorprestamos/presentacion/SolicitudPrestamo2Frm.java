@@ -25,14 +25,14 @@ import javax.swing.JOptionPane;
  */
 public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
-    private SolicitarPrestamoFrm solicitarPrestamoFrm;
-
+    
+     private MenuEmpleadoFrm empleadoMenuFrm;
     /**
      * Creates new form SolicitudPrestamoFrm
      */
-    public SolicitudPrestamo2Frm(SolicitarPrestamoFrm solicitarPrestamoFrm) {
+    public SolicitudPrestamo2Frm(MenuEmpleadoFrm empleadoMenuFrm) {
         initComponents();
-        this.solicitarPrestamoFrm = solicitarPrestamoFrm;
+       
         cargarCuentasComboBox();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -270,16 +270,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
     }
 
     private void comboBoxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCuentasActionPerformed
-        // TODO add your handling code here:
 
-        // TODO add your handling code here:
-        // Obtener la instancia del empleado desde la sesión
-        SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
-        int id = empleado.getId();
-        String idEmpleado = String.valueOf(id);
-
-        // Crear el filtro con el idEmpleado para la consulta
-        FiltroDTO filtro = new FiltroDTO(0, 10, idEmpleado);
     }//GEN-LAST:event_comboBoxCuentasActionPerformed
 
     private void comboBoxTipoPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTipoPrestamoActionPerformed
@@ -342,7 +333,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        solicitarPrestamoFrm.setVisible(true);
+        empleadoMenuFrm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
