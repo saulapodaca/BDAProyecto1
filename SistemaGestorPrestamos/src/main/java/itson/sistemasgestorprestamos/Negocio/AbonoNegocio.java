@@ -46,7 +46,6 @@ public class AbonoNegocio implements IAbonoNegocio{
         try {
             this.limiteValido(filtro);
             this.offsetValido(filtro);
-            this.filtroValido(filtro);
             return AbonoDAO.buscarTabla(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(AbonoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,12 +101,6 @@ public class AbonoNegocio implements IAbonoNegocio{
     private void offsetValido(FiltroDTO filtro) throws NegocioException {
         if (filtro.getOffset() < 0) {
             throw new NegocioException("el offset no es valido");
-        }
-    }
-
-    private void filtroValido(FiltroDTO filtro) throws NegocioException {
-        if (filtro.getFiltro() == null || filtro.getFiltro().trim().isEmpty()) {
-            throw new NegocioException("el nombre no existe");
         }
     }
 }
