@@ -6,8 +6,10 @@ package itson.sistemasgestorprestamos.Negocio;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.ReportePrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
 import itson.sistemasgestorprestamos.persistencia.IPrestamoDAO;
@@ -84,6 +86,14 @@ public class PrestamoNegocio implements IPrestamoNegocio {
         return null;
     }
     
+    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws NegocioException{
+        try {
+            return PrestamoDAO.obtenerPrestamosFiltrados(filtro);
+        }catch (PersistenciaException ex){
+            throw new NegocioException(ex.getMessage());
+        }
+    }
+
     
     private void limiteValido(FiltroDTO filtro) throws NegocioException {
         if (filtro.getLimit() < 0) {

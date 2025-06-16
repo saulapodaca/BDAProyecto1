@@ -44,6 +44,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
         btnAdminEstatusAbonos = new javax.swing.JButton();
         btnMenuEmpleados = new javax.swing.JButton();
         btnRegresar1 = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +118,17 @@ public class MenuJefeForm extends javax.swing.JFrame {
             }
         });
 
+        btnReportes.setBackground(new java.awt.Color(200, 200, 200));
+        btnReportes.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        btnReportes.setForeground(new java.awt.Color(0, 0, 0));
+        btnReportes.setText("REPORTES");
+        btnReportes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -137,7 +149,8 @@ public class MenuJefeForm extends javax.swing.JFrame {
                                     .addComponent(btnAdministrarEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAutorizarPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAdminEstatusAbonos, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnMenuEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnMenuEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(304, 304, 304))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -160,9 +173,15 @@ public class MenuJefeForm extends javax.swing.JFrame {
                 .addComponent(btnAdminEstatusAbonos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(btnMenuEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -231,6 +250,10 @@ public class MenuJefeForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReportesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdminEstatusAbonos;
     private javax.swing.JButton btnAdministrarCuentasDpto;
@@ -238,6 +261,7 @@ public class MenuJefeForm extends javax.swing.JFrame {
     private javax.swing.JButton btnAutorizarPrestamos;
     private javax.swing.JButton btnMenuEmpleados;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;

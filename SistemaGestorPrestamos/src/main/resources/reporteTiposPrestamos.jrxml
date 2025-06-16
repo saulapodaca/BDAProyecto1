@@ -1,0 +1,67 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="reporteTiposPrestamos" language="javascript" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41a41a0e-e543-4a69-a713-6ec3481d3e6b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background splitType="Stretch"/>
+	<title height="49" splitType="Stretch">
+		<element kind="staticText" uuid="1a445703-31f8-4e78-833c-5218faa25a56" x="0" y="-20" width="559" height="39" fontName="Arial Black" fontSize="26.0" hTextAlign="Center">
+			<text><![CDATA[Reporte de tipos de prestamos]]></text>
+		</element>
+		<element kind="textField" uuid="670fc985-fbd1-472c-aef5-0b4817f2caae" x="110" y="19" width="355" height="30" hTextAlign="Center">
+			<expression><![CDATA["Del " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin}) + "\n"]]></expression>
+		</element>
+		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+	</title>
+	<pageHeader height="66" splitType="Stretch">
+		<element kind="textField" uuid="0c5c5fea-2aaa-4af7-86a0-27d80a263fe1" x="110" y="7" width="368" height="52">
+			<expression><![CDATA["Filtros aplicados:\n" +
+"Tipos: " + $P{listaTipoDepartamentos} + "\n" +
+"Departamentos: " + $P{listaDepartamentos} + "\n" +
+"Usuario: " + $P{nombreDelUsuarioQueLoMandoImprimir}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="35" splitType="Stretch">
+		<element kind="staticText" uuid="fd45c542-cfcd-4cb7-9784-1c910fe761b5" x="0" y="10" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Tipo de prestamo]]></text>
+		</element>
+		<element kind="staticText" uuid="673daea4-55ec-462b-a9e2-9d0ca4230a85" x="110" y="10" width="110" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Departamento]]></text>
+		</element>
+		<element kind="staticText" uuid="6562d459-4639-48e2-ad9e-ff3432657e27" x="220" y="10" width="80" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Fecha]]></text>
+		</element>
+		<element kind="staticText" uuid="b20b5620-b981-40bd-88f2-cb90afa70c49" x="300" y="10" width="130" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Nombre del solicitante]]></text>
+		</element>
+		<element kind="staticText" uuid="ff9e9247-4cec-4ac0-9749-2e4f8ecc22f0" x="430" y="10" width="120" height="20" fontName="Arial Black" hTextAlign="Center">
+			<text><![CDATA[Monto solicitado]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="28aa2fa5-f545-47f6-81b3-f6c6b0e8ae4a" x="0" y="0" width="110" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{tipoPrestamo}
+]]></expression>
+			</element>
+			<element kind="textField" uuid="d6895a52-0ea8-4d97-80bd-d5e7e2ff112b" x="110" y="0" width="110" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{departamento}
+]]></expression>
+			</element>
+			<element kind="textField" uuid="d1bddf6a-f1ed-4294-9993-522cbecdc86d" x="220" y="0" width="80" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{fecha}
+]]></expression>
+			</element>
+			<element kind="textField" uuid="ac29c31a-05ab-469e-a9ce-240f446f1d6f" x="300" y="0" width="130" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{nombreSolicitante}
+]]></expression>
+			</element>
+			<element kind="textField" uuid="9cc26782-138c-4f68-9505-2b36be75cf81" x="430" y="0" width="120" height="20" fontName="Arial" hTextAlign="Center">
+				<expression><![CDATA[$F{montoSolicitado}
+]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

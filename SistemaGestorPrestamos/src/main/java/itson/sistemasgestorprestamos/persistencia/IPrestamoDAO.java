@@ -6,10 +6,14 @@ package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
+import itson.sistemasgestorprestamos.DTO.ReportePrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -24,6 +28,8 @@ public interface IPrestamoDAO {
     public PrestamosDominio cambiarEstatus(int id, Estatus estatus) throws PersistenciaException;
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException;
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;
+    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException;
+
     public int contarTotalPrestamos(FiltroDTO filtro) throws PersistenciaException ;
     
 }
