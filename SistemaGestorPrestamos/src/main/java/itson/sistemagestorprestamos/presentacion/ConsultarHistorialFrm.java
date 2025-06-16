@@ -9,7 +9,6 @@ import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaEstatusDTO;
-import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -77,7 +76,7 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
         String textoFiltro = txtFiltroBusqueda.getText();
         FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
 
-        //this.totalElementos = this.estatus.contarTotalPrestamos(filtroConteo);
+        this.totalElementos = this.estatus.contarTotalEstatus(filtroConteo);
 
         this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
 

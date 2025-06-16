@@ -19,4 +19,6 @@ public interface IEstatusDAO {
     
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;
     
+    public int contarTotalEstatus(FiltroDTO filtro) throws PersistenciaException;
+    
 }
