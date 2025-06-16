@@ -10,7 +10,10 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -121,6 +124,8 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         txtFiltroBusqueda = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,6 +180,25 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Abonar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setText("Sigueinte");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -196,7 +220,11 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                                 .addGap(81, 81, 81)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(427, 427, 427)
+                                .addGap(115, 115, 115)
+                                .addComponent(btnAnterior)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSiguiente)
+                                .addGap(154, 154, 154)
                                 .addComponent(jButton1))))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
@@ -219,8 +247,15 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton1)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jButton1))
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnAnterior)
+                                    .addComponent(btnSiguiente))))
                         .addGap(0, 13, Short.MAX_VALUE)))
                 .addGap(57, 57, 57))
         );
@@ -272,10 +307,55 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
-    
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        if (paginaActual > 0) {
+            paginaActual--;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página anterior: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        //
+        if (paginaActual < totalPaginas - 1) {
+            paginaActual++;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página siguiente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here
+        int filaSeleccionada = tabla.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            int idPrestamo = (int) tabla.getValueAt(filaSeleccionada, 0);
+
+            try {
+                new InfoAdministrarAbonosFrm(this, idPrestamo).setVisible(true);
+            } catch (NegocioException ex) {
+                Logger.getLogger(AdministrarAbonosFrm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila primero.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

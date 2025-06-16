@@ -5,6 +5,17 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.AbonoFachada;
+import itson.sistemagestorprestamos.fachada.prestamoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import itson.sistemasgestorprestamos.persistencia.PersistenciaException;
+import static java.lang.Float.parseFloat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,19 +24,40 @@ import itson.sistemagestorprestamos.fachada.AbonoFachada;
 public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
     
     private AdministrarAbonosFrm adminAbonoFrm;
-
+    private int id;
+    
     /**
      * Creates new form InfoAdministrarAbonosFrm
      */
-    public InfoAdministrarAbonosFrm(AdministrarAbonosFrm adminAbonoFrm) {
+    public InfoAdministrarAbonosFrm(AdministrarAbonosFrm adminAbonoFrm, int id) throws NegocioException {
         initComponents();
         this.adminAbonoFrm = adminAbonoFrm;
+        this.id = id;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        mostrarInfo();
     }
 
-    AbonoFachada abono = new AbonoFachada();
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
+    AbonoFachada abonar = new AbonoFachada();
+    prestamoFachada prestamo = new prestamoFachada();
     
-    
+    private void mostrarInfo() throws NegocioException{
+        try{
+            PrestamosDominio prestamoInfo = prestamo.buscarPorId(id);
+            if(prestamoInfo != null){
+                String info = "ID del prestamo: " + prestamoInfo.getId() + "\n"
+                        + "Fecha: " + prestamoInfo.getFechaHora() + "\n"
+                        + "Monto: " + prestamoInfo.getMonto() + "\n"
+                        + "Estatus: " + prestamoInfo.getEstatus() + "\n"
+                        + "ID del tipo: " + prestamoInfo.getTipoPrestamo() + "\n"
+                        + "ID de la cuenta del departamento: " + prestamoInfo.getCuentaDepartamento() + "\n"
+                        + "ID de la cuenta del empleado: " + prestamoInfo.getCuentaEmpleado();
+                areaTextoInfo.setText(info);
+            }
+        }catch(NegocioException ex){
+                throw new NegocioException("error al imprimir la informacion");
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,7 +194,27 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
-        // abono.registrarAbono(abono);
+        try {
+            String cantidad = txtFieldCantidad.getText().trim();
+            if (cantidad.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            float monto = Float.parseFloat(cantidad);
+            if (monto <= 0) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            RegistrarAbonoDTO abono = new RegistrarAbonoDTO(monto, jefe.getId(), id);
+            abonar.registrarAbono(abono);
+            JOptionPane.showMessageDialog(this, "Abono registrado correctamente.");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NegocioException ex) {
+            Logger.getLogger(InfoAdministrarAbonosFrm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al registrar el abono: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnAbonarActionPerformed
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
