@@ -251,7 +251,10 @@ public class MenuJefeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:
+            new ReporteFrm(this).setVisible(true);
+            this.setVisible(false);
+        
+        
     }//GEN-LAST:event_btnReportesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
