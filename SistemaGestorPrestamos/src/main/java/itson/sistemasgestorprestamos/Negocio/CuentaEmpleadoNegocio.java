@@ -64,5 +64,15 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
         }
         return 0;
     }
+    
+     @Override
+    public int obtenerIdCuentaEmpleadoPorClabe(String clabe) throws NegocioException {
+        try {
+            return CuentaDAO.obtenerIdCuentaEmpleadoPorClabe(clabe);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
 }

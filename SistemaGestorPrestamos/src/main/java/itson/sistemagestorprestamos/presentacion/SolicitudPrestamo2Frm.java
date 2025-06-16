@@ -25,20 +25,20 @@ import javax.swing.JOptionPane;
  */
 public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
-    
-     private MenuEmpleadoFrm empleadoMenuFrm;
+    private MenuEmpleadoFrm empleadoMenuFrm;
+
     /**
      * Creates new form SolicitudPrestamoFrm
      */
     public SolicitudPrestamo2Frm(MenuEmpleadoFrm empleadoMenuFrm) {
         initComponents();
-       
+
         cargarCuentasComboBox();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
-
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     prestamoFachada solicitud = new prestamoFachada();
     CuentaEmpleadoFachada cuenta = new CuentaEmpleadoFachada();
 
@@ -257,7 +257,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         try {
             List<CuentasEmpleadosDominio> cuentas = cuenta.buscarCuentasEmpleadoPorId(filtro);
             comboBoxCuentas.removeAllItems();
-
 
             for (CuentasEmpleadosDominio cuenta : cuentas) {
                 System.out.println("Cuenta: " + cuenta.getClabe());

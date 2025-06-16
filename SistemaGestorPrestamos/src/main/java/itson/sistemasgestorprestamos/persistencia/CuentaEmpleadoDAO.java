@@ -94,7 +94,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
                                OFFSET ?;
                                """;
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-            int idEmpleado =Integer.parseInt(filtro.getFiltro());
+            int idEmpleado = Integer.parseInt(filtro.getFiltro());
             comando.setInt(1, idEmpleado);
             comando.setInt(2, filtro.getLimit());
             comando.setInt(3, filtro.getOffset());
@@ -114,7 +114,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
 
             return listaCuentas;
         } catch (SQLException e) {
-             e.printStackTrace(); 
+            e.printStackTrace();
             throw new PersistenciaException("Ocurrió un error al buscar la cuenta.");
         }
     }
@@ -162,34 +162,68 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
     }
 
     public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws PersistenciaException {
-    int idCuenta = -1;
-    try {
-        Connection conexion = manejadorConexiones.crearConexion();
-        String codigoSQL = """
+        int idCuenta = -1;
+        try {
+            Connection conexion = manejadorConexiones.crearConexion();
+            String codigoSQL = """
                            SELECT id
                            FROM CUENTAS_DEPARTAMENTOS
                            WHERE clabe = ?;
                            """;
-        PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-        comando.setString(1, clabe);
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            comando.setString(1, clabe);
 
-        ResultSet resultado = comando.executeQuery();
-        if (resultado.next()) {
-            idCuenta = resultado.getInt("id");
+            ResultSet resultado = comando.executeQuery();
+            if (resultado.next()) {
+                idCuenta = resultado.getInt("id");
+            }
+
+            resultado.close();
+            comando.close();
+            conexion.close();
+
+            if (idCuenta == -1) {
+                throw new PersistenciaException("No se encontró cuenta con la clabe: " + clabe);
+            }
+
+            return idCuenta;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new PersistenciaException("Ocurrió un error al buscar el ID de la cuenta del departamento.");
         }
 
-        resultado.close();
-        comando.close();
-        conexion.close();
-
-        if (idCuenta == -1) {
-            throw new PersistenciaException("No se encontró cuenta con la clabe: " + clabe);
-        }
-
-        return idCuenta;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw new PersistenciaException("Ocurrió un error al buscar el ID de la cuenta del departamento.");
     }
-}
+
+    @Override
+    public int obtenerIdCuentaEmpleadoPorClabe(String clabe) throws PersistenciaException {
+        int idCuenta = -1;
+        try {
+            Connection conexion = manejadorConexiones.crearConexion();
+            String codigoSQL = """
+                           SELECT id
+                           FROM CUENTAS_EMPLEADOS
+                           WHERE clabe = ?;
+                           """;
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            comando.setString(1, clabe);
+
+            ResultSet resultado = comando.executeQuery();
+            if (resultado.next()) {
+                idCuenta = resultado.getInt("id");
+            }
+
+            resultado.close();
+            comando.close();
+            conexion.close();
+
+            if (idCuenta == -1) {
+                throw new PersistenciaException("No se encontró cuenta con la clabe: " + clabe);
+            }
+
+            return idCuenta;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new PersistenciaException("Ocurrió un error al buscar el ID de la cuenta del departamento.");
+        }
+    }
 }

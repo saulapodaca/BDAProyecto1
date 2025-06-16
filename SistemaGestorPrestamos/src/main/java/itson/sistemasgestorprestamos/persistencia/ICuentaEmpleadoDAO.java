@@ -20,4 +20,6 @@ public interface ICuentaEmpleadoDAO {
             throws PersistenciaException;
     
     public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws PersistenciaException;
+    
+    public int obtenerIdCuentaEmpleadoPorClabe(String clabe) throws PersistenciaException;
 }
