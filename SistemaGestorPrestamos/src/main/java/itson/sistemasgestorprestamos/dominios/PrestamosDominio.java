@@ -87,6 +87,13 @@ public class PrestamosDominio {
     public void setEstatus(Estatus estatus) {
         this.estatus = estatus;
     }
+
+    @Override
+    public String toString() {
+        return "PrestamosDominio{" + "id=" + id + ", fechaHora=" + fechaHora + ", monto=" + monto + ", estatus=" + estatus + ", tipoPrestamo=" + tipoPrestamo + ", cuentaDepartamento=" + cuentaDepartamento + ", cuentaEmpleado=" + cuentaEmpleado + '}';
+    }
+    
+    
     
     
 }
