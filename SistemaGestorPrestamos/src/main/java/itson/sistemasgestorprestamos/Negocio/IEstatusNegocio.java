@@ -19,4 +19,6 @@ public interface IEstatusNegocio {
 
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
     
+    public int contarTotalEstatus(FiltroDTO filtro) throws NegocioException;
+    
 }

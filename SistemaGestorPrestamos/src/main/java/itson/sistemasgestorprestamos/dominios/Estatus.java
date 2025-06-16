@@ -12,6 +12,7 @@ public enum Estatus {
     Creado,
     Rechazado,
     Autorizado,
+    Abonado,
     Pagado,
     Completado;
     

@@ -39,7 +39,6 @@ public class EstatusNegocio implements IEstatusNegocio{
     @Override
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
         try {
-            this.filtroValido(filtro);
             this.limiteValido(filtro);
             this.offsetValido(filtro);
             return this.EstatusDAO.buscarTabla(filtro);
@@ -67,10 +66,16 @@ public class EstatusNegocio implements IEstatusNegocio{
         }
     }
 
-    private void filtroValido(FiltroDTO filtro) throws NegocioException {
-        if (filtro.getFiltro() == null || filtro.getFiltro().trim().isEmpty()) {
-            throw new NegocioException("el nombre no existe");
+    @Override
+    public int contarTotalEstatus(FiltroDTO filtro) throws NegocioException {
+        try {
+            this.limiteValido(filtro);
+            this.offsetValido(filtro);
+            return this.EstatusDAO.contarTotalEstatus(filtro);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(EstatusNegocio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return 0;
     }
     
 }

@@ -39,5 +39,10 @@ public class EstatusFachada implements IEstatusFachada{
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
         return this.estatusNegocio.buscarTabla(filtro);
     }
+
+    @Override
+    public int contarTotalEstatus(FiltroDTO filtro) throws NegocioException {
+        return this.estatusNegocio.contarTotalEstatus(filtro);
+    }
     
 }
