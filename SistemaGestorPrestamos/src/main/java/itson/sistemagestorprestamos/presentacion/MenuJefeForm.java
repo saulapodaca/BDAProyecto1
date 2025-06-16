@@ -181,12 +181,12 @@ public class MenuJefeForm extends javax.swing.JFrame {
 
     private void btnAdministrarCuentasDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarCuentasDptoActionPerformed
         // TODO add your handling code here:
-        new AdministrarCuentasDepartamentosFrm().setVisible(true);
+        new AdministrarCuentasDepartamentosFrm(this).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAdministrarCuentasDptoActionPerformed
 
     private void btnAutorizarPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizarPrestamosActionPerformed
-        new AdministrarPrestamosFrm().setVisible(true);
+        new AdministrarPrestamosFrm(this).setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_btnAutorizarPrestamosActionPerformed
@@ -194,12 +194,12 @@ public class MenuJefeForm extends javax.swing.JFrame {
     private void btnAdminEstatusAbonosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEstatusAbonosActionPerformed
         AdministrarAbonosFrm abonosFrm = null;
         try {
-            abonosFrm = new AdministrarAbonosFrm();
+            new AdministrarAbonosFrm(this).setVisible(true);
+            this.setVisible(false);
         } catch (NegocioException ex) {
             Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "error al abrir la ventana de abonos");
         }
-        abonosFrm.setVisible(true);
     }//GEN-LAST:event_btnAdminEstatusAbonosActionPerformed
 
     private void btnMenuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEmpleadosActionPerformed
@@ -212,8 +212,8 @@ public class MenuJefeForm extends javax.swing.JFrame {
         AdministrarEmpleadosFrm ventana;
         try {
             
-            ventana = new AdministrarEmpleadosFrm();
-            ventana.setVisible(true);
+            new AdministrarEmpleadosFrm(this).setVisible(true);
+            this.setVisible(false);
         } catch (NegocioException ex) {
             Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "error al abrir la ventana de empleados");
