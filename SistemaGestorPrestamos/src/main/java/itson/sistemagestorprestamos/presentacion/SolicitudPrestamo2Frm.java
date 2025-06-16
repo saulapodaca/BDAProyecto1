@@ -32,7 +32,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
      */
     public SolicitudPrestamo2Frm(MenuEmpleadoFrm empleadoMenuFrm) {
         initComponents();
-
+        this.empleadoMenuFrm = empleadoMenuFrm;
         cargarCuentasComboBox();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -334,6 +334,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         // TODO add your handling code here:
         empleadoMenuFrm.setVisible(true);
         this.dispose();
+
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
