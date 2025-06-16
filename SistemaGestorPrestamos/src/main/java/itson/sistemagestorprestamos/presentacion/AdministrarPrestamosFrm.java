@@ -33,7 +33,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
     }
     
     private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 1;
+    private final int LIMITE_POR_PAGINA = 10;
     private int totalElementos = 0;
     private int totalPaginas = 0;
 

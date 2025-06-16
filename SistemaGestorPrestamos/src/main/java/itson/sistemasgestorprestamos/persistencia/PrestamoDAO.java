@@ -134,8 +134,8 @@ public class PrestamoDAO implements IPrestamoDAO {
                 connection.rollback();
                 throw new PersistenciaException("No se actualizó el monto del préstamo.");
             }
-            
-            String query2 ="""
+
+            String query2 = """
                            INSERT INTO estatus
                            (nombre,
                            fecha_hora,
@@ -149,12 +149,12 @@ public class PrestamoDAO implements IPrestamoDAO {
             statement2.setInt(3, SesionIniciada.getInstancia().getEmpleado().getId());
             statement2.setInt(4, id);
             statement2.executeUpdate(query2);
-            
+
             connection.commit();
-            
+
             return this.buscarPorId(id);
-            
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             if (connection != null) {
                 try {
                     connection.rollback();
@@ -236,9 +236,9 @@ public class PrestamoDAO implements IPrestamoDAO {
                     p.id_cuenta_departamento,
                     p.id_cuenta_empleado
                 FROM prestamos AS p
-                INNER JOIN cuentas_departamentos AS cd
+                LEFT JOIN cuentas_departamentos AS cd
                     ON p.id_cuenta_departamento = cd.id
-                INNER JOIN departamentos AS d
+                LEFT JOIN departamentos AS d
                     ON cd.id_departamento = d.id
                 WHERE 1=1
                 """);
@@ -257,7 +257,7 @@ public class PrestamoDAO implements IPrestamoDAO {
             }
 
             if (filtro.getIdDepartamento() != null) {
-                queryBuilder.append(" AND d.id = ?");
+                queryBuilder.append(" AND (d.id = ? OR d.id IS NULL)");
                 parametros.add(filtro.getIdDepartamento());
             }
 
@@ -484,8 +484,8 @@ public class PrestamoDAO implements IPrestamoDAO {
             }
         }
     }
-    
-    private TablaPrestamosDTO convertirTablaDominio(ResultSet set) throws SQLException{
+
+    private TablaPrestamosDTO convertirTablaDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
         float monto = set.getFloat("monto");
@@ -494,7 +494,7 @@ public class PrestamoDAO implements IPrestamoDAO {
         int tipoPrestamo = set.getInt("id_tipo");
         int cuentaDepartamento = set.getInt("id_cuenta_departamento");
         int cuentaEmpleado = set.getInt("id_cuenta_empleado");
-        return new TablaPrestamosDTO(id,fechaHora,monto,estatus,tipoPrestamo,cuentaDepartamento,cuentaEmpleado);
+        return new TablaPrestamosDTO(id, fechaHora, monto, estatus, tipoPrestamo, cuentaDepartamento, cuentaEmpleado);
     }
 
 }

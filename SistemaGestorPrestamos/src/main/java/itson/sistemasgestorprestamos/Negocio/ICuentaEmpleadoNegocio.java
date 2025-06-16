@@ -20,6 +20,8 @@ public interface ICuentaEmpleadoNegocio {
     public CuentasEmpleadosDominio registrarCuenta(RegistrarCuentaEmpleadoDTO cuentaEmpleado) throws NegocioException;
 
     public void eliminarCuentaPorId(int id) throws NegocioException;
-    
+
     public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws NegocioException;
+
+    public int obtenerIdCuentaEmpleadoPorClabe(String clabe) throws NegocioException;
 }

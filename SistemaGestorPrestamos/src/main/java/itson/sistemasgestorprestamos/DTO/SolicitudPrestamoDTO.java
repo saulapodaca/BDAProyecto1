@@ -25,7 +25,7 @@ public class SolicitudPrestamoDTO {
         this.idTipo = idTipo;
         this.idCuentaEmpleado = idCuentaEmpleado;
     }
-
+    
     public LocalDateTime getHora() {
         return hora;
     }
