@@ -84,19 +84,20 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             Connection conexion = manejadorConexiones.crearConexion();
             String codigoSQL = """
                                SELECT 
-                               idCuentaEmpleado, 
+                               id, 
                                clabe, 
-                               estatus, 
-                               banco,
+                               activo, 
+                               nombre_banco,
                                saldo,
-                               idEmpleado
+                               id_empleado
                                FROM CUENTAS_EMPLEADOS
-                               WHERE idEmpleado = ?
+                               WHERE id_empleado = ?
                                LIMIT ?
                                OFFSET ?;
                                """;
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-            comando.setInt(1, Integer.parseInt(filtro.getFiltro()));
+            int idEmpleado =Integer.parseInt(filtro.getFiltro());
+            comando.setInt(1, idEmpleado);
             comando.setInt(2, filtro.getLimit());
             comando.setInt(3, filtro.getOffset());
 
@@ -115,6 +116,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
 
             return listaCuentas;
         } catch (SQLException e) {
+             e.printStackTrace(); 
             throw new PersistenciaException("Ocurrió un error al buscar la cuenta.");
         }
     }
@@ -157,7 +159,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
         String estatus = resultado.getString("activo");
         String banco = resultado.getString("nombre_banco");
         float saldo = resultado.getFloat("saldo");
-        int idEmpleado = resultado.getInt("id_empelado");
+        int idEmpleado = resultado.getInt("id_empleado");
         return new CuentasEmpleadosDominio(id, clabe, estatus, banco, saldo, idEmpleado);
     }
 }

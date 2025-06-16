@@ -253,7 +253,15 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
 
         int id = empleado.getId();
-
+        
+        String idEmpleado = String.valueOf(id);
+        FiltroDTO filtro = new FiltroDTO(0,10,idEmpleado);
+        try {
+            cuenta.buscarCuentasEmpleadoPorId(filtro);     
+        } catch (NegocioException ex) {
+            Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         int tipoId = 0;
 
         if (tip.equalsIgnoreCase("personal")) {

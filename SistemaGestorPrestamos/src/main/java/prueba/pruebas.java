@@ -8,6 +8,7 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.persistencia.ConexionBD;
+import itson.sistemasgestorprestamos.persistencia.CuentaEmpleadoDAO;
 import itson.sistemasgestorprestamos.persistencia.EmpleadoDAO;
 import itson.sistemasgestorprestamos.persistencia.IConexionBD;
 import itson.sistemasgestorprestamos.persistencia.PersistenciaException;
@@ -29,22 +30,24 @@ public class pruebas {
 
         EmpleadoDAO empleado = new EmpleadoDAO(conexion);
         PrestamoDAO prestamo = new PrestamoDAO(conexion);
-        
-        
-        
+        CuentaEmpleadoDAO cuentas = new CuentaEmpleadoDAO(conexion);
+
         LocalDateTime hora = LocalDateTime.now();
-        
-        
-        
-        SolicitudPrestamoDTO solicitud = new SolicitudPrestamoDTO(hora,500,"creado",1,1);
-        
+
+        SolicitudPrestamoDTO solicitud = new SolicitudPrestamoDTO(hora, 500, "creado", 1, 1);
+
         //GuardarEmpleadoDTO empleado1 = new GuardarEmpleadoDTO("popusa", "rusa", "lizo", "522451", "modelito1", 1);
-        //FiltroDTO filtro = new FiltroDTO(2, 0, "", 1);
+        FiltroDTO filtro = new FiltroDTO(2, 0, "2");
+        cuentas.buscarCuentasEmpleadoPorId(filtro);
+        System.out.println(cuentas.buscarCuentasEmpleadoPorId(filtro));
+    
+
+
         //empleado.guardar(empleado1);
         //System.out.println(empleado.buscarTabla(filtro));
         
         
-        prestamo.guardarSolicitud(solicitud);
+        //prestamo.guardarSolicitud(solicitud);
         
     }
 

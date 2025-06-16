@@ -51,5 +51,22 @@ public class CuentasEmpleadosDominio {
     public int getIdEmpleado() {
         return idEmpleado;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CuentasEmpleadosDominio{");
+        sb.append("id=").append(id);
+        sb.append(", clabe=").append(clabe);
+        sb.append(", estatus=").append(estatus);
+        sb.append(", nombreBanco=").append(nombreBanco);
+        sb.append(", saldo=").append(saldo);
+        sb.append(", idEmpleado=").append(idEmpleado);
+        sb.append('}');
+        return sb.toString();
+    }
+    
+    
+    
     
 }
