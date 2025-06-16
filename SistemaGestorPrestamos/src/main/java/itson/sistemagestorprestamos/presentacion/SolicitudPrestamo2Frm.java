@@ -21,13 +21,18 @@ import javax.swing.JOptionPane;
  * @author Camila Zubía
  */
 public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
+    
+    private SolicitarPrestamoFrm solicitarPrestamoFrm;
 
     /**
      * Creates new form SolicitudPrestamoFrm
      */
-    public SolicitudPrestamo2Frm() {
+    public SolicitudPrestamo2Frm(SolicitarPrestamoFrm solicitarPrestamoFrm) {
         initComponents();
+        this.solicitarPrestamoFrm = solicitarPrestamoFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
+    
     prestamoFachada solicitud = new prestamoFachada();
     CuentaEmpleadoFachada cuenta = new CuentaEmpleadoFachada();
 
@@ -65,6 +70,11 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -268,6 +278,12 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
             Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSolicitarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        solicitarPrestamoFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments

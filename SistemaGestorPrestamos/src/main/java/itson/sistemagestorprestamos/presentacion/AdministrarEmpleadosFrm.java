@@ -272,7 +272,7 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
 
     private void agregarEmpleadoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEmpleadoBTNActionPerformed
         // TODO add your handling code here:
-        new AgregarEmpleadoFrm().setVisible(true);
+        new AgregarEmpleadoFrm(this).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_agregarEmpleadoBTNActionPerformed
 

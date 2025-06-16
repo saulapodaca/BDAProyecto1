@@ -11,12 +11,16 @@ import itson.sistemagestorprestamos.fachada.AbonoFachada;
  * @author Camila Zubía
  */
 public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
+    
+    private AdministrarAbonosFrm adminAbonoFrm;
 
     /**
      * Creates new form InfoAdministrarAbonosFrm
      */
-    public InfoAdministrarAbonosFrm() {
+    public InfoAdministrarAbonosFrm(AdministrarAbonosFrm adminAbonoFrm) {
         initComponents();
+        this.adminAbonoFrm = adminAbonoFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     AbonoFachada abono = new AbonoFachada();
@@ -48,6 +52,11 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
         panelFondo.setPreferredSize(new java.awt.Dimension(1077, 630));
 
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
         tituloLbl.setText("INFORMACIÓN DEL PRÉSTAMO");
@@ -155,6 +164,12 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
     private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
         // abono.registrarAbono(abono);
     }//GEN-LAST:event_btnAbonarActionPerformed
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        adminAbonoFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     /**
      * @param args the command line arguments

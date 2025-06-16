@@ -10,11 +10,15 @@ package itson.sistemagestorprestamos.presentacion;
  */
 public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
 
+    private AdministrarCuentasBancariasFrm adminCuentasEmpleadoFrm;
+    
     /**
      * Creates new form MovimientosCuentasEmpleadosFrm
      */
-    public MovimientosCuentasEmpleadosFrm() {
+    public MovimientosCuentasEmpleadosFrm(AdministrarCuentasBancariasFrm adminCuentasEmpleadoFrm) {
         initComponents();
+        this.adminCuentasEmpleadoFrm = adminCuentasEmpleadoFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -44,12 +48,10 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 3));
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
-        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("MOVIMIENTOS DE LA CUENTA BANCARIA");
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
-        tabla.setBackground(new java.awt.Color(255, 255, 255));
         tabla.setForeground(new java.awt.Color(255, 255, 255));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -67,8 +69,12 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
         tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tabla);
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -132,6 +138,12 @@ public class MovimientosCuentasEmpleadosFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        adminCuentasEmpleadoFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
    
 
