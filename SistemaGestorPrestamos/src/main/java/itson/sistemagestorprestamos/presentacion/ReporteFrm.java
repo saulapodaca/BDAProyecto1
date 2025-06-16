@@ -20,11 +20,15 @@ import javax.swing.JOptionPane;
  */
 public class ReporteFrm extends javax.swing.JFrame {
 
+    private MenuJefeForm menuJefeForm;
     /**
      * Creates new form ReporteFrm
      */
-    public ReporteFrm() {
+    public ReporteFrm(MenuJefeForm menuJefeForm) {
         initComponents();
+        this.menuJefeForm = menuJefeForm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }
 
     /**
@@ -294,6 +298,8 @@ public class ReporteFrm extends javax.swing.JFrame {
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
         // TODO add your handling code here:
+        menuJefeForm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void checkBoxPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxPersonalActionPerformed
