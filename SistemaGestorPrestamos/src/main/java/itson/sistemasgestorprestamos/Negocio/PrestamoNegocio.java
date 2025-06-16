@@ -106,12 +106,6 @@ public class PrestamoNegocio implements IPrestamoNegocio {
             throw new NegocioException("el offset no es valido");
         }
     }
-
-    private void filtroValido(FiltroDTO filtro) throws NegocioException {
-        if (filtro.getFiltro() == null || filtro.getFiltro().trim().isEmpty()) {
-            throw new NegocioException("el nombre no existe");
-        }
-    }
     
     private void idInvalido(int id)throws NegocioException{
         if (id <= 0) {
@@ -145,5 +139,17 @@ public class PrestamoNegocio implements IPrestamoNegocio {
             Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    @Override
+    public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws NegocioException {
+        try {
+            this.limiteValido(filtro);
+            this.offsetValido(filtro);
+            return PrestamoDAO.buscarTablaAbonar(filtro);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

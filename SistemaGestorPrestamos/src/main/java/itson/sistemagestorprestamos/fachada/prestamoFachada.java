@@ -71,4 +71,9 @@ public class prestamoFachada implements IPrestamoFachada {
         return this.prestamoNegocio.contarTotalPrestamos(filtro);
     }
 
+    @Override
+    public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws NegocioException {
+        return this.prestamoNegocio.buscarTablaAbonar(filtro);
+    }
+
 }

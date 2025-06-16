@@ -309,6 +309,99 @@ public class PrestamoDAO implements IPrestamoDAO {
     }
     
     @Override
+    public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+
+        try {
+            connection = this.conexion.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+                SELECT
+                    p.id,
+                    p.fecha_hora,
+                    p.monto,
+                    p.estatusActual,
+                    p.id_tipo,
+                    p.id_cuenta_departamento,
+                    p.id_cuenta_empleado
+                FROM prestamos AS p
+                LEFT JOIN cuentas_departamentos AS cd
+                    ON p.id_cuenta_departamento = cd.id
+                LEFT JOIN departamentos AS d
+                    ON cd.id_departamento = d.id
+                WHERE 1=1
+                    AND p.estatusActual IN ('Pagado', 'Abonado')
+                """);
+            List<Object> parametros = new ArrayList<>();
+
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (CAST(fecha_hora AS CHAR) LIKE ?
+                    OR CAST(monto AS CHAR) LIKE ?
+                    OR CAST(estatusActual AS CHAR) LIKE ?)
+            """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND (d.id = ? OR d.id IS NULL)");
+                parametros.add(filtro.getIdDepartamento());
+            }
+
+            queryBuilder.append(" LIMIT ? OFFSET ?;");
+            parametros.add(filtro.getLimit());
+            parametros.add(filtro.getOffset());
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                if (param instanceof String) {
+                    preparedStatement.setString(i + 1, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(i + 1, (Integer) param);
+                }
+
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            List<TablaPrestamosDTO> prestamos = new ArrayList<>();
+            while (resultset.next()) {
+                prestamos.add(this.convertirTablaDominio(resultset));
+            }
+
+            return prestamos;
+
+        } catch (SQLException e) {
+
+            throw new PersistenciaException("Ocurrió un problema al leer empleados: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en buscarTabla: " + closeEx.getMessage());
+
+            }
+        }
+    }
+    
+    @Override
     public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException{
         List<ReportePrestamoDTO> listaPrestamos = new ArrayList<>();
         try{
