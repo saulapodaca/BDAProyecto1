@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class PrestamoDAO implements IPrestamoDAO {
                            estatusActual,
                            id_tipo,
                            id_cuenta_empleado)
-                           VALUES(?,?,?,?,?)
+                           VALUES(?,?,?,?)
                            """;
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -214,9 +215,94 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     @Override
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
 
-        return null;
+        try {
+            connection = this.conexion.crearConexion();
 
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+                SELECT
+                    p.id,
+                    p.fecha_hora,
+                    p.monto,
+                    p.estatusActual,
+                    p.id_tipo,
+                    p.id_cuenta_departamento,
+                    p.id_cuenta_empleado
+                FROM prestamos AS p
+                INNER JOIN cuentas_departamentos AS cd
+                    ON p.id_cuenta_departamento = cd.id
+                INNER JOIN departamentos AS d
+                    ON cd.id_departamento = d.id
+                WHERE 1=1
+                """);
+            List<Object> parametros = new ArrayList<>();
+
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (CAST(fecha_hora AS CHAR) LIKE ?
+                    OR CAST(monto AS CHAR) LIKE ?
+                    OR CAST(estatusActual AS CHAR) LIKE ?)
+            """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND d.id = ?");
+                parametros.add(filtro.getIdDepartamento());
+            }
+
+            queryBuilder.append(" LIMIT ? OFFSET ?;");
+            parametros.add(filtro.getLimit());
+            parametros.add(filtro.getOffset());
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                if (param instanceof String) {
+                    preparedStatement.setString(i + 1, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(i + 1, (Integer) param);
+                }
+
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            List<TablaPrestamosDTO> prestamos = new ArrayList<>();
+            while (resultset.next()) {
+                prestamos.add(this.convertirTablaDominio(resultset));
+            }
+
+            return prestamos;
+
+        } catch (SQLException e) {
+
+            throw new PersistenciaException("Ocurrió un problema al leer empleados: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en buscarTabla: " + closeEx.getMessage());
+
+            }
+        }
     }
 
     private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
@@ -229,6 +315,95 @@ public class PrestamoDAO implements IPrestamoDAO {
         int idCuentaDepa = set.getInt("id_cuenta_departamento");
         int idCuentaEmpleado = set.getInt("id_cuenta_empleado");
         return new PrestamosDominio(id, fechaHora, monto, estatus, idTipo, idCuentaDepa, idCuentaEmpleado);
+    }
+
+    @Override
+    public int contarTotalPrestamos(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+        try {
+
+            connection = this.conexion.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT COUNT(p.id)
+            FROM prestamos AS p
+            INNER JOIN cuentas_departamentos AS cd
+            ON p.id_cuenta_departamento = cd.id
+            INNER JOIN departamentos AS d
+            ON cd.id_departamento = d.id
+            WHERE 1=1
+            """);
+
+            List<Object> parametros = new ArrayList<>();
+
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (CAST(fecha_hora AS CHAR) LIKE ?
+                    OR CAST(monto AS CHAR) LIKE ?
+                    OR CAST(estatusActual AS CHAR) LIKE ?)
+                 """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND d.id = ?");
+                parametros.add(filtro.getIdDepartamento());
+            }
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                int parameterIndex = i + 1;
+                if (param instanceof String) {
+                    preparedStatement.setString(parameterIndex, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(parameterIndex, (Integer) param);
+                }
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un problema al contar empleados: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en contarTotalEmpleados: " + closeEx.getMessage());
+            }
+        }
+    }
+    
+    private TablaPrestamosDTO convertirTablaDominio(ResultSet set) throws SQLException{
+        int id = set.getInt("id");
+        LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
+        float monto = set.getFloat("monto");
+        String txtEstatus = set.getString("estatusActual");
+        Estatus estatus = Estatus.fromString(txtEstatus);
+        int tipoPrestamo = set.getInt("id_tipo");
+        int cuentaDepartamento = set.getInt("id_cuenta_departamento");
+        int cuentaEmpleado = set.getInt("id_cuenta_empleado");
+        return new TablaPrestamosDTO(id,fechaHora,monto,estatus,tipoPrestamo,cuentaDepartamento,cuentaEmpleado);
     }
 
 }

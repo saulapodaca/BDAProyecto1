@@ -27,4 +27,6 @@ public interface IPrestamoNegocio {
     public PrestamosDominio buscarPorId(int idPrestamo) throws NegocioException;
 
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
+    
+    public int contarTotalPrestamos(FiltroDTO filtro) throws NegocioException;
 }
