@@ -4,11 +4,15 @@
  */
 package itson.sistemasgestorprestamos.Negocio;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
-import itson.sistemasgestorprestamos.persistencia.IEmpleadoDAO;
 import itson.sistemasgestorprestamos.persistencia.IPrestamoDAO;
 import itson.sistemasgestorprestamos.persistencia.PersistenciaException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +31,7 @@ public class PrestamoNegocio implements IPrestamoNegocio {
     @Override
     public PrestamosDominio guardarSolicitud(SolicitudPrestamoDTO solicitud) throws NegocioException {
         try {
+            this.parametroNulo2(solicitud);
             return PrestamoDAO.guardarSolicitud(solicitud);
         } catch (PersistenciaException ex) {
             Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -34,4 +39,86 @@ public class PrestamoNegocio implements IPrestamoNegocio {
         return null;
     }
 
+    @Override
+    public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws NegocioException {
+        try {
+            this.parametroNulo(prestamo);
+            return PrestamoDAO.guardar(prestamo);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public PrestamosDominio cambiarEstatus(int id, Estatus estatus) throws NegocioException {
+        try {
+            this.idInvalido(id);
+            return PrestamoDAO.cambiarEstatus(id, estatus);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public PrestamosDominio buscarPorId(int idPrestamo) throws NegocioException {
+        try{
+            this.idInvalido(idPrestamo);
+            return PrestamoDAO.buscarPorId(idPrestamo);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
+        try {
+            this.limiteValido(filtro);
+            this.offsetValido(filtro);
+            this.filtroValido(filtro);
+            return PrestamoDAO.buscarTabla(filtro);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    private void limiteValido(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getLimit() < 0) {
+            throw new NegocioException("el limite no es valido");
+        }
+    }
+
+    private void offsetValido(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getOffset() < 0) {
+            throw new NegocioException("el offset no es valido");
+        }
+    }
+
+    private void filtroValido(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getFiltro() == null || filtro.getFiltro().trim().isEmpty()) {
+            throw new NegocioException("el nombre no existe");
+        }
+    }
+    
+    private void idInvalido(int id)throws NegocioException{
+        if (id <= 0) {
+            throw new NegocioException("la id es invalida");
+        }
+    }
+
+    private void parametroNulo(GuardarPrestamoDTO prestamo) throws NegocioException {
+        if (prestamo == null) {
+            throw new NegocioException("el parametro es nulo");
+        }
+    }
+    
+    private void parametroNulo2(SolicitudPrestamoDTO solicitud) throws NegocioException {
+        if (solicitud == null) {
+            throw new NegocioException("el parametro es nulo");
+        }
+    }
 }
