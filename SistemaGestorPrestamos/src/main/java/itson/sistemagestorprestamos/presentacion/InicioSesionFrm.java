@@ -7,6 +7,7 @@ import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -210,7 +211,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
 
         } catch (NegocioException ex) {
             Logger.getLogger(InicioSesionFrm.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("error vv");
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesion");
         }
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed

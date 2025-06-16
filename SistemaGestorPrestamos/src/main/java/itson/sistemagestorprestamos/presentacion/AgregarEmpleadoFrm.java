@@ -11,6 +11,7 @@ import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -243,6 +244,7 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
 
         } catch (NegocioException ex) {
             Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "error al abrir la siguiente pagina");
         }
 
     }//GEN-LAST:event_btnSiguienteEmpleadoActionPerformed

@@ -57,7 +57,6 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             comboBoxCuentas.removeAllItems();
 
             for (CuentasDepartamentosDominio cuenta : cuentas) {
-                System.out.println("Cuenta: " + cuenta.getClabe());
                 comboBoxCuentas.addItem(cuenta.getClabe());
             }
 
@@ -81,7 +80,7 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
                 txtAreaComprobante.setText(info);
             }
         } catch (NegocioException ex) {
-            throw new NegocioException("error al imprimir la informacion");
+            JOptionPane.showMessageDialog(this, "error al imprimir la informacion");
         }
     }
 
@@ -273,6 +272,7 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             new ConsultarHistorialFrm(this).setVisible(true);
         } catch (NegocioException ex) {
             Logger.getLogger(ConsultaPrestamoFrm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "error al abrir el historial");
         }
         this.setVisible(false);
     }//GEN-LAST:event_btnConsultarHistorialActionPerformed
