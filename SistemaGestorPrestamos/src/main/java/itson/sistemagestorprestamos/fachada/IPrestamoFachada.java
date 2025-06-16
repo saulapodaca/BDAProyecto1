@@ -6,8 +6,10 @@ package itson.sistemagestorprestamos.fachada;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.ReportePrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
@@ -28,5 +30,8 @@ public interface IPrestamoFachada {
     public PrestamosDominio buscarPorId(int idPrestamo) throws NegocioException;
 
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
+    
+    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws NegocioException;
+
 
 }

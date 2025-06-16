@@ -6,8 +6,10 @@ package itson.sistemagestorprestamos.fachada;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.ReportePrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.IPrestamoNegocio;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.Negocio.PrestamoNegocio;
@@ -57,4 +59,9 @@ public class prestamoFachada implements IPrestamoFachada {
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
         return this.prestamoNegocio.buscarTabla(filtro);
     }
+    
+    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws NegocioException{
+        return this.prestamoNegocio.obtenerPrestamosFiltrados(filtro);
+    }
+
 }
