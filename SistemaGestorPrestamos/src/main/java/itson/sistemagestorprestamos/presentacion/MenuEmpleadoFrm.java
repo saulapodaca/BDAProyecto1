@@ -34,7 +34,6 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
         btnSolicitarPrestamo = new javax.swing.JButton();
         btnRegresar1 = new javax.swing.JButton();
 
-        btnRegresar.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -42,24 +41,25 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("MENU EMPLEADO");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
         btnAdminCuentas.setBackground(new java.awt.Color(200, 200, 200));
         btnAdminCuentas.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        btnAdminCuentas.setForeground(new java.awt.Color(0, 0, 0));
         btnAdminCuentas.setText("ADMINSTRAR CUENTAS BANCARIAS");
         btnAdminCuentas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnSolicitarPrestamo.setBackground(new java.awt.Color(200, 200, 200));
         btnSolicitarPrestamo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        btnSolicitarPrestamo.setForeground(new java.awt.Color(0, 0, 0));
         btnSolicitarPrestamo.setText("SOLICITAR PRESTAMO");
         btnSolicitarPrestamo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnSolicitarPrestamo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarPrestamoActionPerformed(evt);
+            }
+        });
 
-        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -114,6 +114,12 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSolicitarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPrestamoActionPerformed
+        // TODO add your handling code here:
+        SolicitudPrestamo2Frm ventana = new SolicitudPrestamo2Frm();
+        ventana.setVisible(true);
+    }//GEN-LAST:event_btnSolicitarPrestamoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdminCuentas;

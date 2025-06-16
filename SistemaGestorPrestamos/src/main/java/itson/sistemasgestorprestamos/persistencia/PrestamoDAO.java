@@ -6,14 +6,17 @@ package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.GuardarPrestamoDTO;
+import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import itson.sistemasgestorprestamos.persistencia.IPrestamoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +24,8 @@ import java.util.List;
  *
  * @author Camila Zubía
  */
-public class PrestamoDAO implements IPrestamoDAO{
+public class PrestamoDAO implements IPrestamoDAO {
+
     private IConexionBD conexion;
 
     public PrestamoDAO(IConexionBD conexion) {
@@ -29,9 +33,52 @@ public class PrestamoDAO implements IPrestamoDAO{
     }
 
     @Override
+    public PrestamosDominio guardarSolicitud(SolicitudPrestamoDTO solicitud) throws PersistenciaException {
+        Connection connection = null;
+        try {
+            connection = this.conexion.crearConexion();
+            String query = """
+                           INSERT INTO prestamos
+                           (fecha_hora,
+                           monto,
+                           estatusActual,
+                           id_tipo,
+                           id_cuenta_empleado)
+                           VALUES(?,?,?,?,?)
+                           """;
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            LocalDateTime fechaCreacion = LocalDateTime.now();
+            Timestamp timestampParaDB = Timestamp.valueOf(fechaCreacion);
+
+            statement.setTimestamp(1, timestampParaDB);
+            statement.setDouble(2, solicitud.getMonto());
+            statement.setString(3, solicitud.getEstatus());
+            statement.setInt(4, solicitud.getIdTipo());
+            statement.setInt(5, solicitud.getIdCuentaEmpleado());
+
+            int filasAfectadas = statement.executeUpdate();
+            if (filasAfectadas == 0) {
+                throw new PersistenciaException("No se registro la solicitud del prestamo");
+            }
+            ResultSet set = statement.getGeneratedKeys();
+
+            if (set.next()) {
+                int idGenerado = set.getInt(1);
+                return this.buscarPorId(idGenerado);
+            }
+
+        } catch (SQLException ex) {
+            throw new PersistenciaException("Ocurrió un error al solicitar el prestamo" + ex.getMessage());
+        }
+        return null;
+
+    }
+
+    @Override
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException {
         Connection connection = null;
-        try{
+        try {
             connection = this.conexion.crearConexion();
             String query = """
                            INSERT INTO prestamos
@@ -46,20 +93,19 @@ public class PrestamoDAO implements IPrestamoDAO{
             statement.setInt(2, prestamo.getTipoPrestamo());
             statement.setInt(3, prestamo.getCuentaDepartamento());
             statement.setInt(4, prestamo.getCuentaEmpleado());
-            
+
             int filasAfectadas = statement.executeUpdate();
             if (filasAfectadas == 0) {
                 throw new PersistenciaException("No se registro el prestamo");
             }
             ResultSet set = statement.getGeneratedKeys();
-            
+
             if (set.next()) {
                 int idGenerado = set.getInt(1);
                 return this.buscarPorId(idGenerado);
             }
 
-            
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new PersistenciaException("Ocurrió un error al buscar el abono: " + ex.getMessage());
         }
         return null;
@@ -67,15 +113,15 @@ public class PrestamoDAO implements IPrestamoDAO{
 
     @Override
     public PrestamosDominio cambiarEstatus(Estatus estatus) throws PersistenciaException {
-        
+
         return null;
-        
+
     }
 
     @Override
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException {
         Connection connection = null;
-        try{
+        try {
             connection = this.conexion.crearConexion();
             String query = """
                            SELECT 
@@ -97,7 +143,7 @@ public class PrestamoDAO implements IPrestamoDAO{
             while (set.next()) {
                 prestamo = this.convertirPrestamoDominio(set);
             }
-            
+
             set.close();
             statement.close();
             connection.close();
@@ -107,19 +153,19 @@ public class PrestamoDAO implements IPrestamoDAO{
             }
 
             return prestamo;
-            
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             throw new PersistenciaException("Ocurrió un error al buscar el abono: " + ex.getMessage());
         }
     }
 
     @Override
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
-        
+
         return null;
-        
+
     }
-    
+
     private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
@@ -131,4 +177,5 @@ public class PrestamoDAO implements IPrestamoDAO{
         int idCuentaEmpleado = set.getInt("id_cuenta_empleado");
         return new PrestamosDominio(id, fechaHora, monto, estatus, idTipo, idCuentaDepa, idCuentaEmpleado);
     }
+
 }

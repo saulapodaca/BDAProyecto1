@@ -4,6 +4,18 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.CuentaEmpleadoFachada;
+import itson.sistemagestorprestamos.fachada.prestamoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.SolicitudPrestamoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Camila Zubía
@@ -16,6 +28,8 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
     public SolicitudPrestamo2Frm() {
         initComponents();
     }
+    prestamoFachada solicitud = new prestamoFachada();
+    CuentaEmpleadoFachada cuenta = new CuentaEmpleadoFachada();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,50 +51,72 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         fieldMonto = new javax.swing.JTextField();
         comboBoxCuentas = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        comboBoxTipoPrestamo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("SOLICITUD DE PRESTAMO");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnRegresar.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Ingrese el monto  del préstamo y seleccione la cuenta a la que se le depositará");
 
         btnSolicitar.setBackground(new java.awt.Color(51, 204, 0));
         btnSolicitar.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        btnSolicitar.setForeground(new java.awt.Color(0, 0, 0));
         btnSolicitar.setText("SOLICITAR");
+        btnSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Monto:");
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Cuenta:");
 
         fieldMonto.setBackground(new java.awt.Color(153, 153, 153));
         fieldMonto.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        fieldMonto.setForeground(new java.awt.Color(0, 0, 0));
-        fieldMonto.setText("Ingrese el monto");
+        fieldMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldMontoActionPerformed(evt);
+            }
+        });
 
         comboBoxCuentas.setBackground(new java.awt.Color(153, 153, 153));
         comboBoxCuentas.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        comboBoxCuentas.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCuentasActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        jLabel6.setText("Tipo de prestamo:");
+
+        comboBoxTipoPrestamo.setBackground(new java.awt.Color(153, 153, 153));
+        comboBoxTipoPrestamo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        comboBoxTipoPrestamo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Personal", "Hipotecario", "Automotriz", "Estudiantil", "Nomina" }));
+        comboBoxTipoPrestamo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxTipoPrestamoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -91,35 +127,46 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addComponent(jLabel2))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addGap(165, 165, 165)
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(159, 159, 159)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(258, 258, 258)
+                        .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 48, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxTipoPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(221, 221, 221))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addGap(87, 87, 87)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxTipoPrestamo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
@@ -153,7 +200,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, Short.MAX_VALUE)
+                .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -173,20 +220,71 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboBoxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCuentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxCuentasActionPerformed
+
+    private void comboBoxTipoPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTipoPrestamoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxTipoPrestamoActionPerformed
+
+    private void fieldMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldMontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldMontoActionPerformed
+
+    private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
+        // TODO add your handling code here:
+
+        LocalDateTime hora = LocalDateTime.now();
+        double monto = Double.parseDouble(fieldMonto.getText());
+        String tip = (String) comboBoxTipoPrestamo.getSelectedItem();
+
+        String estado = "creado";
+        SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
+
+        int id = empleado.getId();
+
+        int tipoId = 0;
+
+        if (tip.equalsIgnoreCase("personal")) {
+            tipoId = 1;
+        } else if (tip.equalsIgnoreCase("hipotecario")) {
+            tipoId = 2;
+        } else if (tip.equalsIgnoreCase("automotriz")) {
+            tipoId = 3;
+        } else if (tip.equalsIgnoreCase("estudiantil")) {
+            tipoId = 4;
+        } else if (tip.equalsIgnoreCase("nomina")) {
+            tipoId = 5;
+        } else {
+            JOptionPane.showMessageDialog(this, "Tipo de préstamo no válido seleccionado.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        SolicitudPrestamoDTO info = new SolicitudPrestamoDTO(hora, monto, estado, tipoId, 1);
+        try {
+            solicitud.guardarSolicitud(info);
+        } catch (NegocioException ex) {
+            Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSolicitarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnSolicitar;
     private javax.swing.JComboBox<String> comboBoxCuentas;
+    private javax.swing.JComboBox<String> comboBoxTipoPrestamo;
     private javax.swing.JTextField fieldMonto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
