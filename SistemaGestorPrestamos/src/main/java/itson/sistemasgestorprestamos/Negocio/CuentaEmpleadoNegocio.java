@@ -5,6 +5,7 @@
 package itson.sistemasgestorprestamos.Negocio;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.RegistrarCuentaEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.CuentasEmpleadosDominio;
 import itson.sistemasgestorprestamos.persistencia.ICuentaEmpleadoDAO;
 import itson.sistemasgestorprestamos.persistencia.PersistenciaException;
@@ -17,14 +18,13 @@ import java.util.logging.Logger;
  * @author adell
  */
 public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
-    
+
     private ICuentaEmpleadoDAO CuentaDAO;
 
     public CuentaEmpleadoNegocio(ICuentaEmpleadoDAO CuentaDAO) {
         this.CuentaDAO = CuentaDAO;
     }
-    
-    
+
     @Override
     public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) throws NegocioException {
         try {
@@ -34,5 +34,35 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
         }
         return null;
     }
-    
+
+    @Override
+    public CuentasEmpleadosDominio registrarCuenta(RegistrarCuentaEmpleadoDTO cuentaEmpleado) throws NegocioException {
+        try {
+            return CuentaDAO.registrarCuenta(cuentaEmpleado);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public void eliminarCuentaPorId(int id) throws NegocioException {
+        try {
+            CuentaDAO.eliminarCuentaPorId(id);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @Override
+    public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws NegocioException {
+        try {
+            return CuentaDAO.obtenerIdCuentaDepartamentoPorClabe(clabe);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
 }

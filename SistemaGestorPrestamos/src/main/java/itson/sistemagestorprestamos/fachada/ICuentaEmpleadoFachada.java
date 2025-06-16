@@ -16,5 +16,5 @@ import java.util.List;
 public interface ICuentaEmpleadoFachada {
 
     public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) throws NegocioException;
-
+    public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws NegocioException;
 }

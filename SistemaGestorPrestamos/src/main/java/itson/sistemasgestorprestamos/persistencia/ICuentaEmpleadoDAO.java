@@ -18,5 +18,6 @@ public interface ICuentaEmpleadoDAO {
     
     public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) 
             throws PersistenciaException;
-
+    
+    public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws PersistenciaException;
 }
