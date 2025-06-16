@@ -11,8 +11,6 @@ import itson.sistemasgestorprestamos.DTO.RegistrarAbonoDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
-import itson.sistemasgestorprestamos.persistencia.PersistenciaException;
-import static java.lang.Float.parseFloat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -208,6 +206,7 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
             RegistrarAbonoDTO abono = new RegistrarAbonoDTO(monto, jefe.getId(), id);
             abonar.registrarAbono(abono);
             JOptionPane.showMessageDialog(this, "Abono registrado correctamente.");
+            this.dispose();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NegocioException ex) {
