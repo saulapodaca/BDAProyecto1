@@ -18,11 +18,15 @@ import java.util.logging.Logger;
  */
 public class AgregarEmpleadoFrm extends javax.swing.JFrame {
 
+    private AdministrarEmpleadosFrm adminEmpleadosFrm;
+    
     /**
      * Creates new form ConsultaPrestamoFrm
      */
-    public AgregarEmpleadoFrm() {
+    public AgregarEmpleadoFrm(AdministrarEmpleadosFrm adminEmpleadosFrm) {
         initComponents();
+        this.adminEmpleadosFrm = adminEmpleadosFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     empleadoFachada empleado = new empleadoFachada();
@@ -65,6 +69,11 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
         tituloLbl.setText("AGREGAR EMPLEADO");
 
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         lblNombre.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -229,6 +238,8 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
             int iddepartamento = jefe.getId();
             GuardarEmpleadoDTO empleadoGuardar = new GuardarEmpleadoDTO(nombre, apellidoP, apellidoM, usuario, contraseña, iddepartamento);
             empleado.guardar(empleadoGuardar);
+            new AgregarCuentaEmpleadoFrm(this).setVisible(true);
+            this.setVisible(false);
 
         } catch (NegocioException ex) {
             Logger.getLogger(AgregarEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,6 +250,12 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
     private void txtFieldApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldApellidoPActionPerformed
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        adminEmpleadosFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
   
 

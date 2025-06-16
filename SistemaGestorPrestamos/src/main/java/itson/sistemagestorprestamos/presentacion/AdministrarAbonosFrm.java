@@ -21,13 +21,17 @@ import javax.swing.table.DefaultTableModel;
  * @author Camila Zubía
  */
 public class AdministrarAbonosFrm extends javax.swing.JFrame {
+    
+    private MenuJefeForm menuJefeFrm;
 
     /**
      * Creates new form AdministrarAbonosFrm
      * @throws itson.sistemasgestorprestamos.Negocio.NegocioException
      */
-    public AdministrarAbonosFrm() throws NegocioException {
+    public AdministrarAbonosFrm(MenuJefeForm menuJefeFrm) throws NegocioException {
         initComponents();
+        this.menuJefeFrm = menuJefeFrm;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     
@@ -92,6 +96,11 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         tituloLbl.setText("ADMINISTRAR ABONOS");
 
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
+        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresar1ActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
@@ -194,6 +203,12 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
     private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
         
     }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
+
+    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
+        // TODO add your handling code here:
+        menuJefeFrm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     
 
