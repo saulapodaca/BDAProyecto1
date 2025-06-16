@@ -116,6 +116,74 @@ public class EstatusDAO implements IEstatusDAO{
         }
     }
     
+    @Override
+    public int contarTotalEstatus(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+        try {
+
+            connection = this.conexion.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT COUNT(es.id)
+            FROM estatus AS es
+            INNER JOIN prestamos AS p
+            ON es.id_prestamo = p.id
+            WHERE 1=1
+            """);
+
+            List<Object> parametros = new ArrayList<>();
+
+            String filtroTexto = "%" + filtro.getFiltro() + "%";
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                queryBuilder.append("""
+                AND (CAST(nombre AS CHAR) LIKE ?
+                    OR CAST(fecha_hora AS CHAR) LIKE ?)
+                 """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                int parameterIndex = i + 1;
+                if (param instanceof String) {
+                    preparedStatement.setString(parameterIndex, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(parameterIndex, (Integer) param);
+                }
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un problema al contar empleados: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en contarTotalEmpleados: " + closeEx.getMessage());
+            }
+        }
+    }
+    
     private EstatusDominio convertirEstatusDominio(ResultSet set) throws SQLException{
         int id = set.getInt("id");
         String txtEstatus = set.getString("nombre");

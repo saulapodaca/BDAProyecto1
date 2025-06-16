@@ -7,11 +7,14 @@ package itson.sistemagestorprestamos.presentacion;
 import itson.sistemagestorprestamos.reportes.Reporte;
 import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -363,17 +366,17 @@ public class ReporteFrm extends javax.swing.JFrame {
 
         // Tipos de préstamo
         List<String> tipos = new ArrayList<>();
-        if (checkBoxPersonal.isSelected()) tipos.add("Personal");
-        if (checkBoxHipotecario.isSelected()) tipos.add("Hipotecario");
-        if (checkBoxAutomotriz.isSelected()) tipos.add("Automotriz");
-        if (checkBoxEstudiantil.isSelected()) tipos.add("Estudiantil");
-        if (checkBoxNomina.isSelected()) tipos.add("Nómina");
+        if (checkBoxPersonal.isSelected()) tipos.add("Préstamo personal");
+        if (checkBoxHipotecario.isSelected()) tipos.add("Préstamo hipotecario");
+        if (checkBoxAutomotriz.isSelected()) tipos.add("Préstamo automotriz");
+        if (checkBoxEstudiantil.isSelected()) tipos.add("Préstamo estudiantil");
+        if (checkBoxNomina.isSelected()) tipos.add("Préstamo de nómina");
         filtro.setTiposPrestamo(tipos);
 
         // Departamentos
         List<String> departamentos = new ArrayList<>();
         if (checkBoxAcademico.isSelected()) departamentos.add("Académico");
-        if (checkBoxInnovacion.isSelected()) departamentos.add("Innovación");
+        if (checkBoxInnovacion.isSelected()) departamentos.add("Inovación");
         if (checkBoxTecnologia.isSelected()) departamentos.add("Tecnología");
         if (checkBoxRH.isSelected()) departamentos.add("Recursos Humanos");
         if (checkBoxFinanzas.isSelected()) departamentos.add("Finanzas");
@@ -382,10 +385,13 @@ public class ReporteFrm extends javax.swing.JFrame {
         // Generar reporte
         Reporte reporte = new Reporte();
         reporte.generarReporte(filtro);
+        
 
     } catch (NegocioException e) {
         JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
-    }
+    }   catch (FileNotFoundException ex) {
+            Logger.getLogger(ReporteFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

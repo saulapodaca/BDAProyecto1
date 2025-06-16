@@ -28,28 +28,28 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.21.0</version> <!-- Asegúrate de usar una versión reciente o igual a la del reporte -->
+            <version>7.0.3</version> <!-- Asegúrate de usar una versión reciente o igual a la del reporte -->
         </dependency>
 
         <!-- Para soporte de Swing (JasperViewer) -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-functions</artifactId>
-            <version>6.21.0</version>
+            <version>7.0.3</version>
         </dependency>
 
         <!-- Fuente de datos con beans -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-javaflow</artifactId>
-            <version>6.21.0</version>
+            <version>7.0.3</version>
         </dependency>
 
         <!-- (Opcional, para fuentes de letra y gráficos) -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <version>6.21.0</version>
+            <version>7.0.3</version>
         </dependency>
         <dependency>
     <groupId>com.toedter</groupId>
@@ -66,5 +66,10 @@
             <artifactId>DateChooser</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
+        <dependency>
+    <groupId>org.mozilla</groupId>
+    <artifactId>rhino</artifactId>
+    <version>1.7.13</version>
+</dependency>
     </dependencies>
 </project>
