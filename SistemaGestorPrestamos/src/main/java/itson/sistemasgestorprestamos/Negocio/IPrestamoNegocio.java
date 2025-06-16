@@ -32,4 +32,5 @@ public interface IPrestamoNegocio {
     
     public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws NegocioException;
 
+    public int contarTotalPrestamos(FiltroDTO filtro) throws NegocioException;
 }

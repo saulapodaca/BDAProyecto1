@@ -30,5 +30,6 @@ public interface IPrestamoDAO {
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException;
     public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException;
 
+    public int contarTotalPrestamos(FiltroDTO filtro) throws PersistenciaException ;
     
 }

@@ -75,8 +75,6 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
         }
     }
 
-    
-
     @Override
     public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) throws PersistenciaException {
         List<CuentasEmpleadosDominio> listaCuentas = new LinkedList<>();
@@ -162,4 +160,36 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
         int idEmpleado = resultado.getInt("id_empleado");
         return new CuentasEmpleadosDominio(id, clabe, estatus, banco, saldo, idEmpleado);
     }
+
+    public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws PersistenciaException {
+    int idCuenta = -1;
+    try {
+        Connection conexion = manejadorConexiones.crearConexion();
+        String codigoSQL = """
+                           SELECT id
+                           FROM CUENTAS_DEPARTAMENTOS
+                           WHERE clabe = ?;
+                           """;
+        PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+        comando.setString(1, clabe);
+
+        ResultSet resultado = comando.executeQuery();
+        if (resultado.next()) {
+            idCuenta = resultado.getInt("id");
+        }
+
+        resultado.close();
+        comando.close();
+        conexion.close();
+
+        if (idCuenta == -1) {
+            throw new PersistenciaException("No se encontró cuenta con la clabe: " + clabe);
+        }
+
+        return idCuenta;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new PersistenciaException("Ocurrió un error al buscar el ID de la cuenta del departamento.");
+    }
+}
 }

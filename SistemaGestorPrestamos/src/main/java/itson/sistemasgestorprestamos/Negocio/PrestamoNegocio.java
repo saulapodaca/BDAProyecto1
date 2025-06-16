@@ -79,7 +79,6 @@ public class PrestamoNegocio implements IPrestamoNegocio {
         try {
             this.limiteValido(filtro);
             this.offsetValido(filtro);
-            this.filtroValido(filtro);
             return PrestamoDAO.buscarTabla(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,5 +129,21 @@ public class PrestamoNegocio implements IPrestamoNegocio {
         if (solicitud == null) {
             throw new NegocioException("el parametro es nulo");
         }
+    }
+    
+    private void tablaNula(SolicitudPrestamoDTO solicitud) throws NegocioException {
+        if (solicitud == null) {
+            throw new NegocioException("el parametro es nulo");
+        }
+    }
+
+    @Override
+    public int contarTotalPrestamos(FiltroDTO filtro) throws NegocioException {
+        try {
+            return PrestamoDAO.contarTotalPrestamos(filtro);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

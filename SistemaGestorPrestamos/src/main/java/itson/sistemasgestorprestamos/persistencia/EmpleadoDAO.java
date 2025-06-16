@@ -92,7 +92,7 @@ public class EmpleadoDAO implements IEmpleadoDAO {
 
             List<Object> parametros = new ArrayList<>();
 
-            // Añadir el filtro de texto (si existe)
+            
             String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
                 queryBuilder.append("""

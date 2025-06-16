@@ -145,7 +145,8 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
 
     private void btnSolicitarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPrestamoActionPerformed
         // TODO add your handling code here:
-        new SolicitarPrestamoFrm(this).setVisible(true);
+        
+        new SolicitudPrestamo2Frm(this).setVisible(true);
         this.setVisible(false);
 
     }//GEN-LAST:event_btnSolicitarPrestamoActionPerformed
