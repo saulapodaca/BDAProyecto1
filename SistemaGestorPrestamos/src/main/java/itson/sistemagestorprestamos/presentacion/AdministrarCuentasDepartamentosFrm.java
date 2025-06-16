@@ -9,16 +9,12 @@ package itson.sistemagestorprestamos.presentacion;
  * @author Camila Zubía
  */
 public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
-    
-    private MenuJefeForm menuJefeFrm;
 
     /**
      * Creates new form AdministrarCuentasBancariasFrm
      */
-    public AdministrarCuentasDepartamentosFrm(MenuJefeForm menuJefeFrm) {
+    public AdministrarCuentasDepartamentosFrm() {
         initComponents();
-        this.menuJefeFrm = menuJefeFrm;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -47,10 +43,13 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("ADMINISTRAR CUENTAS BANCARIAS");
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
+        tabla.setBackground(new java.awt.Color(255, 255, 255));
+        tabla.setForeground(new java.awt.Color(0, 0, 0));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -66,12 +65,8 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
         tabla.setPreferredSize(new java.awt.Dimension(1272, 560));
         jScrollPane1.setViewportView(tabla);
 
+        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
-        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegresar1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -122,12 +117,6 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
-        // TODO add your handling code here:
-        menuJefeFrm.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRegresar1ActionPerformed
 
    
 

@@ -288,7 +288,7 @@ public class SolicitarPrestamoFrm extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-        new SolicitudPrestamo2Frm(this).setVisible(true);
+        new SolicitudPrestamo2Frm().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnSiguienteActionPerformed
 

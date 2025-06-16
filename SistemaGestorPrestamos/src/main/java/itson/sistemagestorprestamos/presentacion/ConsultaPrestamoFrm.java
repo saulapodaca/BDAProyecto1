@@ -9,16 +9,12 @@ package itson.sistemagestorprestamos.presentacion;
  * @author Camila Zubía
  */
 public class ConsultaPrestamoFrm extends javax.swing.JFrame {
-    
-    private AdministrarPrestamosFrm adminPrestamosFrm;
 
     /**
      * Creates new form ConsultaPrestamoFrm
      */
-    public ConsultaPrestamoFrm(AdministrarPrestamosFrm adminPrestamosFrm) {
+    public ConsultaPrestamoFrm() {
         initComponents();
-        this.adminPrestamosFrm = adminPrestamosFrm;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -61,71 +57,87 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("CONSULTA DE PRÉSTAMO");
 
+        btnRegresar1.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
-        btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegresar1ActionPerformed(evt);
-            }
-        });
 
         lblNombre.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre:");
 
         lblParcialidades.setBackground(new java.awt.Color(255, 255, 255));
         lblParcialidades.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblParcialidades.setForeground(new java.awt.Color(0, 0, 0));
         lblParcialidades.setText("Parcialidades:");
 
         lblFecha.setBackground(new java.awt.Color(255, 255, 255));
         lblFecha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
         lblFecha.setText("Fecha:");
 
         lblMonto.setBackground(new java.awt.Color(255, 255, 255));
         lblMonto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblMonto.setForeground(new java.awt.Color(0, 0, 0));
         lblMonto.setText("Monto:");
 
         lblEstatus.setBackground(new java.awt.Color(255, 255, 255));
         lblEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblEstatus.setForeground(new java.awt.Color(0, 0, 0));
         lblEstatus.setText("Estatus actual:");
 
+        txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        txtFieldParcialidades.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldParcialidades.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldParcialidades.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldParcialidades.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        txtFieldFecha.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldFecha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldFecha.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        txtFieldMonto.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldMonto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldMonto.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldMonto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        txtFieldEstatus.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldEstatus.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldEstatus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        btnConsultarHistorial.setBackground(new java.awt.Color(255, 255, 255));
         btnConsultarHistorial.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnConsultarHistorial.setForeground(new java.awt.Color(0, 0, 0));
         btnConsultarHistorial.setText("Consultar Historial");
-        btnConsultarHistorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsultarHistorialActionPerformed(evt);
-            }
-        });
 
+        txtAreaComprobante.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaComprobante.setColumns(20);
+        txtAreaComprobante.setForeground(new java.awt.Color(0, 0, 0));
         txtAreaComprobante.setRows(5);
         txtAreaComprobante.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setViewportView(txtAreaComprobante);
 
         lblCambiarEstatus.setBackground(new java.awt.Color(255, 255, 255));
         lblCambiarEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblCambiarEstatus.setForeground(new java.awt.Color(0, 0, 0));
         lblCambiarEstatus.setText("Cambiar estatus:");
 
+        comboBoxEstatus.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxEstatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comboBoxEstatus.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RECHAZADO", "AUTORIZADO", "PAGADO", "PAGADO PARCIALMENTE", "COMPLETADO" }));
 
+        btnConfirmarCambio.setBackground(new java.awt.Color(255, 255, 255));
         btnConfirmarCambio.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnConfirmarCambio.setForeground(new java.awt.Color(0, 0, 0));
         btnConfirmarCambio.setText("Confirmar cambio");
         btnConfirmarCambio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,18 +256,6 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
     private void btnConfirmarCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCambioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConfirmarCambioActionPerformed
-
-    private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
-        // TODO add your handling code here:
-        adminPrestamosFrm.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRegresar1ActionPerformed
-
-    private void btnConsultarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarHistorialActionPerformed
-        // TODO add your handling code here:
-        new ConsultarHistorialFrm(this).setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnConsultarHistorialActionPerformed
 
     
 

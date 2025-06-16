@@ -9,16 +9,12 @@ package itson.sistemagestorprestamos.presentacion;
  * @author Camila Zubía
  */
 public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
-    
-    private SolicitarPrestamoFrm solicitarPrestamoFrm;
 
     /**
      * Creates new form SolicitudPrestamoFrm
      */
-    public SolicitudPrestamo2Frm(SolicitarPrestamoFrm solicitarPrestamoFrm) {
+    public SolicitudPrestamo2Frm() {
         initComponents();
-        this.solicitarPrestamoFrm = solicitarPrestamoFrm;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -47,39 +43,43 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("SOLICITUD DE PRESTAMO");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
+        btnRegresar.setBackground(new java.awt.Color(255, 255, 255));
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaanterior2.png"))); // NOI18N
-        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegresarActionPerformed(evt);
-            }
-        });
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Ingrese el monto  del préstamo y seleccione la cuenta a la que se le depositará");
 
         btnSolicitar.setBackground(new java.awt.Color(51, 204, 0));
         btnSolicitar.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        btnSolicitar.setForeground(new java.awt.Color(0, 0, 0));
         btnSolicitar.setText("SOLICITAR");
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Monto:");
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Cuenta:");
 
         fieldMonto.setBackground(new java.awt.Color(153, 153, 153));
         fieldMonto.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        fieldMonto.setForeground(new java.awt.Color(0, 0, 0));
         fieldMonto.setText("Ingrese el monto");
 
         comboBoxCuentas.setBackground(new java.awt.Color(153, 153, 153));
         comboBoxCuentas.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        comboBoxCuentas.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -172,12 +172,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
-        solicitarPrestamoFrm.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
