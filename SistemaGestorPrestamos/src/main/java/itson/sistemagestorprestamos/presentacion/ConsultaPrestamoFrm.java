@@ -13,6 +13,8 @@ import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.dominios.CuentasDepartamentosDominio;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -266,8 +268,12 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void btnConsultarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarHistorialActionPerformed
-        // TODO add your handling code here:
-        new ConsultarHistorialFrm(this).setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new ConsultarHistorialFrm(this).setVisible(true);
+        } catch (NegocioException ex) {
+            Logger.getLogger(ConsultaPrestamoFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_btnConsultarHistorialActionPerformed
 

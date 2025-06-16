@@ -69,49 +69,54 @@ public class EstatusDAO implements IEstatusDAO{
     @Override
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
-        try{
+        try {
             connection = this.conexion.crearConexion();
             String query = """
-                           SELECT 
+                       SELECT 
                            id,
                            nombre,
                            fecha_hora,
                            id_jefe,
                            id_prestamo
-                           FROM estatus
-                           WHERE (CAST(nombre AS CHAR) LIKE ?
-                           OR CAST(fecha_hora AS CHAR) LIKE ?
-                           OR CAST(id_jefe AS CHAR) LIKE ?
-                           OR CAST (id_prestamo AS CHAR) LIKE ?)
-                           LIMIT ?
-                           OFFSET ?
-                           """;
+                       FROM estatus
+                       WHERE (CAST(nombre AS CHAR) LIKE ?
+                              OR CAST(fecha_hora AS CHAR) LIKE ?
+                              OR CAST(id_jefe AS CHAR) LIKE ?
+                              OR CAST(id_prestamo AS CHAR) LIKE ?)
+                       LIMIT ?
+                       OFFSET ?
+                       """;
+
             PreparedStatement statement = connection.prepareStatement(query);
-            String filtroConLike = "%" + filtro.getFiltro() + "%";
+
+            String textoFiltro = filtro.getFiltro() != null ? filtro.getFiltro().trim() : "";
+            String filtroConLike = "%" + textoFiltro + "%";
+
             statement.setString(1, filtroConLike);
             statement.setString(2, filtroConLike);
             statement.setString(3, filtroConLike);
             statement.setString(4, filtroConLike);
             statement.setInt(5, filtro.getLimit());
             statement.setInt(6, filtro.getOffset());
-            
+
             ResultSet set = statement.executeQuery();
             List<TablaEstatusDTO> estatus = new ArrayList<>();
-            while(set.next()){
-                if(estatus == null){
-                    estatus.add(this.convertirTablaEstatusDTO(set));
-                }
+
+            while (set.next()) {
+                estatus.add(this.convertirTablaEstatusDTO(set));
             }
+
             set.close();
             statement.close();
             connection.close();
-            
+
             if (estatus.isEmpty()) {
-                throw new PersistenciaException("no se encontraron estatus");
+                throw new PersistenciaException("No se encontraron estatus.");
             }
+
             return estatus;
-            
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             throw new PersistenciaException("Ocurrió un error al buscar la tabla: " + ex.getMessage());
         }
     }
@@ -121,29 +126,36 @@ public class EstatusDAO implements IEstatusDAO{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultset = null;
-        try {
 
+        try {
             connection = this.conexion.crearConexion();
 
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("""
             SELECT COUNT(es.id)
             FROM estatus AS es
-            INNER JOIN prestamos AS p
-            ON es.id_prestamo = p.id
+            INNER JOIN prestamos AS p ON es.id_prestamo = p.id
+            INNER JOIN cuentas_departamentos AS cd ON p.id_cuenta_departamento = cd.id
+            INNER JOIN departamentos AS d ON cd.id_departamento = d.id
             WHERE 1=1
-            """);
+        """);
 
             List<Object> parametros = new ArrayList<>();
 
-            String filtroTexto = "%" + filtro.getFiltro() + "%";
-            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+            String texto = filtro.getFiltro() != null ? filtro.getFiltro().trim() : "";
+            if (!texto.isEmpty()) {
+                String filtroTexto = "%" + texto + "%";
                 queryBuilder.append("""
-                AND (CAST(nombre AS CHAR) LIKE ?
-                    OR CAST(fecha_hora AS CHAR) LIKE ?)
-                 """);
+                AND (CAST(es.nombre AS CHAR) LIKE ?
+                     OR CAST(es.fecha_hora AS CHAR) LIKE ?)
+            """);
                 parametros.add(filtroTexto);
                 parametros.add(filtroTexto);
+            }
+
+            if (filtro.getIdDepartamento() != null) {
+                queryBuilder.append(" AND d.id = ?");
+                parametros.add(filtro.getIdDepartamento());
             }
 
             preparedStatement = connection.prepareStatement(queryBuilder.toString());
@@ -151,6 +163,7 @@ public class EstatusDAO implements IEstatusDAO{
             for (int i = 0; i < parametros.size(); i++) {
                 Object param = parametros.get(i);
                 int parameterIndex = i + 1;
+
                 if (param instanceof String) {
                     preparedStatement.setString(parameterIndex, (String) param);
                 } else if (param instanceof Integer) {
@@ -163,10 +176,11 @@ public class EstatusDAO implements IEstatusDAO{
             if (resultset.next()) {
                 return resultset.getInt(1);
             }
+
             return 0;
 
         } catch (SQLException e) {
-            throw new PersistenciaException("Ocurrió un problema al contar empleados: " + e.getMessage());
+            throw new PersistenciaException("Ocurrió un problema al contar estatus: " + e.getMessage());
         } finally {
             try {
                 if (resultset != null) {
@@ -179,7 +193,7 @@ public class EstatusDAO implements IEstatusDAO{
                     connection.close();
                 }
             } catch (SQLException closeEx) {
-                System.err.println("Error al cerrar recursos en contarTotalEmpleados: " + closeEx.getMessage());
+                System.err.println("Error al cerrar recursos en contarTotalEstatus: " + closeEx.getMessage());
             }
         }
     }
