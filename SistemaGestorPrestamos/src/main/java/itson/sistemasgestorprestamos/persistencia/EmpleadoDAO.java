@@ -217,14 +217,14 @@ public class EmpleadoDAO implements IEmpleadoDAO {
 
     @Override
     public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
-        Connection connection = null; // Inicializamos a null para asegurar el cierre en el finally
+        Connection connection = null; 
         PreparedStatement preparedStatement = null;
         ResultSet resultset = null;
 
         try {
-            connection = this.conexion.crearConexion(); // Obtiene la conexión
+            connection = this.conexion.crearConexion(); 
 
-            // 1. Construir la consulta SQL dinámicamente
+           
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("""
             SELECT
@@ -233,17 +233,17 @@ public class EmpleadoDAO implements IEmpleadoDAO {
                 em.apellidoPaterno,
                 em.apellidoMaterno,
                 em.id_departamento,
-                de.nombre AS nombreDepartamento  -- ¡Es buena práctica usar un alias para claridad!
+                de.nombre AS nombreDepartamento  
             FROM empleados AS em
             INNER JOIN departamentos AS de
             ON em.id_departamento = de.id
-            WHERE 1=1 -- Clausula base para facilitar la adicion de AND (siempre es verdadera)
+            WHERE 1=1 
         """);
 
-            // Lista para almacenar los parámetros en el orden correcto
+           
             List<Object> parametros = new ArrayList<>();
 
-            // 2. Añadir el filtro de texto (si el filtro no está vacío)
+            
             String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
                 queryBuilder.append("""

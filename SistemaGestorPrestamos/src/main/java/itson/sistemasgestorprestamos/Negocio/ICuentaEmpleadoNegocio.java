@@ -4,10 +4,14 @@
  */
 package itson.sistemasgestorprestamos.Negocio;
 
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.dominios.CuentasEmpleadosDominio;
+import java.util.List;
+
 /**
  *
  * @author adell
  */
 public interface ICuentaEmpleadoNegocio {
-    
+        public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) throws NegocioException;
 }
