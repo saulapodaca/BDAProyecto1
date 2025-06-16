@@ -4,14 +4,16 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
-import itson.sistemagestorprestamos.fachada.prestamoFachada;
+import itson.sistemagestorprestamos.utilidades.Editor;
+import itson.sistemagestorprestamos.utilidades.Renderer;
 import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
-import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.DTO.TablaAbonosDTO;
+import itson.sistemasgestorprestamos.Negocio.AbonoNegocio;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.List;
-import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,77 +32,35 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         initComponents();
         this.menuJefeFrm = menuJefeFrm;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.cargarMetodosIniciales();
     }
     
-    private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 1;
-    private int totalElementos = 0;
-    private int totalPaginas = 0;
-
-    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
-    prestamoFachada prestamo = new prestamoFachada();
-
-    public void cargarMetodosIniciales() throws NegocioException {
-        this.cargarEnTabla();
+    
+    private void agregarBotonInfo(JTable tabla) {
+        tabla.getColumn("INFO").setCellRenderer(new Renderer("Info"));
+        tabla.getColumn("INFO").setCellEditor(new Editor(tabla, "Info"));
     }
-
-    private void llenarTabla(List<TablaPrestamosDTO> listaEmpleados) {
-        DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
-
-        if (modeloTabla.getRowCount() > 0) {
-            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
-                modeloTabla.removeRow(i);
+    
+    private void cargarAbonosEnTabla(List<TablaAbonosDTO> abonos) {
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID", "Fecha", "Monto", "ID Jefe", "ID Préstamo", "INFO"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 5;
             }
-        }
+        };
 
-        if (listaEmpleados != null) {
-            listaEmpleados.forEach(row
-                    -> {
-                Object[] fila = new Object[8];
-                fila[0] = row.getId();
-                fila[1] = row.getFechaHora();
-                fila[2] = row.getEstatus();
-                fila[3] = row.getMonto();
-                modeloTabla.addRow(fila);
-
+        for (TablaAbonosDTO abono : abonos) {
+            modelo.addRow(new Object[]{
+                abono.getId(),
+                abono.getFecha(),
+                abono.getMonto(),
+                abono.getIdJefe(),
+                abono.getIdPrestamo(),
+                "Info"
             });
         }
 
-    }
-    
-    public void cargarEnTabla() throws NegocioException {
-
-        if (jefe == null) {
-            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver los empleados.", "Sesión no iniciada", JOptionPane.WARNING_MESSAGE);
-
-            return;
-        }
-        int idDepartamentoJefe = jefe.getIdDepartamento();
-
-        String textoFiltro = txtFiltroBusqueda.getText();
-        FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
-
-        this.totalElementos = this.prestamo.contarTotalPrestamos(filtroConteo);
-
-        this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
-
-        if (paginaActual >= totalPaginas && totalPaginas > 0) {
-            paginaActual = totalPaginas - 1;
-        } else if (totalPaginas == 0) {
-            paginaActual = 0;
-        }
-
-        int offset = paginaActual * LIMITE_POR_PAGINA;
-
-        FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
-        
-        if (prestamo.buscarTabla(filtroActual) == null) {
-            JOptionPane.showMessageDialog(this, "la tabla es nula");
-        }
-        List<TablaPrestamosDTO> listaPrestamo = this.prestamo.buscarTabla(filtroActual);
-        this.llenarTabla(listaPrestamo);
-
+        tabla.setModel(modelo);
+        agregarBotonInfo(tabla);
     }
 
     
@@ -120,7 +80,6 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         txtFiltroBusqueda = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,11 +130,6 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Abonar");
-
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -191,13 +145,8 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(81, 81, 81)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(427, 427, 427)
-                                .addComponent(jButton1))))
+                        .addGap(81, 81, 81)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -215,14 +164,12 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton1)
-                        .addGap(0, 13, Short.MAX_VALUE)))
-                .addGap(57, 57, 57))
+                        .addContainerGap(133, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -254,16 +201,7 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltroBusquedaActionPerformed
 
     private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-
-            this.paginaActual = 0;
-            try {
-                cargarEnTabla();
-            } catch (NegocioException ex) {
-                JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
-            }
-        }
+        
     }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
@@ -276,7 +214,6 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelFondo;
