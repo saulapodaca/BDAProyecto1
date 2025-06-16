@@ -186,7 +186,11 @@ public class MenuJefeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdministrarCuentasDptoActionPerformed
 
     private void btnAutorizarPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizarPrestamosActionPerformed
-        new AdministrarPrestamosFrm(this).setVisible(true);
+        try {
+            new AdministrarPrestamosFrm(this).setVisible(true);
+        } catch (NegocioException ex) {
+            Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
         
     }//GEN-LAST:event_btnAutorizarPrestamosActionPerformed

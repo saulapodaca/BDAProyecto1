@@ -4,6 +4,16 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.prestamoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Camila Zubía
@@ -15,10 +25,81 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
     /**
      * Creates new form AdministrarCuentasBancariasFrm
      */
-    public AdministrarPrestamosFrm(MenuJefeForm menuJefeFrm) {
+    public AdministrarPrestamosFrm(MenuJefeForm menuJefeFrm) throws NegocioException {
         initComponents();
         this.menuJefeFrm = menuJefeFrm;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.cargarMetodosIniciales();
+    }
+    
+    private int paginaActual = 0;
+    private final int LIMITE_POR_PAGINA = 1;
+    private int totalElementos = 0;
+    private int totalPaginas = 0;
+
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
+    prestamoFachada prestamo = new prestamoFachada();
+    
+    public void cargarMetodosIniciales() throws NegocioException {
+        this.cargarEnTabla();
+    }
+    
+    private void llenarTabla(List<TablaPrestamosDTO> listaEmpleados) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (listaEmpleados != null) {
+            listaEmpleados.forEach(row
+                    -> {
+                Object[] fila = new Object[8];
+                fila[0] = row.getId();
+                fila[1] = row.getMonto();
+                fila[2] = row.getCuentaDepartamento();
+                fila[3] = row.getCuentaEmpleado();
+                modeloTabla.addRow(fila);
+
+            });
+        }
+
+    }
+    
+    public void cargarEnTabla() throws NegocioException {
+
+        if (jefe == null) {
+            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver los empleados.", "Sesión no iniciada", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        int idDepartamentoJefe = jefe.getIdDepartamento();
+
+        String textoFiltro = "";
+        FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
+
+        this.totalElementos = this.prestamo.contarTotalPrestamos(filtroConteo);
+
+        this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
+
+        if (paginaActual >= totalPaginas && totalPaginas > 0) {
+            paginaActual = totalPaginas - 1;
+        } else if (totalPaginas == 0) {
+            paginaActual = 0;
+        }
+
+        int offset = paginaActual * LIMITE_POR_PAGINA;
+
+        FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
+        
+        if (prestamo.buscarTabla(filtroActual) == null) {
+            JOptionPane.showMessageDialog(this, "la tabla es nula");
+        }
+        List<TablaPrestamosDTO> listaPrestamo = this.prestamo.buscarTabla(filtroActual);
+        this.llenarTabla(listaPrestamo);
+
     }
 
     /**
@@ -53,13 +134,13 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "MONTO", "DEPARTAMENTO", "ID EMPLEADO", "ACCIONES"
+                "ID", "MONTO", "DEPARTAMENTO", "ID EMPLEADO"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));

@@ -45,7 +45,7 @@ public class PrestamoDAO implements IPrestamoDAO {
                            estatusActual,
                            id_tipo,
                            id_cuenta_empleado)
-                           VALUES(?,?,?,?)
+                           VALUES(?,?,?,?,?)
                            """;
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
