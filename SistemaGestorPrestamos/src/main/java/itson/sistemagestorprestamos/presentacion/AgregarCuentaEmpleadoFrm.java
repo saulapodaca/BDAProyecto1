@@ -194,6 +194,9 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
             RegistrarCuentaEmpleadoDTO cuenta = new RegistrarCuentaEmpleadoDTO(clabe, banco,0 , empleado.getId());
             cuentaEmpleadoFachada.registrarCuenta(cuenta);
             this.setVisible(false);
+            agregarEmpleadoFrm.setVisible(true);
+            this.dispose();
+            JOptionPane.showMessageDialog(this, "Se ha agregado correctamente el empelado y su cuenta");
         } catch (NegocioException ex) {
             Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error al registrar la cuenta del empleado.");

@@ -44,7 +44,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             }
 
             ResultSet resultado = comando.getGeneratedKeys();
-            int id = resultado.getInt("1");
+            int id = resultado.getInt(1);
             CuentasEmpleadosDominio cuenta = buscarCuentasPorId(id);
             resultado.close();
             comando.close();
