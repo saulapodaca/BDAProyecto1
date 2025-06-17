@@ -13,6 +13,7 @@ import itson.sistemasgestorprestamos.DTO.TablaPrestamosDTO;
 import itson.sistemasgestorprestamos.DTO.filtroPrestamosDTO;
 import itson.sistemasgestorprestamos.dominios.Estatus;
 import itson.sistemasgestorprestamos.dominios.PrestamosDominio;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -34,6 +35,27 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     public PrestamoDAO(IConexionBD conexion) {
         this.conexion = conexion;
+    }
+
+    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo)  throws PersistenciaException {
+        Connection connection = null;
+
+        try {
+            connection = this.conexion.crearConexion();
+
+            CallableStatement stmt = connection.prepareCall("{ CALL pago_prestamo(?, ?, ?) }");
+
+            stmt.setInt(1, idCuentaEmpleado);
+            stmt.setInt(2, idCuentaDepartamento);
+            stmt.setInt(3, idPrestamo);
+
+            stmt.execute();
+
+            System.out.println("Préstamo pagado exitosamente.");
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un error al solicitar el prestamo" + e.getMessage());
+        }
     }
 
     @Override
@@ -307,7 +329,7 @@ public class PrestamoDAO implements IPrestamoDAO {
             }
         }
     }
-    
+
     @Override
     public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -400,30 +422,34 @@ public class PrestamoDAO implements IPrestamoDAO {
             }
         }
     }
-    
+
     @Override
-    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException{
+    public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException {
         List<ReportePrestamoDTO> listaPrestamos = new ArrayList<>();
-        try{
+        try {
             String codigoSQL = codigoSQLReportePrestamo(filtro);
             int index = 3;
             Connection connection = this.conexion.crearConexion();
             PreparedStatement comando = connection.prepareStatement(codigoSQL);
-           
+
             Date fechaInicio = Date.valueOf(filtro.getFechaInicio());
             Date fechaFin = Date.valueOf(filtro.getFechaFin());
             comando.setDate(1, fechaInicio);
             comando.setDate(2, fechaFin);
-            
-            if (filtro.getTiposPrestamo() != null)
-                for (String tipo : filtro.getTiposPrestamo())
+
+            if (filtro.getTiposPrestamo() != null) {
+                for (String tipo : filtro.getTiposPrestamo()) {
                     comando.setString(index++, tipo);
-            if (filtro.getDepartamentos() != null)
-                for (String departamento : filtro.getDepartamentos())   
+                }
+            }
+            if (filtro.getDepartamentos() != null) {
+                for (String departamento : filtro.getDepartamentos()) {
                     comando.setString(index++, departamento);
-            
+                }
+            }
+
             ResultSet resultado = comando.executeQuery();
-            while (resultado.next()){
+            while (resultado.next()) {
                 ReportePrestamoDTO prestamo = new ReportePrestamoDTO();
                 prestamo.setTipoPrestamo(resultado.getString("tipoPrestamo"));
                 prestamo.setDepartamento(resultado.getString("departamento"));
@@ -435,26 +461,26 @@ public class PrestamoDAO implements IPrestamoDAO {
             resultado.close();
             comando.close();
             connection.close();
-            
+
             return listaPrestamos;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new PersistenciaException("Ocurrió un error al buscar los prestamos: " + e.getMessage());
         }
-            
+
     }
 
     /**
-     * esto valida que exista algun tipo de prestamo por el cual filtrar
-            si no es null entra y lo que hace es que con el sb se agrega al codigo
-            visto anteriormente y  entra a un ciclo que dependiendo de cuantos tipos
-            tenga la lista se irán agregando para que contenga todos
-            ej si tiene 3 tipos de prestamo por los cuales filtrar entrará 3 veces
-            y se agregarán los 3 parametros por los cuales filtrar
-            capich o no capich
-            a y el delete chart lo q hace es que si se ve en el segundo append
-            se agrega un  "?" junto a una "," entonces lanzaría error, para evitarlo,
-            despues de que se agreguen todos por los que se filtrará borra el último
-            caracter que es la ","
+     * esto valida que exista algun tipo de prestamo por el cual filtrar si no
+     * es null entra y lo que hace es que con el sb se agrega al codigo visto
+     * anteriormente y entra a un ciclo que dependiendo de cuantos tipos tenga
+     * la lista se irán agregando para que contenga todos ej si tiene 3 tipos de
+     * prestamo por los cuales filtrar entrará 3 veces y se agregarán los 3
+     * parametros por los cuales filtrar capich o no capich a y el delete chart
+     * lo q hace es que si se ve en el segundo append se agrega un "?" junto a
+     * una "," entonces lanzaría error, para evitarlo, despues de que se
+     * agreguen todos por los que se filtrará borra el último caracter que es la
+     * ","
+     *
      * @param filtro
      * @return codigo sql
      */
@@ -485,10 +511,10 @@ public class PrestamoDAO implements IPrestamoDAO {
                     .append("?,".repeat(filtro.getDepartamentos().size()))
                     .deleteCharAt(codigoSQL.length() - 1).append(")");
         }
-        
+
         return codigoSQL.toString();
     }
-       
+
     private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();

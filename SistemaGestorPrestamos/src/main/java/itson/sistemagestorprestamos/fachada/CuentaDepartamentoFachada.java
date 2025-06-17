@@ -23,7 +23,7 @@ import java.util.List;
 public class CuentaDepartamentoFachada implements ICuentaDepartamentoFachada {
 
     private ICuentaDepartamentoNegocio CuentaDepartamentoNegocio;
-
+    private int numero = 0;
     public CuentaDepartamentoFachada() {
         IConexionBD conexion = new ConexionBD();
         ICuentaDepartamentoDAO cuentaDepartamentoDAO = new CuentaDepartamentoDAO(conexion);
