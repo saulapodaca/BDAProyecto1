@@ -65,7 +65,7 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                 fila[1] = row.getMonto();
                 fila[2] = row.getFechaHora();
                 fila[3] = row.getEstatus();
-                fila[4] = row.getMonto();
+                fila[4] = row.getTipoPrestamo();
                 modeloTabla.addRow(fila);
 
             });
@@ -161,7 +161,7 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID EMPLEADO", "MONTO", "FECHA", "ESTATUS", "INFO"
+                "ID EMPLEADO", "MONTO", "FECHA", "ESTATUS", "ID TIPO"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));

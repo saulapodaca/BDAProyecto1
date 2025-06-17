@@ -6,6 +6,7 @@ package itson.sistemagestorprestamos.fachada;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.RegistrarCuentaDepartamentoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
 import itson.sistemasgestorprestamos.Negocio.CuentaDepartamentoNegocio;
 import itson.sistemasgestorprestamos.Negocio.ICuentaDepartamentoNegocio;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
@@ -49,6 +50,16 @@ public class CuentaDepartamentoFachada implements ICuentaDepartamentoFachada {
     @Override
     public CuentasDepartamentosDominio buscarCuentaPorId(int id) throws NegocioException {
         return CuentaDepartamentoNegocio.buscarCuentaPorId(id);
+    }
+
+    @Override
+    public int contarTotalCuentas(FiltroDTO filtro) throws NegocioException {
+        return CuentaDepartamentoNegocio.contarTotalCuentas(filtro);
+    }
+
+    @Override
+    public List<TablaCuentasDepartamentoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
+        return CuentaDepartamentoNegocio.buscarTabla(filtro);
     }
 
 }

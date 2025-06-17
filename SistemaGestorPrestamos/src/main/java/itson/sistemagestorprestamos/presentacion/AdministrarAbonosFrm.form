@@ -197,7 +197,7 @@
                     <Column editable="true" title="MONTO" type="java.lang.Object"/>
                     <Column editable="true" title="FECHA" type="java.lang.Object"/>
                     <Column editable="true" title="ESTATUS" type="java.lang.Object"/>
-                    <Column editable="true" title="INFO" type="java.lang.Object"/>
+                    <Column editable="true" title="ID TIPO" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

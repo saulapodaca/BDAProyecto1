@@ -6,6 +6,7 @@ package itson.sistemagestorprestamos.fachada;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.RegistrarCuentaDepartamentoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.dominios.CuentasDepartamentosDominio;
 import java.util.List;
@@ -25,4 +26,8 @@ public interface ICuentaDepartamentoFachada {
     public void eliminarCuentaPorId(int id) throws NegocioException;
 
     public CuentasDepartamentosDominio buscarCuentaPorId(int id) throws NegocioException;
+    
+    public int contarTotalCuentas(FiltroDTO filtro) throws NegocioException;
+    
+    public List<TablaCuentasDepartamentoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
 }
