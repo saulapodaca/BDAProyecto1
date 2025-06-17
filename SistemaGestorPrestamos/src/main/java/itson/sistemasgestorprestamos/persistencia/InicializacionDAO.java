@@ -31,17 +31,18 @@ public class InicializacionDAO implements IInicializacionDAO {
         }
     }
     
+    @Override
     public boolean existenDatosIniciales() throws PersistenciaException{
-        String codigoSQL = "SELECT COUNT(*) FROM departamentos";
+        String codigoSQL = "SELECT count(id) FROM departamentos";
         try {
             Connection connection = conexionBD.crearConexion();
             PreparedStatement comando = connection.prepareStatement(codigoSQL);
             ResultSet resultado = comando.executeQuery();
             if(resultado.next())
-                return resultado.getInt(1)>0;
+                return resultado.getInt(1) > 0;
             return false;
         } catch (SQLException e){
-            throw new PersistenciaException("Ya existen datos dentro de la BD.");
+            throw new PersistenciaException("Error al validar datos iniciales.");
         }
     }
 }

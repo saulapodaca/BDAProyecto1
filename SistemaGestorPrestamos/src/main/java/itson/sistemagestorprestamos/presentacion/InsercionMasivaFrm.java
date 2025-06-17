@@ -109,6 +109,7 @@ public class InsercionMasivaFrm extends javax.swing.JFrame {
             inicializacionFachada.insertarDatosMasivos();
             JOptionPane.showMessageDialog(this, "Datos insertados correctamente.");
             this.dispose();
+            new InicioSesionFrm().setVisible(true);
         } catch (NegocioException e){
             JOptionPane.showMessageDialog(rootPane, e.getMessage(), "ERROR", ERROR);
         }
