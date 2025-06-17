@@ -232,10 +232,10 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
             int idPrestamo = (int) tabla.getValueAt(filaSeleccionada, 0);
             try {
                 prestamo.buscarPorId(idPrestamo);
-                System.out.println(prestamo.buscarPorId(idPrestamo));
                 new ConsultaPrestamoFrm(this, idPrestamo).setVisible(true);
             } catch (NegocioException ex) {
                 Logger.getLogger(AdministrarPrestamosFrm.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "error al consultar el prestamo");
             }
         }
     }//GEN-LAST:event_btnConsultarActionPerformed

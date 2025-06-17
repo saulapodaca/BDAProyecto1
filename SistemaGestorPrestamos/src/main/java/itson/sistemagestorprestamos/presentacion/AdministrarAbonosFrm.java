@@ -62,9 +62,10 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
                     -> {
                 Object[] fila = new Object[8];
                 fila[0] = row.getId();
-                fila[1] = row.getFechaHora();
-                fila[2] = row.getEstatus();
-                fila[3] = row.getMonto();
+                fila[1] = row.getMonto();
+                fila[2] = row.getFechaHora();
+                fila[3] = row.getEstatus();
+                fila[4] = row.getMonto();
                 modeloTabla.addRow(fila);
 
             });
@@ -150,15 +151,17 @@ public class AdministrarAbonosFrm extends javax.swing.JFrame {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(951, 341));
 
+        tabla.setBackground(new java.awt.Color(255, 255, 255));
+        tabla.setForeground(new java.awt.Color(0, 0, 0));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID EMPLEADO", "MONTO", "ESTATUS", "INFO"
+                "ID EMPLEADO", "MONTO", "FECHA", "ESTATUS", "INFO"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));
