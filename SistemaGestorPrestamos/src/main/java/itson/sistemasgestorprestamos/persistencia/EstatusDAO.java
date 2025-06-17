@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
@@ -17,21 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Esta clase maneja las operaciones de acceso a datos relacionadas con los
+ * estatus de préstamos.
  *
  * @author Camila Zubía
  */
-public class EstatusDAO implements IEstatusDAO{
-    
+public class EstatusDAO implements IEstatusDAO {
+
     private IConexionBD conexion;
 
     public EstatusDAO(IConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Busca un estatus específico por su ID en la base de datos.
+     *
+     * @param id Identificador del estatus.
+     * @return EstatusDominio si se encuentra el registro.
+     * @throws PersistenciaException PersistenciaException si el estatus no
+     * existe o hay un error en la consulta.
+     */
     @Override
     public EstatusDominio buscarPorId(int id) throws PersistenciaException {
         Connection connection = null;
-        try{
+        try {
             connection = this.conexion.crearConexion();
             String query = """
                            SELECT 
@@ -48,7 +54,7 @@ public class EstatusDAO implements IEstatusDAO{
 
             ResultSet set = statement.executeQuery();
             EstatusDominio estatus = null;
-            if(set.next()) {
+            if (set.next()) {
                 estatus = this.convertirEstatusDominio(set);
             }
             set.close();
@@ -60,12 +66,20 @@ public class EstatusDAO implements IEstatusDAO{
             }
 
             return estatus;
-            
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             throw new PersistenciaException("Ocurrió un error al buscar el estatus: " + ex.getMessage());
         }
     }
 
+    /**
+     * Obtiene una lista de estatus según los filtros proporcionados.
+     *
+     * @param filtro Objeto con los criterios de búsqueda.
+     * @return Lista de TablaEstatusDTO con los estatus encontrados.
+     * @throws PersistenciaException Si la consulta no devuelve resultados o hay
+     * un error.
+     */
     @Override
     public List<TablaEstatusDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -120,7 +134,15 @@ public class EstatusDAO implements IEstatusDAO{
             throw new PersistenciaException("Ocurrió un error al buscar la tabla: " + ex.getMessage());
         }
     }
-    
+
+    /**
+     * Cuenta el total de registros de estatus en la base de datos según los
+     * filtros.
+     *
+     * @param filtro Objeto con criterios de búsqueda.
+     * @return Número total de registros encontrados.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
     @Override
     public int contarTotalEstatus(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -197,8 +219,16 @@ public class EstatusDAO implements IEstatusDAO{
             }
         }
     }
-    
-    private EstatusDominio convertirEstatusDominio(ResultSet set) throws SQLException{
+
+    /**
+     * Convierte un resultado de consulta SQL (`ResultSet`) en una instancia de
+     * `EstatusDominio`.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return Instancia de `EstatusDominio` con los valores obtenidos.
+     * @throws SQLException Si hay un error al obtener los datos.
+     */
+    private EstatusDominio convertirEstatusDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         String txtEstatus = set.getString("nombre");
         Estatus estatus = Estatus.fromString(txtEstatus);
@@ -207,7 +237,15 @@ public class EstatusDAO implements IEstatusDAO{
         int idPrestamo = set.getInt("id_prestamo");
         return new EstatusDominio(id, estatus, fechaHora, idJefe, idPrestamo);
     }
-    
+
+    /**
+     * Convierte un resultado de consulta SQL (`ResultSet`) en una instancia de
+     * `TablaEstatusDTO`.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return Instancia de `TablaEstatusDTO` con los valores obtenidos.
+     * @throws SQLException Si hay un error al obtener los datos.
+     */
     private TablaEstatusDTO convertirTablaEstatusDTO(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         String txtEstatus = set.getString("nombre");

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemagestorprestamos.utilidades.SesionIniciada;
@@ -37,7 +33,17 @@ public class PrestamoDAO implements IPrestamoDAO {
         this.conexion = conexion;
     }
 
-    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo)  throws PersistenciaException {
+    /**
+     * Este método realiza el pago de un préstamo utilizando una llamada a un
+     * procedimiento almacenado en la base de datos.
+     *
+     * @param idCuentaEmpleado Identificador de la cuenta del empleado.
+     * @param idCuentaDepartamento Identificador de la cuenta del departamento.
+     * @param idPrestamo Identificador del préstamo a pagar.
+     * @throws PersistenciaException
+     */
+    @Override
+    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo) throws PersistenciaException {
         Connection connection = null;
 
         try {
@@ -58,6 +64,15 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método guarda la solicitud de un préstamo en la base de datos y
+     * retorna el préstamo registrado.
+     *
+     * @param solicitud Objeto que contiene los datos de la solicitud de
+     * préstamo.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public PrestamosDominio guardarSolicitud(SolicitudPrestamoDTO solicitud) throws PersistenciaException {
         Connection connection = null;
@@ -101,6 +116,13 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     }
 
+    /**
+     * Este método inserta un nuevo préstamo en la base de datos.
+     *
+     * @param prestamo Objeto que contiene la información del préstamo.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public PrestamosDominio guardar(GuardarPrestamoDTO prestamo) throws PersistenciaException {
         Connection connection = null;
@@ -137,6 +159,15 @@ public class PrestamoDAO implements IPrestamoDAO {
         return null;
     }
 
+    /**
+     * Este método actualiza el estatus de un préstamo y registra la
+     * modificación en una tabla de historial de estatus.
+     *
+     * @param id Identificador del préstamo.
+     * @param estatus Nuevo estado del préstamo.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public PrestamosDominio cambiarEstatus(int id, Estatus estatus) throws PersistenciaException {
         Connection connection = null;
@@ -197,6 +228,14 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método busca un préstamo en la base de datos a partir de su
+     * identificador.
+     *
+     * @param idPrestamo Identificador único del préstamo.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public PrestamosDominio buscarPorId(int idPrestamo) throws PersistenciaException {
         Connection connection = null;
@@ -238,6 +277,14 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método obtiene una lista de préstamos según filtros opcionales.
+     *
+     * @param filtro Contiene criterios de búsqueda como texto, límite y
+     * desplazamiento.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -330,6 +377,15 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método obtiene una lista de préstamos con estatus "Pagado" o
+     * "Abonado" según los filtros proporcionados.
+     *
+     * @param filtro Contiene los criterios de búsqueda, como texto, límite y
+     * desplazamiento.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -423,6 +479,15 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método obtiene un reporte de préstamos filtrados por fecha, tipo y
+     * departamento, este método es para generar el reporte
+     *
+     * @param filtro Contiene los criterios de filtrado como fechas, tipos de
+     * préstamo y departamentos.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws PersistenciaException {
         List<ReportePrestamoDTO> listaPrestamos = new ArrayList<>();
@@ -470,18 +535,11 @@ public class PrestamoDAO implements IPrestamoDAO {
     }
 
     /**
-     * esto valida que exista algun tipo de prestamo por el cual filtrar si no
-     * es null entra y lo que hace es que con el sb se agrega al codigo visto
-     * anteriormente y entra a un ciclo que dependiendo de cuantos tipos tenga
-     * la lista se irán agregando para que contenga todos ej si tiene 3 tipos de
-     * prestamo por los cuales filtrar entrará 3 veces y se agregarán los 3
-     * parametros por los cuales filtrar capich o no capich a y el delete chart
-     * lo q hace es que si se ve en el segundo append se agrega un "?" junto a
-     * una "," entonces lanzaría error, para evitarlo, despues de que se
-     * agreguen todos por los que se filtrará borra el último caracter que es la
-     * ","
+     * Este método genera una consulta SQL dinámica para obtener un reporte de
+     * préstamos filtrados.
      *
-     * @param filtro
+     *
+     * @param filtro Contiene los criterios de filtrado.
      * @return codigo sql
      */
     private String codigoSQLReportePrestamo(filtroPrestamosDTO filtro) {
@@ -515,6 +573,14 @@ public class PrestamoDAO implements IPrestamoDAO {
         return codigoSQL.toString();
     }
 
+    /**
+     * Este método convierte un resultado de una consulta SQL (ResultSet) en un
+     * objeto PrestamosDominio.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return
+     * @throws SQLException
+     */
     private PrestamosDominio convertirPrestamoDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();
@@ -527,6 +593,14 @@ public class PrestamoDAO implements IPrestamoDAO {
         return new PrestamosDominio(id, fechaHora, monto, estatus, idTipo, idCuentaDepa, idCuentaEmpleado);
     }
 
+    /**
+     * Este método cuenta la cantidad de préstamos en la base de datos según los
+     * filtros proporcionados.
+     *
+     * @param filtro Contiene los criterios de búsqueda.
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public int contarTotalPrestamos(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -604,6 +678,14 @@ public class PrestamoDAO implements IPrestamoDAO {
         }
     }
 
+    /**
+     * Este método convierte un resultado de consulta (ResultSet) en una
+     * instancia de TablaPrestamosDTO.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return
+     * @throws SQLException
+     */
     private TablaPrestamosDTO convertirTablaDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         LocalDateTime fechaHora = set.getTimestamp("fecha_hora").toLocalDateTime();

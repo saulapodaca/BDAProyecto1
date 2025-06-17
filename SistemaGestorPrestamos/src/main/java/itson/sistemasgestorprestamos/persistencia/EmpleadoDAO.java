@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.sistemasgestorprestamos.persistencia;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
@@ -19,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author adell
+ * Implementación de la interfaz IEmpleadoDAO para gestionar la persistencia de
+ * los empleados. Proporciona métodos para verificar si un empleado es jefe,
+ * contar empleados, y guardar nuevos registros.
  */
 public class EmpleadoDAO implements IEmpleadoDAO {
 
@@ -30,6 +27,13 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         this.conexion = conexion;
     }
 
+    /**
+     * Verifica si un empleado es jefe en la empresa.
+     *
+     * @param idEmpleado Identificador único del empleado.
+     * @return `true` si el empleado es jefe, `false` en caso contrario.
+     * @throws PersistenciaException Si ocurre un error en la consulta SQL.
+     */
     @Override
     public boolean esJefe(int idEmpleado) throws PersistenciaException {
         Connection connection = null;
@@ -72,6 +76,14 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
     }
 
+    /**
+     * Cuenta la cantidad total de empleados en la base de datos según los
+     * filtros proporcionados.
+     *
+     * @param filtro Objeto con los criterios de búsqueda.
+     * @return Número total de empleados encontrados.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
     @Override
     public int contarTotalEmpleados(FiltroDTO filtro) throws PersistenciaException {
         Connection connection = null;
@@ -92,7 +104,6 @@ public class EmpleadoDAO implements IEmpleadoDAO {
 
             List<Object> parametros = new ArrayList<>();
 
-            
             String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
                 queryBuilder.append("""
@@ -152,6 +163,15 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
     }
 
+    /**
+     * Guarda un nuevo registro de empleado en la base de datos.
+     *
+     * @param empleado Objeto con los datos del empleado a registrar.
+     * @return Instancia de `EmpleadosDominio` con los datos del empleado
+     * guardado.
+     * @throws PersistenciaException Si la inserción falla o ocurre un error en
+     * la transacción.
+     */
     @Override
     public EmpleadosDominio guardar(GuardarEmpleadoDTO empleado) throws PersistenciaException {
         try {
@@ -215,16 +235,23 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         return new TablaEmpleadoDTO(id, nombre, apellidoPaterno, apellidoMaterno, idDepartamento, nombreDepartamento);
     }
 
+    /**
+     * Obtiene una lista de empleados según los criterios de filtro
+     * proporcionados.
+     *
+     * @param filtro Objeto con los criterios de búsqueda.
+     * @return Lista de `TablaEmpleadoDTO` con los empleados filtrados.
+     * @throws PersistenciaException Si ocurre un error en la consulta SQL.
+     */
     @Override
     public List<TablaEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
-        Connection connection = null; 
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultset = null;
 
         try {
-            connection = this.conexion.crearConexion(); 
+            connection = this.conexion.crearConexion();
 
-           
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("""
             SELECT
@@ -240,10 +267,8 @@ public class EmpleadoDAO implements IEmpleadoDAO {
             WHERE 1=1 
         """);
 
-           
             List<Object> parametros = new ArrayList<>();
 
-            
             String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
                 queryBuilder.append("""
@@ -310,6 +335,14 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
     }
 
+    /**
+     * Busca un empleado por su ID en la base de datos.
+     *
+     * @param id Identificador único del empleado.
+     * @return Instancia de `EmpleadosDominio` con la información del empleado.
+     * @throws PersistenciaException Si el empleado no existe o hay un error en
+     * la consulta.
+     */
     @Override
     public EmpleadosDominio buscarEmpleadoPorId(int id) throws PersistenciaException {
         try {
@@ -345,6 +378,16 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
     }
 
+    /**
+     * Valida el acceso de un empleado mediante usuario y contraseña.
+     *
+     * @param empleado Objeto `LoginEmpleadoDTO` con las credenciales del
+     * empleado.
+     * @return Instancia de `SesionEmpleadoDTO` si las credenciales son
+     * correctas.
+     * @throws PersistenciaException Si el usuario no es encontrado o hay un
+     * error en la autenticación.
+     */
     @Override
     public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws PersistenciaException {
         try {
@@ -379,6 +422,14 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         }
     }
 
+    /**
+     * Convierte un resultado de consulta SQL (`ResultSet`) en una instancia de
+     * `EmpleadosDominio`.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return Instancia de `EmpleadosDominio` con los valores obtenidos.
+     * @throws SQLException Si ocurre un error al obtener los datos.
+     */
     private EmpleadosDominio convertirEmpleadosDominio(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         String nombres = set.getString("nombres");
@@ -391,6 +442,14 @@ public class EmpleadoDAO implements IEmpleadoDAO {
         return new EmpleadosDominio(id, nombres, apellidoPaterno, apellidoMaterno, estatus, usuario, contraseña, idDepartamento);
     }
 
+    /**
+     * Convierte un resultado de consulta SQL (`ResultSet`) en una instancia de
+     * `SesionEmpleadoDTO`.
+     *
+     * @param set Resultado de una consulta SQL.
+     * @return Instancia de `SesionEmpleadoDTO` con los valores obtenidos.
+     * @throws SQLException Si ocurre un error al obtener los datos.
+     */
     private SesionEmpleadoDTO convertirSesionEmpleado(ResultSet set) throws SQLException {
         int id = set.getInt("id");
         String nombres = set.getString("nombres");
