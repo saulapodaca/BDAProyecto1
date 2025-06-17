@@ -4,20 +4,34 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemagestorprestamos.fachada.CuentaEmpleadoFachada;
+import itson.sistemagestorprestamos.fachada.ICuentaEmpleadoFachada;
+import itson.sistemasgestorprestamos.DTO.RegistrarCuentaEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Camila Zubía
  */
 public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
     
+    private ICuentaEmpleadoFachada cuentaEmpleadoFachada;
     private AgregarEmpleadoFrm agregarEmpleadoFrm;
+    private EmpleadosDominio empleado;
+    private final String EXPRESION_REGULAR = "\\b-?\\d+\\b";
 
     /**
      * Creates new form ConsultaPrestamoFrm
      */
-    public AgregarCuentaEmpleadoFrm(AgregarEmpleadoFrm agregarEmpleadoFrm) {
+    public AgregarCuentaEmpleadoFrm(AgregarEmpleadoFrm agregarEmpleadoFrm, EmpleadosDominio empleado) {
         initComponents();
         this.agregarEmpleadoFrm = agregarEmpleadoFrm;
+        this.cuentaEmpleadoFachada = new CuentaEmpleadoFachada();
+        this.empleado = empleado;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -37,7 +51,7 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
         lblApellidoP = new javax.swing.JLabel();
-        txtFieldNombre = new javax.swing.JTextField();
+        txtFieldClabe = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
 
@@ -71,13 +85,13 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
         lblApellidoP.setForeground(new java.awt.Color(0, 0, 0));
         lblApellidoP.setText("Nombre del banco:");
 
-        txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
-        txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
-        txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+        txtFieldClabe.setBackground(new java.awt.Color(255, 255, 255));
+        txtFieldClabe.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldClabe.setForeground(new java.awt.Color(0, 0, 0));
+        txtFieldClabe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtFieldClabe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldNombreActionPerformed(evt);
+                txtFieldClabeActionPerformed(evt);
             }
         });
 
@@ -116,7 +130,7 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtFieldClabe, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -132,10 +146,10 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
-                    .addComponent(txtFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFieldClabe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellidoP)
@@ -173,12 +187,24 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
+        try{
+            String clabe = txtFieldClabe.getText();
+            validarClabe(clabe);
+            String banco = (String)jComboBox1.getSelectedItem();
+            RegistrarCuentaEmpleadoDTO cuenta = new RegistrarCuentaEmpleadoDTO(clabe, banco,0 , empleado.getId());
+            cuentaEmpleadoFachada.registrarCuenta(cuenta);
+            this.setVisible(false);
+        } catch (NegocioException ex) {
+            Logger.getLogger(AgregarCuentaEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al registrar la cuenta del empleado.");
+
+        }
         
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void txtFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNombreActionPerformed
+    private void txtFieldClabeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldClabeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldNombreActionPerformed
+    }//GEN-LAST:event_txtFieldClabeActionPerformed
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
         // TODO add your handling code here:
@@ -186,7 +212,25 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
+    private void validarClabe(String clabe) throws NegocioException{
+        
+        if (clabe.length() == 0 
+                || clabe.trim().isBlank() 
+                || clabe.trim().isEmpty())
+            throw new NegocioException
+        ("El campo de la clabe no puede ir vacío.");
+        
+        if (clabe.length() < 18)
+            throw new NegocioException("La clabe no puede ser menor a 18 dígitos");
+        if (clabe.length() > 18)
+            throw new NegocioException("La clabe no puede ser mayor a 18 digitos");
+        
+        validarDigitos(clabe);
+    }
    
+    private void validarDigitos(String clabe){
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -197,6 +241,6 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombre;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel tituloLbl;
-    private javax.swing.JTextField txtFieldNombre;
+    private javax.swing.JTextField txtFieldClabe;
     // End of variables declaration//GEN-END:variables
 }

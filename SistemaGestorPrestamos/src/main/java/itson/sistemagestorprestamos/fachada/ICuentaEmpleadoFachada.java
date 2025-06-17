@@ -5,6 +5,7 @@
 package itson.sistemagestorprestamos.fachada;
 
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.RegistrarCuentaEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaCuentasEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import itson.sistemasgestorprestamos.dominios.CuentasEmpleadosDominio;
@@ -20,4 +21,6 @@ public interface ICuentaEmpleadoFachada {
     public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws NegocioException;
     public List<TablaCuentasEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
     public int contarTotalCuentas(FiltroDTO filtro) throws NegocioException;
+    public CuentasEmpleadosDominio registrarCuenta(RegistrarCuentaEmpleadoDTO cuenta) throws NegocioException;
+
 }

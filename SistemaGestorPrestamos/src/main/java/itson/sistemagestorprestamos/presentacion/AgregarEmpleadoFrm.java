@@ -9,6 +9,7 @@ import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.GuardarEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import itson.sistemasgestorprestamos.dominios.EmpleadosDominio;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -238,8 +239,8 @@ public class AgregarEmpleadoFrm extends javax.swing.JFrame {
             SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
             int iddepartamento = jefe.getId();
             GuardarEmpleadoDTO empleadoGuardar = new GuardarEmpleadoDTO(nombre, apellidoP, apellidoM, usuario, contraseña, iddepartamento);
-            empleado.guardar(empleadoGuardar);
-            new AgregarCuentaEmpleadoFrm(this).setVisible(true);
+            EmpleadosDominio nuevoEmpleado = empleado.guardar(empleadoGuardar);
+            new AgregarCuentaEmpleadoFrm(this, nuevoEmpleado).setVisible(true);
             this.setVisible(false);
 
         } catch (NegocioException ex) {

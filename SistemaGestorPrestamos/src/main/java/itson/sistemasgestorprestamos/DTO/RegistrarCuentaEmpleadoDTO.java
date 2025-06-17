@@ -8,7 +8,7 @@ public class RegistrarCuentaEmpleadoDTO {
     private float saldo;
     private int idEmpleado;
 
-    public RegistrarCuentaEmpleadoDTO(int idCuenta, String clabe, String banco, float saldo, int idEmpleado) {
+    public RegistrarCuentaEmpleadoDTO(String clabe, String banco, float saldo, int idEmpleado) {
         this.clabe = clabe;
         this.banco = banco;
         this.saldo = saldo;

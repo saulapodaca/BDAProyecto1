@@ -29,7 +29,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             Connection conexion = this.manejadorConexiones.crearConexion();
             String codigoSQL = """
                                INSERT INTO CUENTAS_EMPLEADOS
-                               (clabe, banco, saldo, idEmpleado)
+                               (clabe, nombre_banco, saldo, id_empleado)
                                VALUES (?,?,?,?);
                                """;
             PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);
@@ -44,7 +44,7 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             }
 
             ResultSet resultado = comando.getGeneratedKeys();
-            int id = resultado.getInt(1);
+            int id = resultado.getInt("1");
             CuentasEmpleadosDominio cuenta = buscarCuentasPorId(id);
             resultado.close();
             comando.close();
@@ -62,8 +62,8 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             Connection conexion = manejadorConexiones.crearConexion();
             String codigoSQL = """
                                UPDATE CUENTAS_EMPLEADOS
-                               SET ESTATUS = 'INACTIVA'
-                               WHERE idCuentaEmpleado = ?;
+                               SET activo = '0'
+                               WHERE id = ?;
                                """;
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
             comando.setInt(1, id);
@@ -126,14 +126,14 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             Connection conexion = manejadorConexiones.crearConexion();
             String codigoSQL = """
                                SELECT
-                               idCuentaEmpleado,
+                               id,
                                clabe,
-                               estatus,
-                               banco,
+                               activo,
+                               nombre_banco,
                                saldo,
-                               idEmpleado
+                               id_empleado
                                FROM CUENTAS_EMPLEADOS
-                               WHERE idCuentaEmpleado = ?;
+                               WHERE id = ?;
                                """;
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
             comando.setInt(1, id);
