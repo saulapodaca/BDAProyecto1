@@ -14,4 +14,6 @@ public interface IInicializacionFachada {
 
     public void insertarDatosMasivos() throws NegocioException;
 
+    public boolean existenDatosIniciales() throws NegocioException;
+
 }

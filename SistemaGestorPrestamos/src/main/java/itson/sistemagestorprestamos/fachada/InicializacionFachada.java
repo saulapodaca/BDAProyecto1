@@ -11,7 +11,7 @@ import itson.sistemasgestorprestamos.persistencia.IInicializacionDAO;
 import itson.sistemasgestorprestamos.persistencia.InicializacionDAO;
 
 
-public class InicializacionFachada {
+public class InicializacionFachada implements IInicializacionFachada{
 
     private IInicializacionNegocio inicializacionNegocio;
     
@@ -21,7 +21,14 @@ public class InicializacionFachada {
         this.inicializacionNegocio = new InicializacioNegocio(cuentaEmpleadoDAO);
     }
     
+    @Override
     public void insertarDatosMasivos() throws NegocioException{
         inicializacionNegocio.insertarDatosMasivos();
     }
+    
+    @Override
+    public boolean existenDatosIniciales() throws NegocioException{
+        return inicializacionNegocio.existenDatosIniciales();
+    }
+
 }

@@ -23,18 +23,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
     public InicioSesionFrm() {
         initComponents();
     }
-
-    public static void main(String[] args) {
-        // Usa SwingUtilities.invokeLater para asegurar que la interfaz gráfica se crea en el Event Dispatch Thread (EDT)
-        // Esto es una buena práctica para evitar problemas de concurrencia en Swing
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                InicioSesionFrm ventana = new InicioSesionFrm(); // Crea una instancia de tu ventana
-                ventana.setVisible(true); // Hace visible la ventana
-            }
-        });
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

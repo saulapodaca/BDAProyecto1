@@ -24,12 +24,21 @@ public class InicializacioNegocio implements IInicializacionNegocio{
         }
     }
     
-    private void validarExistencia() throws NegocioException{
+    @Override
+    public boolean existenDatosIniciales() throws NegocioException{
         try{
-            if (inicializacionDAO.existenDatosIniciales())
-                throw new NegocioException("Ya existen datos en la BD.");
+            return inicializacionDAO.existenDatosIniciales();
         } catch (PersistenciaException e){
             throw  new NegocioException(e.getMessage());
+        }
+    }
+    
+    private void validarExistencia() throws NegocioException{
+        try{
+            if (existenDatosIniciales())
+                throw new NegocioException("Ya existen datos en la BD.");
+        } catch (NegocioException e){
+            throw new NegocioException(e.getMessage());
         }
     }
 }

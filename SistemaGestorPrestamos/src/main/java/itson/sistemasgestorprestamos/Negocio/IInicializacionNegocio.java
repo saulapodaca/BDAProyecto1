@@ -11,4 +11,7 @@ package itson.sistemasgestorprestamos.Negocio;
 public interface IInicializacionNegocio {
 
     public void insertarDatosMasivos() throws NegocioException;
+    public boolean existenDatosIniciales() throws NegocioException;
+
+
 }
