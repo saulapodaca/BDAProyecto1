@@ -260,9 +260,10 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
             int idDepartamento = cuenta2.obtenerIdCuentaDepartamentoPorClabe(tip);
 
             prestamo.pagarPrestamo(prestamoInfo.getCuentaEmpleado(), idDepartamento, prestamoInfo.getId());
-
+            JOptionPane.showMessageDialog(this, "se actualizo el estatus");
         } catch (NegocioException ex) {
             Logger.getLogger(ConsultaPrestamoFrm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "hubo un error al actualizar el estatus");
         }
 
 
