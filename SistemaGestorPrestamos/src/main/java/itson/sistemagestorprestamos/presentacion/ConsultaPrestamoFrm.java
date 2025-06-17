@@ -5,6 +5,7 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.CuentaDepartamentoFachada;
+import itson.sistemagestorprestamos.fachada.CuentaEmpleadoFachada;
 import itson.sistemagestorprestamos.fachada.prestamoFachada;
 import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
@@ -45,23 +46,17 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
 
     SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     CuentaDepartamentoFachada cuenta = new CuentaDepartamentoFachada();
-
-    private void cargarCuentasComboBox() {
+    CuentaEmpleadoFachada cuenta2 = new CuentaEmpleadoFachada();
+    private void cargarCuentasComboBox() throws NegocioException {
         SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
         int id = empleado.getId();
 
         FiltroDTO filtro = new FiltroDTO(10, 0, String.valueOf(id));
 
-        try {
-            List<CuentasDepartamentosDominio> cuentas = cuenta.buscarCuentasDepartamentosPorId(filtro);
-            comboBoxCuentas.removeAllItems();
-
-            for (CuentasDepartamentosDominio cuenta : cuentas) {
-                comboBoxCuentas.addItem(cuenta.getClabe());
-            }
-
-        } catch (NegocioException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar cuentas: " + e.getMessage());
+        List<CuentasDepartamentosDominio> cuentas = cuenta.buscarCuentasDepartamentosPorId(filtro);
+        comboBoxCuentas.removeAllItems();
+        for (CuentasDepartamentosDominio cuenta : cuentas) {
+            comboBoxCuentas.addItem(cuenta.getClabe());
         }
     }
 
@@ -257,7 +252,20 @@ public class ConsultaPrestamoFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarCambioActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+
+            PrestamosDominio prestamoInfo = prestamo.buscarPorId(id);
+            String tip = (String) comboBoxCuentas.getSelectedItem();
+            int idDepartamento = cuenta2.obtenerIdCuentaDepartamentoPorClabe(tip);
+
+            prestamo.pagarPrestamo(prestamoInfo.getCuentaEmpleado(), idDepartamento, prestamoInfo.getId());
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(ConsultaPrestamoFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnConfirmarCambioActionPerformed
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
