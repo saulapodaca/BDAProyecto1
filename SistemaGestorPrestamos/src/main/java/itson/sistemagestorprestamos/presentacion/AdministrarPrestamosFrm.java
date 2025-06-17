@@ -41,7 +41,7 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
 
     SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     prestamoFachada prestamo = new prestamoFachada();
-    
+
     public void cargarMetodosIniciales() throws NegocioException {
         this.cargarEnTabla();
     }
@@ -256,6 +256,11 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = tabla.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleciona una fila");
+            return;
+        }
 
         if (filaSeleccionada != -1) {
             int idPrestamo = (int) tabla.getValueAt(filaSeleccionada, 0);

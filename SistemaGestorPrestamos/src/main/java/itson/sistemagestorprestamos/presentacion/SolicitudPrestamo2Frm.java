@@ -281,12 +281,26 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         int id = empleado.getId();
 
         String idEmpleado = String.valueOf(id);
+
+        if (monto <= 0) {
+            JOptionPane.showMessageDialog(this, "Selecciona un monto mayor a 0");
+            return;
+
+        }
+
+        if (tip.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecciona una cuenta");
+            return;
+        }
+
         FiltroDTO filtro = new FiltroDTO(0, 10, idEmpleado);
         try {
             System.out.println(cuenta.buscarCuentasEmpleadoPorId(filtro));
 
         } catch (NegocioException ex) {
             Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
+            
+            JOptionPane.showMessageDialog(rootPane,"Error:" +ex.getMessage() );
         }
 
         int tipoId = 0;

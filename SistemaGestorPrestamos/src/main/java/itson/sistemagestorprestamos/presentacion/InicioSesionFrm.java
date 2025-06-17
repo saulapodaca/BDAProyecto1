@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class InicioSesionFrm extends javax.swing.JFrame {
 
-     empleadoFachada empleado = new empleadoFachada();
+    empleadoFachada empleado = new empleadoFachada();
 
     /**
      * Creates new form InicioSesionFrm
@@ -23,7 +23,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
     public InicioSesionFrm() {
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -188,15 +188,30 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         String contraseña = fieldContraseña.getText();
         LoginEmpleadoDTO sesion1 = new LoginEmpleadoDTO(usuario, contraseña);
         try {
+
+            if (usuario.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nombre vacio");
+                return;
+            }
+
+            if (contraseña.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "contraseña vacia");
+                return;
+            }
+
             SesionEmpleadoDTO e = empleado.buscarPorUsuarioYContraseña(sesion1);
             SesionIniciada.getInstancia().iniciarSesion(e);
 
             if (empleado.esJefe(e.getId())) {
+                JOptionPane.showMessageDialog(this, "bienvenido/a" + " " + e.getNombres());
+
                 MenuJefeForm ventana = new MenuJefeForm(this);
                 ventana.setVisible(true);
             } else {
                 MenuEmpleadoFrm ventana = new MenuEmpleadoFrm(this);
                 ventana.setVisible(true);
+                JOptionPane.showMessageDialog(this, "bienvenido/a" + e.getNombres());
+
             }
             this.setVisible(false);
 

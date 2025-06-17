@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  * Implementación de la interfaz IEmpleadoDAO para gestionar la persistencia de
@@ -412,7 +413,8 @@ public class EmpleadoDAO implements IEmpleadoDAO {
             statement.close();
 
             if (em == null) {
-                throw new PersistenciaException("No se encontró el empleado");
+                throw new PersistenciaException("No se encontro el empleado");
+                
             }
 
             return em;
