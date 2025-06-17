@@ -206,7 +206,6 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
             RegistrarAbonoDTO abono = new RegistrarAbonoDTO(monto, jefe.getId(), id);
             abonar.registrarAbono(abono);
             JOptionPane.showMessageDialog(this, "Abono registrado correctamente.");
-            this.dispose();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NegocioException ex) {

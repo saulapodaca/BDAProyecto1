@@ -56,9 +56,10 @@ public class AbonoDAO implements IAbonoDAO{
             String insertAbonoQuery = """
                                        INSERT INTO abonos 
                                       (monto, 
-                                      id_jefe, 
-                                      id_prestamo)
-                                      VALUES (?, ?, ?)
+                                      id_jefe,
+                                      id_prestamo,
+                                      fecha_hora)
+                                      VALUES (?, ?, ?, now());
         """;
             int idAbonoGenerado;
             try (PreparedStatement insertStmt = connection.prepareStatement(insertAbonoQuery, Statement.RETURN_GENERATED_KEYS)) {

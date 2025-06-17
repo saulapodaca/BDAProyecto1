@@ -65,7 +65,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         comboBoxTipoPrestamo = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,13 +134,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -152,9 +144,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
                         .addGap(60, 60, 60)
                         .addComponent(jLabel2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jButton1)
-                        .addGap(110, 110, 110)
+                        .addGap(262, 262, 262)
                         .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -193,9 +183,7 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
                     .addComponent(comboBoxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
 
@@ -325,6 +313,9 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
             SolicitudPrestamoDTO info = new SolicitudPrestamoDTO(hora, monto, estado, tipoId, idd);
             solicitud.guardarSolicitud(info);
+            JOptionPane.showMessageDialog(this, "El prestamo ha sido solicitado con éxito.");
+            empleadoMenuFrm.setVisible(true);
+            this.dispose();
         } catch (NegocioException ex) {
             Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -337,24 +328,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        SesionEmpleadoDTO empleado = SesionIniciada.getInstancia().getEmpleado();
-        System.out.println("ID del empleado en sesión: " + empleado.getId());
-
-        FiltroDTO filtro = new FiltroDTO(0, 10, String.valueOf(empleado.getId()));
-        System.out.println("Filtro creado con búsqueda: " + filtro.getFiltro());
-
-        List<CuentasEmpleadosDominio> cuentas;
-        try {
-            cuentas = cuenta.buscarCuentasEmpleadoPorId(filtro);
-            System.out.println("Total de cuentas recibidas: " + cuentas.size());
-        } catch (NegocioException ex) {
-            Logger.getLogger(SolicitudPrestamo2Frm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -365,7 +338,6 @@ public class SolicitudPrestamo2Frm extends javax.swing.JFrame {
     private javax.swing.JComboBox comboBoxCuentas;
     private javax.swing.JComboBox<String> comboBoxTipoPrestamo;
     private javax.swing.JTextField fieldMonto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
