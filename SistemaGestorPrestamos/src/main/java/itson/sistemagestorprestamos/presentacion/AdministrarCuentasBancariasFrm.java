@@ -5,6 +5,15 @@
 package itson.sistemagestorprestamos.presentacion;
 
 import itson.sistemagestorprestamos.fachada.CuentaEmpleadoFachada;
+import itson.sistemagestorprestamos.utilidades.SesionIniciada;
+import itson.sistemasgestorprestamos.DTO.FiltroDTO;
+import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasEmpleadoDTO;
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,13 +26,84 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
     /**
      * Creates new form AdministrarCuentasBancariasFrm
      */
-    public AdministrarCuentasBancariasFrm(MenuEmpleadoFrm empleadoMenuFrm) {
+    public AdministrarCuentasBancariasFrm(MenuEmpleadoFrm empleadoMenuFrm) throws NegocioException {
         initComponents();
         this.empleadoMenuFrm = empleadoMenuFrm;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.cargarMetodosIniciales();
     }
     
+    private int paginaActual = 0;
+    private final int LIMITE_POR_PAGINA = 5;
+    private int totalElementos = 0;
+    private int totalPaginas = 0;
+
+    SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     CuentaEmpleadoFachada cuentas = new CuentaEmpleadoFachada();
+    
+    public void cargarMetodosIniciales() throws NegocioException {
+        this.cargarEnTabla();
+    }
+
+    private void llenarTabla(List<TablaCuentasEmpleadoDTO> listaEmpleados) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (listaEmpleados != null) {
+            listaEmpleados.forEach(row
+                    -> {
+                Object[] fila = new Object[8];
+                fila[0] = row.getId();
+                fila[1] = row.getNombreBanco();
+                fila[2] = row.getClabe();
+                fila[3] = row.getActivo();
+                fila[4] = row.getSaldo();
+                fila[5] = row.getId_empleado();
+                modeloTabla.addRow(fila);
+
+            });
+        }
+
+    }
+
+    public void cargarEnTabla() throws NegocioException {
+
+        if (jefe == null) {
+            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver los empleados.", "Sesión no iniciada", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        int idDepartamentoJefe = jefe.getIdDepartamento();
+
+        String textoFiltro = txtFiltroBusqueda.getText();
+        FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
+
+        this.totalElementos = this.cuentas.contarTotalCuentas(filtroConteo);
+
+        this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
+
+        if (paginaActual >= totalPaginas && totalPaginas > 0) {
+            paginaActual = totalPaginas - 1;
+        } else if (totalPaginas == 0) {
+            paginaActual = 0;
+        }
+
+        int offset = paginaActual * LIMITE_POR_PAGINA;
+
+        FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
+
+        if (cuentas.buscarTabla(filtroActual) == null) {
+            JOptionPane.showMessageDialog(this, "la tabla es nula");
+        }
+        List<TablaCuentasEmpleadoDTO> listaCuentas = this.cuentas.buscarTabla(filtroActual);
+        this.llenarTabla(listaCuentas);
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,6 +122,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         btnRegresar1 = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
+        txtFiltroBusqueda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,13 +144,13 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         tabla.setForeground(new java.awt.Color(0, 0, 0));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOMBRE BANCO", "CLABE", "ESTATUS", "ACCIONES"
+                "ID", "NOMBRE BANCO", "CLABE", "ACTIVO", "SALDO", "ID EMPLEADO"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));
@@ -97,15 +178,23 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
             }
         });
 
+        txtFiltroBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroBusquedaActionPerformed(evt);
+            }
+        });
+        txtFiltroBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroBusquedaKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(178, 178, 178)
                         .addComponent(tituloLbl))
@@ -114,11 +203,15 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                         .addGap(464, 464, 464)
                         .addComponent(btnAnterior)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSiguiente)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSiguiente))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -128,13 +221,15 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                 .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFiltroBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnterior)
                     .addComponent(btnSiguiente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
@@ -171,6 +266,23 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void txtFiltroBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroBusquedaActionPerformed
+
+    private void txtFiltroBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroBusquedaKeyReleased
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+
+            this.paginaActual = 0;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_txtFiltroBusquedaKeyReleased
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -182,5 +294,6 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel tituloLbl;
+    private javax.swing.JTextField txtFiltroBusqueda;
     // End of variables declaration//GEN-END:variables
 }

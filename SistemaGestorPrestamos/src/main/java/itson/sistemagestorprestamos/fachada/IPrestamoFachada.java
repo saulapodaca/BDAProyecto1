@@ -30,11 +30,13 @@ public interface IPrestamoFachada {
     public PrestamosDominio buscarPorId(int idPrestamo) throws NegocioException;
 
     public List<TablaPrestamosDTO> buscarTabla(FiltroDTO filtro) throws NegocioException;
-   
+
     public List<ReportePrestamoDTO> obtenerPrestamosFiltrados(filtroPrestamosDTO filtro) throws NegocioException;
 
     public int contarTotalPrestamos(FiltroDTO filtro) throws NegocioException;
-    
+
     public List<TablaPrestamosDTO> buscarTablaAbonar(FiltroDTO filtro) throws NegocioException;
+
+    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo) throws NegocioException;
 
 }

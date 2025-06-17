@@ -4,6 +4,10 @@
  */
 package itson.sistemagestorprestamos.presentacion;
 
+import itson.sistemasgestorprestamos.Negocio.NegocioException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author saula
@@ -138,14 +142,17 @@ public class MenuEmpleadoFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void btnAdminCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCuentasActionPerformed
-        // TODO add your handling code here:
-        new AdministrarCuentasBancariasFrm(this).setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new AdministrarCuentasBancariasFrm(this).setVisible(true);
+        } catch (NegocioException ex) {
+            Logger.getLogger(MenuEmpleadoFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_btnAdminCuentasActionPerformed
 
     private void btnSolicitarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPrestamoActionPerformed
         // TODO add your handling code here:
-        
         new SolicitudPrestamo2Frm(this).setVisible(true);
         this.setVisible(false);
 

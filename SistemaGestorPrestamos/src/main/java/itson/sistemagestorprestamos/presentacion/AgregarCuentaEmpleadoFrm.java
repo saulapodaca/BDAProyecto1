@@ -21,6 +21,7 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,7 +50,9 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
         jSeparator1.setName("Separador"); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(1077, 2));
 
+        tituloLbl.setBackground(new java.awt.Color(255, 255, 255));
         tituloLbl.setFont(new java.awt.Font("Arial Black", 1, 32)); // NOI18N
+        tituloLbl.setForeground(new java.awt.Color(0, 0, 0));
         tituloLbl.setText("AGREGAR EMPLEADO");
 
         btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,13 +63,17 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
 
         lblNombre.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("CLABE:");
 
         lblApellidoP.setBackground(new java.awt.Color(255, 255, 255));
         lblApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblApellidoP.setForeground(new java.awt.Color(0, 0, 0));
         lblApellidoP.setText("Nombre del banco:");
 
+        txtFieldNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtFieldNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,7 +81,9 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
             }
         });
 
+        btnAgregar.setBackground(new java.awt.Color(255, 255, 255));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(0, 0, 0));
         btnAgregar.setText("AGREGAR");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +91,9 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BBVA", "SANTANDER", "BANAMEX", "BANORTE", "HSBC" }));
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
@@ -162,6 +173,7 @@ public class AgregarCuentaEmpleadoFrm extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNombreActionPerformed

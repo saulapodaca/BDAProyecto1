@@ -152,4 +152,13 @@ public class PrestamoNegocio implements IPrestamoNegocio {
         }
         return null;
     }
+
+    @Override
+    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo) throws NegocioException {
+        try {
+            PrestamoDAO.pagarPrestamo(idCuentaEmpleado, idCuentaDepartamento, idPrestamo);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PrestamoNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

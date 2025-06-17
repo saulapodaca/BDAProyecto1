@@ -3,6 +3,8 @@ package itson.sistemasgestorprestamos.persistencia;
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.RegistrarCuentaEmpleadoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasEmpleadoDTO;
 import itson.sistemasgestorprestamos.dominios.CuentasEmpleadosDominio;
 import java.util.List;
 import java.sql.Connection;
@@ -225,5 +227,172 @@ public class CuentaEmpleadoDAO implements ICuentaEmpleadoDAO {
             e.printStackTrace();
             throw new PersistenciaException("Ocurrió un error al buscar el ID de la cuenta del departamento.");
         }
+    }
+    
+    @Override
+    public int contarTotalCuentas(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+        try {
+            connection = this.manejadorConexiones.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT COUNT(c.id)
+            FROM cuentas_empleados AS c
+            INNER JOIN empleados AS e ON c.id_empleado = e.id
+            WHERE 1=1
+        """);
+
+            List<Object> parametros = new ArrayList<>();
+
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                String filtroTexto = "%" + filtro.getFiltro() + "%";
+                queryBuilder.append("""
+                AND (
+                    CAST(clabe AS CHAR) LIKE ?
+                    OR CAST(nombre_banco AS CHAR) LIKE ?
+                    OR CAST(saldo AS CHAR) LIKE ?
+                    OR CAST(activo AS CHAR) LIKE ?
+                )
+            """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                int parameterIndex = i + 1;
+                if (param instanceof String) {
+                    preparedStatement.setString(parameterIndex, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(parameterIndex, (Integer) param);
+                }
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un problema al contar cuentas de empleados: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en contarTotalCuentas: " + closeEx.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public List<TablaCuentasEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws PersistenciaException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultset = null;
+
+        try {
+            connection = this.manejadorConexiones.crearConexion();
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("""
+            SELECT
+                c.id,
+                c.clabe,
+                c.activo,
+                c.nombre_banco,
+                c.saldo,
+                c.id_empleado
+            FROM cuentas_empleados AS c
+            INNER JOIN empleados AS e ON c.id_empleado = e.id
+            WHERE 1=1
+        """);
+
+            List<Object> parametros = new ArrayList<>();
+
+            if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                String filtroTexto = "%" + filtro.getFiltro() + "%";
+                queryBuilder.append("""
+                AND (
+                    CAST(clabe AS CHAR) LIKE ?
+                    OR CAST(nombre_banco AS CHAR) LIKE ?
+                    OR CAST(saldo AS CHAR) LIKE ?
+                    OR CAST(activo AS CHAR) LIKE ?
+                )
+            """);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+                parametros.add(filtroTexto);
+            }
+
+            queryBuilder.append(" LIMIT ? OFFSET ?");
+            parametros.add(filtro.getLimit());
+            parametros.add(filtro.getOffset());
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                Object param = parametros.get(i);
+                int parameterIndex = i + 1;
+                if (param instanceof String) {
+                    preparedStatement.setString(parameterIndex, (String) param);
+                } else if (param instanceof Integer) {
+                    preparedStatement.setInt(parameterIndex, (Integer) param);
+                }
+            }
+
+            resultset = preparedStatement.executeQuery();
+
+            List<TablaCuentasEmpleadoDTO> cuentas = new ArrayList<>();
+            while (resultset.next()) {
+                cuentas.add(this.convertirTablaCuenta(resultset));
+            }
+
+            return cuentas;
+
+        } catch (SQLException e) {
+            throw new PersistenciaException("Ocurrió un problema al leer cuentas de empleados: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) {
+                    resultset.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                System.err.println("Error al cerrar recursos en buscarTabla: " + closeEx.getMessage());
+            }
+        }
+    }
+    
+    private TablaCuentasEmpleadoDTO convertirTablaCuenta(ResultSet resultado) throws SQLException {
+        int id = resultado.getInt("id");
+        String clabe = resultado.getString("clabe");
+        String activo = resultado.getString("activo");
+        String nombrebanco = resultado.getString("nombre_banco");
+        float saldo = resultado.getFloat("saldo");
+        int idEmpleado = resultado.getInt("id_empleado");
+        return new TablaCuentasEmpleadoDTO(id, clabe, activo, nombrebanco, saldo, idEmpleado);
     }
 }

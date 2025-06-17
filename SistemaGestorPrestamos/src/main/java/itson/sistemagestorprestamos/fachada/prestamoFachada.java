@@ -76,4 +76,9 @@ public class prestamoFachada implements IPrestamoFachada {
         return this.prestamoNegocio.buscarTablaAbonar(filtro);
     }
 
+    @Override
+    public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo) throws NegocioException {
+        prestamoNegocio.pagarPrestamo(idCuentaEmpleado, idCuentaDepartamento, idPrestamo);
+    }
+
 }

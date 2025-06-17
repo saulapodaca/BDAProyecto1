@@ -53,7 +53,7 @@ public class InfoAdministrarAbonosFrm extends javax.swing.JFrame {
                 areaTextoInfo.setText(info);
             }
         }catch(NegocioException ex){
-                throw new NegocioException("error al imprimir la informacion");
+                JOptionPane.showMessageDialog(this, "Error al mostrar la informacion");
         }
     }
     

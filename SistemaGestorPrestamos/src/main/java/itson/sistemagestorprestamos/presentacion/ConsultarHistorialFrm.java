@@ -25,14 +25,15 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
     /**
      * Creates new form AdministrarAbonosFrm
      */
-    public ConsultarHistorialFrm(ConsultaPrestamoFrm consultaPrestamoFrm) {
+    public ConsultarHistorialFrm(ConsultaPrestamoFrm consultaPrestamoFrm) throws NegocioException {
         initComponents();
         this.consultaPrestamoFrm = consultaPrestamoFrm;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.cargarMetodosIniciales();
     }
     
     private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 1;
+    private final int LIMITE_POR_PAGINA = 5;
     private int totalElementos = 0;
     private int totalPaginas = 0;
 
@@ -57,6 +58,10 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
                     -> {
                 Object[] fila = new Object[8];
                 fila[0] = row.getId();
+                fila[1] = row.getFechaHora();
+                fila[2] = row.getNombre();
+                fila[3] = row.getIdPrestamo();
+                fila[4] = row.getIdJefe();
                 modeloTabla.addRow(fila);
 
             });
@@ -90,11 +95,13 @@ public class ConsultarHistorialFrm extends javax.swing.JFrame {
 
         FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
 
-        if (estatus.buscarTabla(filtroActual) == null) {
-            JOptionPane.showMessageDialog(this, "la tabla es nula");
-        }
         List<TablaEstatusDTO> listaEstatus = this.estatus.buscarTabla(filtroActual);
-        this.llenarTabla(listaEstatus);
+
+        if (listaEstatus == null) {
+            JOptionPane.showMessageDialog(this, "La tabla es nula.");
+        } else {
+            this.llenarTabla(listaEstatus);
+        }
 
     }
 
