@@ -51,8 +51,8 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         FieldUsuario = new javax.swing.JTextField();
-        FieldContraseña = new javax.swing.JTextField();
         btnIniciarSesion = new javax.swing.JButton();
+        fieldContraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -80,17 +80,13 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("USUARIO");
 
+        FieldUsuario.setBackground(new java.awt.Color(255, 255, 255));
         FieldUsuario.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        FieldUsuario.setForeground(new java.awt.Color(0, 0, 0));
+        FieldUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         FieldUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FieldUsuarioActionPerformed(evt);
-            }
-        });
-
-        FieldContraseña.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        FieldContraseña.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FieldContraseñaActionPerformed(evt);
             }
         });
 
@@ -100,6 +96,16 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarSesionActionPerformed(evt);
+            }
+        });
+
+        fieldContraseña.setBackground(new java.awt.Color(255, 255, 255));
+        fieldContraseña.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        fieldContraseña.setForeground(new java.awt.Color(0, 0, 0));
+        fieldContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        fieldContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldContraseñaActionPerformed(evt);
             }
         });
 
@@ -113,12 +119,12 @@ public class InicioSesionFrm extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addGap(63, 63, 63)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(FieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(FieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                    .addComponent(fieldContraseña))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(288, Short.MAX_VALUE)
                 .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(260, 260, 260))
         );
@@ -132,7 +138,7 @@ public class InicioSesionFrm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(FieldContraseña))
+                    .addComponent(fieldContraseña))
                 .addGap(95, 95, 95)
                 .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -187,14 +193,10 @@ public class InicioSesionFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FieldUsuarioActionPerformed
 
-    private void FieldContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FieldContraseñaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FieldContraseñaActionPerformed
-
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
         String usuario = FieldUsuario.getText();
-        String contraseña = FieldContraseña.getText();
+        String contraseña = fieldContraseña.getText();
         LoginEmpleadoDTO sesion1 = new LoginEmpleadoDTO(usuario, contraseña);
         try {
             SesionEmpleadoDTO e = empleado.buscarPorUsuarioYContraseña(sesion1);
@@ -216,11 +218,15 @@ public class InicioSesionFrm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
+    private void fieldContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldContraseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldContraseñaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField FieldContraseña;
     private javax.swing.JTextField FieldUsuario;
     private javax.swing.JPanel PanelFondo;
     private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JPasswordField fieldContraseña;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
