@@ -12,6 +12,11 @@ public class DepartamentosDominio {
     private int id;
     private String nombre;
 
+    /**
+     * Constructor de un departamento
+     * @param id para el id del departamento
+     * @param nombre  para el nombre de un departamento
+     */
     public DepartamentosDominio(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

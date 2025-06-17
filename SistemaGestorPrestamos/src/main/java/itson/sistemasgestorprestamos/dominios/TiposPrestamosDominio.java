@@ -13,6 +13,12 @@ public class TiposPrestamosDominio {
     private String nombreDescriptivo;
     private int parcialidadesMax;
 
+    /**
+     * constructor de tipo prestamo dominio
+     * @param id identificador del tipo prestamo
+     * @param nombreDescriptivo nombre del tipo de prestamo
+     * @param parcialidadesMax  cantidades en cuales se va a pagar el prestamo
+     */
     public TiposPrestamosDominio(int id, String nombreDescriptivo, int parcialidadesMax) {
         this.id = id;
         this.nombreDescriptivo = nombreDescriptivo;

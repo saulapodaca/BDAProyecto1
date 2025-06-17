@@ -35,13 +35,13 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
     }
 
     private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 10;
+    private final int LIMITE_POR_PAGINA = 5;
     private int totalElementos = 0;
     private int totalPaginas = 0;
 
     SesionEmpleadoDTO jefe = SesionIniciada.getInstancia().getEmpleado();
     prestamoFachada prestamo = new prestamoFachada();
-
+    
     public void cargarMetodosIniciales() throws NegocioException {
         this.cargarEnTabla();
     }
@@ -86,10 +86,10 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
 
         this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
 
-        if (paginaActual >= totalPaginas && totalPaginas > 0) {
-            paginaActual = totalPaginas - 1;
-        } else if (totalPaginas == 0) {
+        if (totalPaginas == 0) {
             paginaActual = 0;
+        } else if (paginaActual >= totalPaginas) {
+            paginaActual = totalPaginas - 1;
         }
 
         int offset = paginaActual * LIMITE_POR_PAGINA;
@@ -120,6 +120,9 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         btnRegresar1 = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        lblPaginaActual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,15 +167,26 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
             }
         });
 
+        btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -181,7 +195,17 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
                         .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
-                        .addComponent(tituloLbl)))
+                        .addComponent(tituloLbl))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addComponent(btnAnterior)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSiguiente)
+                                .addGap(195, 195, 195)
+                                .addComponent(lblPaginaActual))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -193,7 +217,12 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAnterior)
+                    .addComponent(btnSiguiente)
+                    .addComponent(lblPaginaActual))
+                .addGap(18, 18, 18)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRegresar1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -240,12 +269,50 @@ public class AdministrarPrestamosFrm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        if (paginaActual > 0) {
+            paginaActual--;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página anterior: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        if (paginaActual < totalPaginas - 1) {
+            paginaActual++;
+            try {
+                cargarEnTabla();
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la página siguiente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void actualizarEstadoPaginacion() {
+        if (totalElementos == 0) {
+            lblPaginaActual.setText("No hay empleados para mostrar");
+        } else {
+            lblPaginaActual.setText("Página " + (paginaActual + 1) + " de " + totalPaginas);
+        }
+
+        btnAnterior.setEnabled(paginaActual > 0);
+
+        btnSiguiente.setEnabled(paginaActual < totalPaginas - 1);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnRegresar1;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblPaginaActual;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel tituloLbl;

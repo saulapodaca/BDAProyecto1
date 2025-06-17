@@ -18,10 +18,23 @@ public class PrestamosDominio {
     private int tipoPrestamo;
     private int cuentaDepartamento;
     private int cuentaEmpleado;
-
+    
+    /**
+     * constructor por ausencia
+     */
     public PrestamosDominio() {
     }
-
+    
+    /**
+     * constructor de un prestamo dominio
+     * @param id para el id
+     * @param fechaHora para la fecha y hora en que se hizo
+     * @param monto para el monto registrado
+     * @param estatus para el estatus del prestamo
+     * @param tipoPrestamo para saber que tipo de prestamo es
+     * @param cuentaDepartamento a la cuenta departamental que pertenece
+     * @param cuentaEmpleado  a la cuenta del empleado a quien pertenece
+     */
     public PrestamosDominio(int id, LocalDateTime fechaHora, float monto, Estatus estatus, int tipoPrestamo, int cuentaDepartamento, int cuentaEmpleado) {
         this.id = id;
         this.fechaHora = fechaHora;

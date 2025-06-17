@@ -15,10 +15,22 @@ public class CuentasEmpleadosDominio {
     private String nombreBanco;
     private float saldo;
     private int idEmpleado;
-
+    
+    /**
+     * constructor por ausencia
+     */
     public CuentasEmpleadosDominio() {
     }
-
+    
+    /**
+     * constructor de una cuenta empleado dominio
+     * @param id para el id de la cuenta empleado dominio
+     * @param clabe para la clabe de la cuentaempleado dominio
+     * @param estatus para el estatus de una cuenta empleado dominio
+     * @param nombreBanco para el nombre del banco a la cual pertenece la cuenta
+     * @param saldo para el saldo de la cuenta
+     * @param idEmpleado  para el id empleado al que pertenece la cuenta
+     */
     public CuentasEmpleadosDominio(int id, String clabe, String estatus, 
             String nombreBanco,float saldo, int idEmpleado) {
         this.id = id;

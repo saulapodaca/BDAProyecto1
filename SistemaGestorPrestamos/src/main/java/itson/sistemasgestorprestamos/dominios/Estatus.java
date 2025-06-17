@@ -16,6 +16,11 @@ public enum Estatus {
     Pagado,
     Completado;
     
+    /**
+     * Constructor de un estatus
+     * @param estatusStr para defini el estatus
+     * @return  devuelve el estatus
+     */
     public static Estatus fromString(String estatusStr) {
         for (Estatus estatus : values()) {
             if (estatus.name().equalsIgnoreCase(estatusStr)) {

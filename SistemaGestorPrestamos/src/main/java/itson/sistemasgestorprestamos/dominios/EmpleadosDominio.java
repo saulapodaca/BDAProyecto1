@@ -18,7 +18,18 @@ public class EmpleadosDominio {
     private String usuario;
     private String contraseña;
     private int idDepartamento;
-
+    
+    /**
+     * constructor de un empleado dominio
+     * @param id para el id
+     * @param nombres para el nombre
+     * @param apellidoPaterno para el apellido paterno
+     * @param apellidoMaterno para el apellido materno
+     * @param estatus para el estatus del empleado
+     * @param usuario para el usuario de un empleado
+     * @param contraseña para la contraseña de un empleado
+     * @param idDepartamento  para el id del departamento al cual pertenece el empleado
+     */
     public EmpleadosDominio(int id, String nombres, String apellidoPaterno, String apellidoMaterno, boolean estatus, String usuario, String contraseña, int idDepartamento) {
         this.id = id;
         this.nombres = nombres;

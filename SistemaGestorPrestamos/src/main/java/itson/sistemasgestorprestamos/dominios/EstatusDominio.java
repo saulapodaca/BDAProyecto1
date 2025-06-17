@@ -17,10 +17,19 @@ public class EstatusDominio {
     private LocalDateTime fechaHora;
     private int idJefe;
     private int idPrestamo;
-
+    /**
+     * constructor por ausencia
+     */
     public EstatusDominio() {
     }
-
+    /**
+     * constructor de un estatus dominio
+     * @param id para el id del estatus
+     * @param nombreEstatus para el nombre del estatus
+     * @param fechaHora para la fecha de un estatus
+     * @param idJefe para el id jefe el cual manejo el estatus
+     * @param idPrestamo  para el id prestamo en el que esta el estatus
+     */
     public EstatusDominio(int id, Estatus nombreEstatus, LocalDateTime fechaHora, int idJefe, int idPrestamo) {
         this.id = id;
         this.nombreEstatus = nombreEstatus;
