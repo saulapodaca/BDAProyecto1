@@ -29,6 +29,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public List<CuentasEmpleadosDominio> buscarCuentasEmpleadoPorId(FiltroDTO filtro) throws NegocioException {
         try {
+            this.ExcepcionesListas(filtro);
             return CuentaDAO.buscarCuentasEmpleadoPorId(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -39,6 +40,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public CuentasEmpleadosDominio registrarCuenta(RegistrarCuentaEmpleadoDTO cuentaEmpleado) throws NegocioException {
         try {
+            this.parametroNulo(cuentaEmpleado);
             return CuentaDAO.registrarCuenta(cuentaEmpleado);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,6 +51,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public void eliminarCuentaPorId(int id) throws NegocioException {
         try {
+            this.idInvalido(id);
             CuentaDAO.eliminarCuentaPorId(id);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,6 +62,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public int obtenerIdCuentaDepartamentoPorClabe(String clabe) throws NegocioException {
         try {
+            this.stringInvalido(clabe);
             return CuentaDAO.obtenerIdCuentaDepartamentoPorClabe(clabe);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,6 +73,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
      @Override
     public int obtenerIdCuentaEmpleadoPorClabe(String clabe) throws NegocioException {
         try {
+            this.stringInvalido(clabe);
             return CuentaDAO.obtenerIdCuentaEmpleadoPorClabe(clabe);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,6 +84,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public List<TablaCuentasEmpleadoDTO> buscarTabla(FiltroDTO filtro) throws NegocioException {
         try {
+            this.ExcepcionesListas(filtro);
             return CuentaDAO.buscarTabla(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,6 +95,7 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
     @Override
     public int contarTotalCuentas(FiltroDTO filtro) throws NegocioException {
         try {
+            this.ExcepcionesListas(filtro);
             return CuentaDAO.contarTotalCuentas(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(CuentaEmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,4 +103,30 @@ public class CuentaEmpleadoNegocio implements ICuentaEmpleadoNegocio {
         return 0;
     }
 
+    private void ExcepcionesListas(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getLimit() < 0) {
+            throw new NegocioException("Parametro invalido [Limite]");
+        }
+        if (filtro.getOffset() < 0) {
+            throw new NegocioException("Lista vacia [Offset]");
+        }
+    }
+    
+    private void idInvalido(int id)throws NegocioException{
+        if (id <= 0) {
+            throw new NegocioException("la id es invalida");
+        }
+    }
+    
+    private void stringInvalido(String s) throws NegocioException{
+        if (s.trim().isEmpty()) {
+            throw new NegocioException("el string es invalido");
+        }
+    }
+    
+    private void parametroNulo(RegistrarCuentaEmpleadoDTO cuentaEmpleado) throws NegocioException{
+        if (cuentaEmpleado == null) {
+            throw new NegocioException("el parametro es nulo");
+        }
+    }
 }
