@@ -7,7 +7,7 @@ package itson.sistemasgestorprestamos.dominios;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Clase que hace referencia a un Abono
  * @author adell
  */
 public class AbonoDominio {
@@ -16,10 +16,22 @@ public class AbonoDominio {
     private float monto;
     private int idJefe;
     private int idPrestamo;
-
+    
+    /**
+     * constructor por ausencia
+     */
     public AbonoDominio() {
+        
     }
-
+    
+    /**
+     * constructor de objetos abonodominio
+     * @param id para la id
+     * @param fechaHora para la fecha y hora
+     * @param monto para el monto del abono
+     * @param idJefe para el id del jefe
+     * @param idPrestamo  para el id del prestamo
+     */
     public AbonoDominio(int id, LocalDateTime fechaHora, float monto, int idJefe, int idPrestamo) {
         this.id = id;
         this.fechaHora = fechaHora;
@@ -27,7 +39,8 @@ public class AbonoDominio {
         this.idJefe = idJefe;
         this.idPrestamo = idPrestamo;
     }
-
+    
+   
     public int getId() {
         return id;
     }

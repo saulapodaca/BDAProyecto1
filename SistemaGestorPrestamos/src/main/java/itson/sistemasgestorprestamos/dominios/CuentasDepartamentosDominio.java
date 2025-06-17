@@ -15,7 +15,16 @@ public class CuentasDepartamentosDominio {
     private String nombreBanco;
     private float saldo;
     private int idDepartamento;
-
+    
+    /**
+     * Constructor de una Cuenta Departamental
+     * @param id para el id
+     * @param numeroCuenta para el numero de cuenta
+     * @param Clabe para la clabe
+     * @param nombreBanco para el nombre del banco
+     * @param saldo para el saldo
+     * @param idDepartamento para el id del departamento
+     */
     public CuentasDepartamentosDominio(int id, String numeroCuenta, String Clabe, String nombreBanco, float saldo, int idDepartamento) {
         this.id = id;
         this.numeroCuenta = numeroCuenta;

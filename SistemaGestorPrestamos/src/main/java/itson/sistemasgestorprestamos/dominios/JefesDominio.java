@@ -10,7 +10,11 @@ package itson.sistemasgestorprestamos.dominios;
  */
 public class JefesDominio {
     private int id;
-
+    
+    /**
+     * constructor de jefes domino
+     * @param id para hacer referencia que empleado es un jefe
+     */
     public JefesDominio(int id) {
         this.id = id;
     }

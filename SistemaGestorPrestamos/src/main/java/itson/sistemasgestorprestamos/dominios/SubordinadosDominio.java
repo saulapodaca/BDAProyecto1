@@ -13,6 +13,11 @@ public class SubordinadosDominio {
     private int id;
     private int idJefe;
 
+    /**
+     * constructor de subordinados
+     * @param id identificador del subordinado
+     * @param idJefe  identificador del jefe
+     */
     public SubordinadosDominio(int id, int idJefe) {
         this.id = id;
         this.idJefe = idJefe;
