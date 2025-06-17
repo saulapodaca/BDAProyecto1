@@ -37,6 +37,7 @@ public class PrestamoDAO implements IPrestamoDAO {
         this.conexion = conexion;
     }
 
+    @Override
     public void pagarPrestamo(int idCuentaEmpleado, int idCuentaDepartamento, int idPrestamo)  throws PersistenciaException {
         Connection connection = null;
 
@@ -540,9 +541,9 @@ public class PrestamoDAO implements IPrestamoDAO {
             queryBuilder.append("""
             SELECT COUNT(p.id)
             FROM prestamos AS p
-            INNER JOIN cuentas_departamentos AS cd
+            LEFT JOIN cuentas_departamentos AS cd
             ON p.id_cuenta_departamento = cd.id
-            INNER JOIN departamentos AS d
+            LEFT JOIN departamentos AS d
             ON cd.id_departamento = d.id
             WHERE 1=1
             """);
@@ -562,7 +563,7 @@ public class PrestamoDAO implements IPrestamoDAO {
             }
 
             if (filtro.getIdDepartamento() != null) {
-                queryBuilder.append(" AND d.id = ?");
+                queryBuilder.append(" AND (d.id = ? OR d.id IS NULL)");
                 parametros.add(filtro.getIdDepartamento());
             }
 

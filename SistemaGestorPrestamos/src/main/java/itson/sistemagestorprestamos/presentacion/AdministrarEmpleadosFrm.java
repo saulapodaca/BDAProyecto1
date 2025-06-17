@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Camila Zubía
  */
 public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
-    
+
     private MenuJefeForm menuJefeFrm;
 
     /**
@@ -325,17 +325,14 @@ public class AdministrarEmpleadosFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void actualizarEstadoPaginacion() {
-        // Actualiza el texto del label de la página
         if (totalElementos == 0) {
             lblPaginaActual.setText("No hay empleados para mostrar");
         } else {
             lblPaginaActual.setText("Página " + (paginaActual + 1) + " de " + totalPaginas);
         }
 
-        // Habilita/deshabilita el botón "Anterior"
         btnAnterior.setEnabled(paginaActual > 0);
 
-        // Habilita/deshabilita el botón "Siguiente"
         btnSiguiente.setEnabled(paginaActual < totalPaginas - 1);
     }
 
