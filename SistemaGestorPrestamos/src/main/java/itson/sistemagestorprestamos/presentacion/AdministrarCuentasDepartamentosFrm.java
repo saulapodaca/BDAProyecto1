@@ -32,7 +32,7 @@ public class AdministrarCuentasDepartamentosFrm extends javax.swing.JFrame {
         this.cargarMetodosIniciales();
     }
     private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 1;
+    private final int LIMITE_POR_PAGINA = 5;
     private int totalElementos = 0;
     private int totalPaginas = 0;
 

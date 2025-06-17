@@ -155,9 +155,9 @@
                     <Column editable="true" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="NOMBRE BANCO" type="java.lang.Object"/>
                     <Column editable="true" title="CLABE" type="java.lang.Object"/>
-                    <Column editable="true" title="NUMERO DE CUENTA" type="java.lang.Object"/>
+                    <Column editable="true" title="ACTIVO" type="java.lang.Object"/>
                     <Column editable="true" title="SALDO" type="java.lang.Object"/>
-                    <Column editable="true" title="ID DEPARTAMENTO" type="java.lang.Object"/>
+                    <Column editable="true" title="ID EMPLEADO" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

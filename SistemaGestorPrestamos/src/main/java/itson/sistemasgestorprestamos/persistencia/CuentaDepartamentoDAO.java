@@ -5,7 +5,6 @@ import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.RegistrarCuentaDepartamentoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
 import itson.sistemasgestorprestamos.dominios.CuentasDepartamentosDominio;
-import itson.sistemasgestorprestamos.dominios.Estatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +22,7 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
         this.manejadorConexiones = manejadorConexiones;
     }
 
+    @Override
     public CuentasDepartamentosDominio registrarCuenta(RegistrarCuentaDepartamentoDTO cuentaDepartamento) throws PersistenciaException {
         try {
             Connection conexion = this.manejadorConexiones.crearConexion();
@@ -56,6 +56,7 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
         }
     }
 
+    @Override
     public List<CuentasDepartamentosDominio> buscarCuentasDepartamentosPorId(FiltroDTO filtro) throws PersistenciaException {
         List<CuentasDepartamentosDominio> listaCuentas = new LinkedList<>();
         try {
@@ -97,6 +98,7 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
         }
     }
 
+    @Override
     public void eliminarCuentaPorId(int id) throws PersistenciaException {
         try {
             Connection conexion = manejadorConexiones.crearConexion();
@@ -117,6 +119,7 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
         }
     }
 
+    @Override
     public CuentasDepartamentosDominio buscarCuentaPorId(int id) throws PersistenciaException {
         try {
             Connection conexion = manejadorConexiones.crearConexion();
@@ -169,8 +172,8 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
 
             List<Object> parametros = new ArrayList<>();
 
-            String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                String filtroTexto = "%" + filtro.getFiltro() + "%";
                 queryBuilder.append("""
                 AND (CAST(numero_cuenta AS CHAR) LIKE ?
                     OR CAST(clabe AS CHAR) LIKE ?
@@ -238,12 +241,12 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("""
                 SELECT
-                    id,
-                    numero_cuenta,
-                    clabe,
-                    nombre_banco,
-                    saldo,
-                    id_departamento
+                    c.id,
+                    c.numero_cuenta,
+                    c.clabe,
+                    c.nombre_banco,
+                    c.saldo,
+                    c.id_departamento
                 FROM cuentas_departamentos AS c
                 INNER JOIN departamentos as d 
                 ON c.id_departamento = d.id
@@ -251,8 +254,8 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
                 """);
             List<Object> parametros = new ArrayList<>();
 
-            String filtroTexto = "%" + filtro.getFiltro() + "%";
             if (filtro.getFiltro() != null && !filtro.getFiltro().trim().isEmpty()) {
+                String filtroTexto = "%" + filtro.getFiltro() + "%";
                 queryBuilder.append("""
                 AND (CAST(numero_cuenta AS CHAR) LIKE ?
                                 OR CAST(clabe AS CHAR) LIKE ?
@@ -266,7 +269,7 @@ public class CuentaDepartamentoDAO implements ICuentaDepartamentoDAO {
             }
 
             if (filtro.getIdDepartamento() != null) {
-                queryBuilder.append(" AND (d.id = ? OR d.id IS NULL)");
+                queryBuilder.append(" AND d.id = ?");
                 parametros.add(filtro.getIdDepartamento());
             }
 

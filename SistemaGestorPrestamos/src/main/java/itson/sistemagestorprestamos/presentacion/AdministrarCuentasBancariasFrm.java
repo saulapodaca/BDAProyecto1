@@ -9,6 +9,7 @@ import itson.sistemagestorprestamos.utilidades.SesionIniciada;
 import itson.sistemasgestorprestamos.DTO.FiltroDTO;
 import itson.sistemasgestorprestamos.DTO.SesionEmpleadoDTO;
 import itson.sistemasgestorprestamos.DTO.TablaCuentasDepartamentoDTO;
+import itson.sistemasgestorprestamos.DTO.TablaCuentasEmpleadoDTO;
 import itson.sistemasgestorprestamos.Negocio.NegocioException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -33,7 +34,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
     }
     
     private int paginaActual = 0;
-    private final int LIMITE_POR_PAGINA = 1;
+    private final int LIMITE_POR_PAGINA = 5;
     private int totalElementos = 0;
     private int totalPaginas = 0;
 
@@ -44,7 +45,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         this.cargarEnTabla();
     }
 
-    private void llenarTabla(List<TablaCuentasDepartamentoDTO> listaEmpleados) {
+    private void llenarTabla(List<TablaCuentasEmpleadoDTO> listaEmpleados) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tabla.getModel();
 
         if (modeloTabla.getRowCount() > 0) {
@@ -60,9 +61,9 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                 fila[0] = row.getId();
                 fila[1] = row.getNombreBanco();
                 fila[2] = row.getClabe();
-                fila[3] = row.getNumeroCuenta();
+                fila[3] = row.getActivo();
                 fila[4] = row.getSaldo();
-                fila[5] = row.getId_departamento();
+                fila[5] = row.getId_empleado();
                 modeloTabla.addRow(fila);
 
             });
@@ -82,7 +83,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
         String textoFiltro = txtFiltroBusqueda.getText();
         FiltroDTO filtroConteo = new FiltroDTO(0, 0, textoFiltro, idDepartamentoJefe);
 
-        this.totalElementos = this.cuentas
+        this.totalElementos = this.cuentas.contarTotalCuentas(filtroConteo);
 
         this.totalPaginas = (int) Math.ceil((double) this.totalElementos / LIMITE_POR_PAGINA);
 
@@ -96,10 +97,10 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
 
         FiltroDTO filtroActual = new FiltroDTO(LIMITE_POR_PAGINA, offset, textoFiltro, idDepartamentoJefe);
 
-        if (cuentas.(filtroActual) == null) {
+        if (cuentas.buscarTabla(filtroActual) == null) {
             JOptionPane.showMessageDialog(this, "la tabla es nula");
         }
-        List<TablaCuentasDepartamentoDTO> listaCuentas = this.cuentas.buscarTabla(filtroActual);
+        List<TablaCuentasEmpleadoDTO> listaCuentas = this.cuentas.buscarTabla(filtroActual);
         this.llenarTabla(listaCuentas);
 
     }
@@ -149,7 +150,7 @@ public class AdministrarCuentasBancariasFrm extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOMBRE BANCO", "CLABE", "NUMERO DE CUENTA", "SALDO", "ID DEPARTAMENTO"
+                "ID", "NOMBRE BANCO", "CLABE", "ACTIVO", "SALDO", "ID EMPLEADO"
             }
         ));
         tabla.setGridColor(new java.awt.Color(204, 204, 204));

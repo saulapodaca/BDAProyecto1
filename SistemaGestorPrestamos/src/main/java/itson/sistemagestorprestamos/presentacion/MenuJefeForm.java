@@ -194,8 +194,12 @@ public class MenuJefeForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdministrarCuentasDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarCuentasDptoActionPerformed
-        // TODO add your handling code here:
-        new AdministrarCuentasDepartamentosFrm(this).setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new AdministrarCuentasDepartamentosFrm(this).setVisible(true);
+        } catch (NegocioException ex) {
+            Logger.getLogger(MenuJefeForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_btnAdministrarCuentasDptoActionPerformed
 
