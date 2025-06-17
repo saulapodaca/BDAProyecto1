@@ -32,6 +32,7 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     @Override
     public boolean esJefe(int idEmpleado) throws NegocioException {
         try {
+            this.idInvalido(idEmpleado);
             return EmpleadoDAO.esJefe(idEmpleado);
         } catch (PersistenciaException ex) {
             Logger.getLogger(EmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -44,6 +45,7 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     @Override
     public SesionEmpleadoDTO buscarPorUsuarioYContraseña(LoginEmpleadoDTO empleado) throws NegocioException {
         try {
+            this.loginNulo(empleado);
             return EmpleadoDAO.buscarPorUsuarioYContraseña(empleado);
         } catch (PersistenciaException ex) {
             Logger.getLogger(EmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -54,6 +56,8 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
     @Override
     public int contarTotalEmpleados(FiltroDTO filtro) throws NegocioException {
         try {
+            this.offsetValido(filtro);
+            this.limiteValido(filtro);
             return EmpleadoDAO.contarTotalEmpleados(filtro);
         } catch (PersistenciaException ex) {
             Logger.getLogger(EmpleadoNegocio.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,9 +105,29 @@ public class EmpleadoNegocio implements IEmpleadoNegocio {
         if (empleado.getApellidoPaterno().isEmpty()) {
             throw new NegocioException("Apellido paterno vacio");
         }
-
+    }
+    
+    private void loginNulo(LoginEmpleadoDTO empleado) throws NegocioException {
+        if (empleado.getContraseña().isEmpty()) {
+            throw new NegocioException("Nombre vacio");
+        }
+        if (empleado.getUsuario().isEmpty()) {
+            throw new NegocioException("Nombre vacio");
+        }
     }
 
+    private void limiteValido(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getLimit() < 0) {
+            throw new NegocioException("el limite no es valido");
+        }
+    }
+
+    private void offsetValido(FiltroDTO filtro) throws NegocioException {
+        if (filtro.getOffset() < 0) {
+            throw new NegocioException("el offset no es valido");
+        }
+    }
+    
     private void idInvalido(int id) throws NegocioException {
         if (id < 0) {
             throw new NegocioException("Id con valores negativos");
